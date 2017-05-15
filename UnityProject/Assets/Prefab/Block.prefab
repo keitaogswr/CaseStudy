@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114780093539741752}
   - component: {fileID: 61789297680005548}
   - component: {fileID: 50467652702055798}
-  - component: {fileID: 114828805088699400}
+  - component: {fileID: 114755119467693640}
   m_Layer: 0
   m_Name: Block
   m_TagString: Blocks
@@ -186,6 +186,19 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 0.9, y: 1}
+--- !u!114 &114755119467693640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1365176737067140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01a5cdcde8634ab428c66f236eb497ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cube: {fileID: 1209972955046798}
+  CubeName: 
 --- !u!114 &114780093539741752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,17 +211,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Cube: {fileID: 1209972955046798}
-  CubeName: 
---- !u!114 &114828805088699400
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1365176737067140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abccbfc43e2ea674da01c825afa1eb71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Cube: {fileID: 0}
   CubeName: 

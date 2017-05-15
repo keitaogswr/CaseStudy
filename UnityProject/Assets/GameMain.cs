@@ -52,6 +52,7 @@ public class GameMain : MonoBehaviour {
         {
             for (int y = 0; y < gridHeight; y++)
             {
+                Debug.Log(x);
                 GameObject g = Instantiate(Prefab, new Vector3(x, y + 1, 0), Quaternion.identity) as GameObject;
 
                 //生成したオブジェクとの親にこのオブジェクトを設定
@@ -67,6 +68,9 @@ public class GameMain : MonoBehaviour {
     {
         //int Cube_Cnt = 0;
         int x, y;
+
+        bool VanishCaller = false;
+
         //GameObject FirstObj, NextObj;
 
         time += Time.deltaTime;
@@ -79,36 +83,57 @@ public class GameMain : MonoBehaviour {
                 {
                     if(Field[x,y].Cube != null)
                     {
-                        Debug.Log("Field[" + x + "," + y + "]:" + Field[x, y].Cube.GetComponent<Block>().CubeName);
+                        //Debug.Log("Field[" + x + "," + y + "]:" + Field[x, y].Cube.GetComponent<Block>().CubeName);
                     }
                     else
                     {
-                        Debug.Log("Field[" + x + "," + y + "]:キューブは存在しません");
+                        //Debug.Log("Field[" + x + "," + y + "]:キューブは存在しません");
                     }
                 }
             }
         }
 
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             var tapPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var collition2d = Physics2D.OverlapPoint(tapPoint);
 
-            if(collition2d)
+            if (collition2d)
             {
                 var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
-                if(hit)
+                if (hit)
                 {
-                    Debug.Log("HitObj's Color = " + Field[(int)hit.collider.gameObject.transform.position.x + 3, (int)hit.collider.gameObject.transform.position.y - 1].Cube.GetComponent<Block>().CubeName);
+                    Debug.Log("HitObj's Color = " + Field[(int)hit.collider.gameObject.transform.position.x + 3, (int)hit.collider.gameObject.transform.position.y].Cube.GetComponent<Block>().CubeName);
                 }
             }
         }
 
-        switch(Phase)
+        switch (Phase)
         {
             case PHASE.STAY:
                 if (Input.GetMouseButtonDown(0))
                 {
+                    var tapPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    var collition2d = Physics2D.OverlapPoint(tapPoint);
+
+                    if (collition2d)
+                    {
+                        var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
+                        if (hit)
+                        {
+                            int C_X = (int)hit.collider.gameObject.transform.position.x + 3;
+                            int C_Y = (int)hit.collider.gameObject.transform.position.y;
+                            Destroy(Field[(int)hit.collider.gameObject.transform.position.x + 3, (int)hit.collider.gameObject.transform.position.y].Cube);
+
+                            GameObject g = Instantiate(Prefab, new Vector3(C_X - 3, C_Y, 0), Quaternion.identity) as GameObject;
+
+                            //生成したオブジェクとの親にこのオブジェクトを設定
+                            g.transform.parent = gameObject.transform;
+
+                            SetCubeData(C_X, C_Y, g);
+                        }
+                    }
+
                     Debug.Log("クリック！");
                     Phase = PHASE.SERACH;
                 }
@@ -117,6 +142,9 @@ public class GameMain : MonoBehaviour {
                 break;
             case PHASE.SERACH:
                 Debug.Log("サーチフェイズ");
+
+                VanishCaller = false;
+
                 for (x = 0; x < gridWidth; x++)
                 {
                     for (y = 0; y < gridHeight; y++)
@@ -138,9 +166,12 @@ public class GameMain : MonoBehaviour {
                     {
                         if (Field[x, y].Break == true)
                         {
-                            Destroy(Field[x, y].Cube, 1);
+                            Destroy(Field[x, y].Cube, 0.1f);
                             Field[x, y].Alive = false;
                             Field[x, y].Break = false;
+
+                            VanishCaller = true;
+
                             Debug.Log("X" + x + "Y" + y);
                         }
                     }
@@ -194,7 +225,30 @@ public class GameMain : MonoBehaviour {
                 Phase = PHASE.GENERATE;
                 break;
             case PHASE.GENERATE:
-                Phase = PHASE.STAY;
+                for(x = 0;x < gridWidth;x++)
+                {
+                    for(y = 0;y < gridHeight;y++)
+                    {
+                        if(Field[x,y].Cube == null)
+                        {
+                            GameObject g = Instantiate(Prefab, new Vector3(x - 3, y + 10, 0), Quaternion.identity) as GameObject;
+
+                            //生成したオブジェクとの親にこのオブジェクトを設定
+                            g.transform.parent = gameObject.transform;
+
+                            SetCubeData(x , y, g);
+                        }
+                    }
+                }
+                if(VanishCaller == false)
+                {
+                    Phase = PHASE.STAY;
+                }
+                else
+                {
+                    Phase = PHASE.SERACH;
+                }
+                
                 break;
         }       
     }
@@ -210,7 +264,7 @@ public class GameMain : MonoBehaviour {
         }
     }
 
-    public void SetCubeData(int X, int Y,GameObject Obj)
+    public void SetCubeData(int X, int Y, GameObject Obj)
     {
         Field[X, Y].Cube = Obj;
         Field[X, Y].Alive = true;

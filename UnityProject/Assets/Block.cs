@@ -59,5 +59,11 @@ public class Block : MonoBehaviour
         //Debug.Log(Mathf.Round(this.transform.position.y));
     }
 
+    public void ChangeBlock(string MatName)
+    {
+        Material CubeMat = Resources.Load("Materials/" + CubeName) as Material;
+
+        this.GetComponent<Renderer>().material = CubeMat;
+    }
     
 }
