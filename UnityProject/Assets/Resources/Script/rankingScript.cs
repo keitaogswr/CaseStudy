@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class rankingScript : MonoBehaviour {
     private GameObject fade;
-    public string nextScene;
 
     // Use this for initialization
     void Start()
