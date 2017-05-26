@@ -119,7 +119,7 @@ public class GameMain : MonoBehaviour {
                         if (hit)
                         {
                             int Col_X = (int)hit.collider.gameObject.transform.position.x + 3;
-                            int Col_Y = (int)hit.collider.gameObject.transform.position.y;
+                            int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
 
                             TapPoint_X = Col_X;
                             TapPoint_Y = Col_Y;
@@ -132,6 +132,23 @@ public class GameMain : MonoBehaviour {
                 break;
             //差し込み時のスライド処理
             case PHASE.PUSH:
+
+                FIELD SlideWork;
+                FIELD ClashWork;
+
+                Rigidbody2D Rigid;
+                
+                if (TapPoint_X != gridWidth - 1)
+                {
+                    for (int i = 0; i < gridWidth; i++)
+                    {
+                        Rigid = Field[i, TapPoint_Y + 1].Cube.GetComponent<Rigidbody2D>();
+                        Rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
+                    }
+                }
+
+                
+
                 Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
                 Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Block>().CubeName = NextBlocks[0];
 
