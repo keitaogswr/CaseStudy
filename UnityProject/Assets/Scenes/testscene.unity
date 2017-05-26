@@ -466,7 +466,7 @@ MonoBehaviour:
   - Purple
   gridWidth: 7
   gridHeight: 7
-  Prefab: {fileID: 1365176737067140, guid: 2598383cc4012fd4886b842e1f6e20ff, type: 2}
+  Prefab: {fileID: 1365176737067140, guid: 56fbcabaf3460dc44bf38d992e3f43ca, type: 2}
   NextBlock: {fileID: 1112344074}
   VanishEffect: {fileID: 1728278127178040, guid: 0fa427acbe8f57c4399632871cee39d6,
     type: 2}
