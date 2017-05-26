@@ -2,54 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Block : MonoBehaviour
 {
     public GameObject Cube;
     public string CubeName = "";
-    bool move;
 
-    //検索対象のマテリアル名
-    string[] CubeMats = { "Red", "Blue", "Green","Yellow" };
-
-    //追加用の色
-    //,"Purple"
-
+    private Vector3 MovedPos;
+    
     GameMain Ctrl;
 
 	// Use this for initialization
-	void Start () {
-        move = true;
+	void Start ()
+    {
+        MovedPos = new Vector2(0, 10);
         Ctrl = GameObject.Find("GameCtrl").GetComponent<GameMain>();
         CreateBlock();
 	}
 
     void Update()
     {
-        int x, y;
-        if (move == true)
-        {
-            this.GetComponent<Rigidbody2D>().gravityScale = 10;
-            //Debug.Log(this.GetComponent<Rigidbody2D>().velocity);
-        }
-        else
-        {
-            this.GetComponent<Rigidbody2D>().gravityScale = 0;
-            //Debug.Log("Stop:" + this.GetComponent<Rigidbody2D>().velocity);
-        }
-
-        if (this.GetComponent<Rigidbody2D>().velocity.y < 0.05f)
-        {
-            x = ((int)(this.transform.position.x * 10.0f) / 7);
-        }
     }
 
     // Update is called once per frame
     public void CreateBlock()
     {
-        CubeName = CubeMats[Random.Range(0, CubeMats.Length)];
+        CubeName = Ctrl.CubeMats[Random.Range(0, Ctrl.CubeMats.Length)];
 
         Material CubeMat = Resources.Load("Materials/" + CubeName) as Material;
+
+        Debug.Log(CubeName);
 
         this.GetComponent<Renderer>().material = CubeMat;
     }
@@ -58,12 +39,10 @@ public class Block : MonoBehaviour
     {
         //Debug.Log(Mathf.Round(this.transform.position.y));
     }
-
-    public void ChangeBlock(string MatName)
-    {
-        Material CubeMat = Resources.Load("Materials/" + CubeName) as Material;
-
-        this.GetComponent<Renderer>().material = CubeMat;
-    }
     
+    public void SetMovePos(Vector3 Pos)
+    {
+        MovedPos = Pos;
+        //Debug.Log(MovedPos);
+    }
 }
