@@ -8,7 +8,7 @@ public class fadeSqript : MonoBehaviour {
     //---------------------------
     // 注意 : Fadeは配置の問題からHierarchyの上のほうの位置に置くこと
     //---------------------------
-
+    private GameObject fade;        // 自分の
     private GameObject _child;      // パネルに使われるオブジェクト
     public Sprite texture;          // テクスチャ
     public float speed = 0.01f;     // 透明化の速さ
@@ -92,6 +92,7 @@ public class fadeSqript : MonoBehaviour {
     {
         _child.GetComponent<Image>().sprite = tex;
     }
+
 
     // フェードをセットする
     public bool SetFade(string next)
