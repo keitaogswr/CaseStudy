@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class PointManager : MonoBehaviour {
-    private int point = 0;
+    public int point = 0;
 	// Use this for initialization
 	void Start () {
 	
