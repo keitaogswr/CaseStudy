@@ -5,7 +5,7 @@ using UnityEngine;
 public class titleGearScript : MonoBehaviour
 {
     public int rotTime;         // 回転時間
-    public int buttonNum;       // ボタン数
+    public int buttonNum = 3;   // ボタン数
     private bool rotFlag;       // 回転フラグ
     private float rotSpeed;     // 回転速度
     private float rotVecZ;      // 回転方向
