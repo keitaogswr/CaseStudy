@@ -9,6 +9,6 @@ public class moveSceneButton : MonoBehaviour {
     public void OnClickMoveScene()
     {
         Debug.Log("MoveTo:" + nextScene);
-        GameObject.Find("Fade").GetComponent<fadeSqript>().SetFade(nextScene);
+        GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(nextScene);
     }
 }

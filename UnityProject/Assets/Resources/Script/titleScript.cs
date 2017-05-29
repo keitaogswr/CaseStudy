@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class titleSqript : MonoBehaviour {
+public class titleScript : MonoBehaviour {
     public GameObject fadeObj;      // フェードのPrefab
     public string nextScene;        // 次のシーン
 
