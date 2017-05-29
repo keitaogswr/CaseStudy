@@ -16,7 +16,7 @@ public class Block : MonoBehaviour
     {
         MovedPos = new Vector2(0, 10);
         Ctrl = GameObject.Find("GameCtrl").GetComponent<GameMain>();
-        CreateBlock();
+        //CreateBlock();
 	}
 
     void Update()
@@ -30,7 +30,7 @@ public class Block : MonoBehaviour
 
         Material CubeMat = Resources.Load("Materials/" + CubeName) as Material;
 
-        Debug.Log(CubeName);
+        //Debug.Log(CubeName);
 
         this.GetComponent<Renderer>().material = CubeMat;
     }

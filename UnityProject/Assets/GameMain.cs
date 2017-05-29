@@ -6,7 +6,6 @@ public struct FIELD
 {
     public bool Alive;
     public bool Break;
-    public bool Lock;
     public Vector2 Pos;
     public GameObject Cube;
 };
@@ -17,6 +16,7 @@ public enum PHASE
     PUSH,
     SERACH,
     VANISH,
+    SLIDE,
     DROP,
     GENERATE,
 };
@@ -77,10 +77,12 @@ public class GameMain : MonoBehaviour {
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                Debug.Log(x);
+                //Debug.Log(x);
                 Field[x, y].Pos = new Vector2(x - (gridWidth / 2), y);
 
-                GameObject g = Instantiate(Prefab, new Vector3(x - (gridWidth / 2), y + 1, 0), Quaternion.identity) as GameObject;
+                //GameObject g = Instantiate(Prefab, new Vector3(x - (gridWidth / 2), y + 1, 0), Quaternion.identity) as GameObject;
+
+                GameObject g = RandColorCreateBlock(new Vector3(x - (gridWidth / 2), y + 1, 0));
 
                 //生成したオブジェクとの親にこのオブジェクトを設定
                 g.transform.parent = gameObject.transform;
@@ -100,27 +102,31 @@ public class GameMain : MonoBehaviour {
     {
         //int Cube_Cnt = 0;
         int x, y;
-
-        //GameObject FirstObj, NextObj;
    
         switch (Phase)
         {
             //待機
             case PHASE.STAY:
+                //挿入用ブロックにマテリアルを設定
                 NextBlock.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
+
+                //左クリックされたら
                 if (Input.GetMouseButtonDown(0))
                 {
                     var tapPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     var collition2d = Physics2D.OverlapPoint(tapPoint);
 
+                    //２Dのあたり判定に重なっていたら
                     if (collition2d)
                     {
+                        //レイを飛ばして当たったオブジェクトがあるなら
                         var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
                         if (hit)
                         {
                             int Col_X = (int)hit.collider.gameObject.transform.position.x + 3;
                             int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
 
+                            //オブジェクトが配置されている配列のXとY
                             TapPoint_X = Col_X;
                             TapPoint_Y = Col_Y;
                         }
@@ -132,33 +138,84 @@ public class GameMain : MonoBehaviour {
                 break;
             //差し込み時のスライド処理
             case PHASE.PUSH:
-
                 FIELD SlideWork;
                 FIELD ClashWork;
 
                 Rigidbody2D Rigid;
                 
-                if (TapPoint_X != gridWidth - 1)
+                if (TapPoint_X + 1 < gridWidth)
                 {
-                    for (int i = 0; i < gridWidth; i++)
+                    if (TapPoint_Y + 1 < gridHeight)
                     {
-                        Rigid = Field[i, TapPoint_Y + 1].Cube.GetComponent<Rigidbody2D>();
-                        Rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
+                        for (int i = 0; i < gridWidth; i++)
+                        {
+                            //挿入するブロックの上のラインがあるのなら動けなくする
+                            Rigid = Field[i, TapPoint_Y + 1].Cube.GetComponent<Rigidbody2D>();
+                            Rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
+                        }
+                    }
+
+                    SlideWork = Field[(int)TapPoint_X, (int)TapPoint_Y];
+
+                    for (int i = TapPoint_X + 1;i < gridWidth; i++)
+                    {
+                        //右隣りのブロック情報をコピー
+                        ClashWork = Field[i, TapPoint_Y];
+                        //書き換え
+                        Field[i, TapPoint_Y] = SlideWork;
+
+                        Field[i, TapPoint_Y].Cube.GetComponent<Transform>().localPosition += new Vector3(1,0,0);
+
+                        SlideWork = ClashWork;
+                    }
+
+                    Rigid = SlideWork.Cube.GetComponent<Rigidbody2D>();
+                    Rigid.constraints = RigidbodyConstraints2D.None;
+                    Rigid.AddForce(new Vector2(100,0));
+                    SlideWork.Cube.GetComponent<Transform>().localPosition += new Vector3(0.9f,0,0);
+                    SlideWork.Cube.GetComponent<Transform>().localScale = new Vector3(0.9f, 0.9f, 0.5f);
+                    Destroy(SlideWork.Cube,1);
+
+                    //挿入用オブジェクトのインスタンス化
+                    GameObject g = Instantiate(Prefab, new Vector3(TapPoint_X - (gridWidth / 2), TapPoint_Y, 0), Quaternion.identity) as GameObject;
+
+                    //生成したオブジェクとの親にこのオブジェクトを設定
+                    g.transform.parent = gameObject.transform;
+
+                    //Fieldにデータをセット
+                    SetCubeData(TapPoint_X, TapPoint_Y, g);
+
+                    if (TapPoint_Y + 1 < gridHeight)
+                    {
+                        for (int i = 0; i < gridWidth; i++)
+                        {
+                            //動けなくしていた部分をもとに戻す
+                            Rigid = Field[i, TapPoint_Y + 1].Cube.GetComponent<Rigidbody2D>();
+                            //解除
+                            Rigid.constraints = RigidbodyConstraints2D.None;
+                            //再設定
+                            Rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
+                            Rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                        }
                     }
                 }
-
-                
 
                 Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
                 Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Block>().CubeName = NextBlocks[0];
 
+                Debug.Log("X:" + TapPoint_X + "Y:" + TapPoint_Y);
+                Debug.Log("挿入したブロック:" + Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().CubeName);
+
+                //挿入待ちブロックの色を更新
                 NextBlocks[0] = NextBlocks[1];
 
+                //配列をずらす
                 for (int i = 1;i < 3;i++)
                 {
                     NextBlocks[i] = NextBlocks[i + 1];
                 }
 
+                //最後尾にランダムでカラーの名前を入れておく
                 NextBlocks[3] = CubeMats[Random.Range(0, CubeMats.Length)];
 
                 Phase = PHASE.SERACH;
@@ -166,6 +223,9 @@ public class GameMain : MonoBehaviour {
             //ブロックが連なりを検出する処理
             case PHASE.SERACH:
                 Debug.Log("サーチフェイズ");
+
+                Debug.Log("X:" + TapPoint_X + "Y:" + TapPoint_Y);
+                Debug.Log("挿入したブロック:" + Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().CubeName);
 
                 VanishCaller = false;
 
@@ -232,8 +292,98 @@ public class GameMain : MonoBehaviour {
                 }
                 
                 break;
+            //ブロックのずらし処理
+            case PHASE.SLIDE:
+                int SlideCnt = 0;
+                int SlideEmpCnt = 0;
+                if (Action == false)
+                {
+                    for (y = 0; y < gridHeight; y++)
+                    {
+                        //左半分
+                        for (x = 0; x < gridHeight / 3; x++)
+                        {
+                            //フィールドに空きを見つけた
+                            if (Field[x, y].Alive == false)
+                            {
+                                SlideCnt++;
+                                //空き領域より上にブロックが存在するか探す
+                                for (SlideEmpCnt = x + 1; SlideEmpCnt < gridWidth / 3; SlideEmpCnt++)
+                                {
+                                    if (Field[x, SlideEmpCnt].Alive == true)
+                                    {
+                                        break;
+                                    }
+                                    //空き領域までの数をカウント
+                                    SlideCnt++;
+                                }
+                                //存在しない場合はカウントが不必要になるので0へ
+                                if (SlideEmpCnt == gridHeight)
+                                {
+                                    SlideCnt = 0;
+                                }
+
+                                if (SlideCnt > 0)
+                                {
+                                    for (int i = SlideEmpCnt; SlideEmpCnt < gridWidth; SlideEmpCnt++)
+                                    {
+                                        //Debug.Log("移動してる行：" + EmpCnt + "下がった量:" + DropCnt);
+                                        Field[SlideEmpCnt - SlideCnt, y] = Field[SlideEmpCnt, y];
+                                        Field[SlideEmpCnt, y].Cube = null;
+                                        Field[SlideEmpCnt, y].Alive = false;
+                                    }
+                                    SlideCnt = 0;
+                                }
+                            }
+                        }
+
+                        SlideCnt = 0;
+
+                        //右半分
+                        for (x = gridWidth - 1; x > gridWidth / 3; x--)
+                        {
+                            //フィールドに空きを見つけた
+                            if (Field[x, y].Alive == false)
+                            {
+                                SlideCnt++;
+                                //空き領域より上にブロックが存在するか探す
+                                for (SlideEmpCnt = x - 1; SlideEmpCnt > gridWidth / 3; SlideEmpCnt--)
+                                {
+                                    if (Field[x, SlideEmpCnt].Alive == true)
+                                    {
+                                        break;
+                                    }
+                                    //空き領域までの数をカウント
+                                    SlideCnt++;
+                                }
+                                //存在しない場合はカウントが不必要になるので0へ
+                                if (SlideEmpCnt == gridHeight)
+                                {
+                                    SlideCnt = 0;
+                                }
+
+                                if (SlideCnt > 0)
+                                {
+                                    for (int i = SlideEmpCnt; SlideEmpCnt < gridWidth; SlideEmpCnt++)
+                                    {
+                                        //Debug.Log("移動してる行：" + EmpCnt + "下がった量:" + DropCnt);
+                                        Field[SlideEmpCnt - SlideCnt, y] = Field[SlideEmpCnt, y];
+                                        Field[SlideEmpCnt, y].Cube = null;
+                                        Field[SlideEmpCnt, y].Alive = false;
+                                    }
+                                    SlideCnt = 0;
+                                }
+                            }
+                        }
+                    }
+                    Action = true;
+                }
+                break;
             //ブロックの落下処理
             case PHASE.DROP:
+
+                Debug.Log("ドロップフェイズ");
+
                 int DropCnt = 0;
                 int EmpCnt = 0;
                 if (Action == false)
@@ -289,6 +439,9 @@ public class GameMain : MonoBehaviour {
                 break;
             //ブロック生成フェイズ
             case PHASE.GENERATE:
+
+                Debug.Log("生成フェイズ");
+
                 //生成したブロックの数
                 int GenerateCnt = 0;
 
@@ -302,7 +455,8 @@ public class GameMain : MonoBehaviour {
                             if (Field[x, y].Cube == null)
                             {
                                 //ブロックのインスタンス化
-                                GameObject g = Instantiate(Prefab, new Vector3(x - 3, y + GenerateCnt, 0), Quaternion.identity) as GameObject;
+                                //GameObject g = Instantiate(Prefab, new Vector3(x - 3, y + GenerateCnt, 0), Quaternion.identity) as GameObject;
+                                GameObject g = RandColorCreateBlock(new Vector3(x - 3, y + GenerateCnt, 0));
 
                                 //生成したオブジェクとの親にこのオブジェクトを設定
                                 g.transform.parent = gameObject.transform;
@@ -333,7 +487,7 @@ public class GameMain : MonoBehaviour {
                     }
                 }
                 break;
-        }       
+        }
     }
 
     //フィールドにオブジェクト情報をセット
@@ -344,11 +498,33 @@ public class GameMain : MonoBehaviour {
         Field[X, Y].Break = false;
     }
 
+    //ランダムカラーでのブロック生成
+    private GameObject RandColorCreateBlock(Vector3 Pos)
+    {
+        //インスタンス化
+        GameObject g = Instantiate(Prefab, Pos, Quaternion.identity) as GameObject;
+
+        //ランダムで色を決める
+        g.GetComponent<Block>().CubeName = CubeMats[Random.Range(0, CubeMats.Length)];
+
+        //決めた色のマテリアルを取得
+        Material CubeMat = Resources.Load("Materials/" + g.GetComponent<Block>().CubeName) as Material;
+
+        //Debug.Log(CubeName);
+
+        //マテリアルの貼り付け
+        g.GetComponent<Renderer>().material = CubeMat;
+
+        //生成したオブジェクトを返す
+        return g;
+    }
+
     //ブロックが連なっているかどうかの確認用関数、再帰処理でBlockCounterが3以上になればフラグを立てる
     private void CountBlocks(int X, int Y, CountType Type)
     {
         BlockCounter++;
 
+        //ブロックが存在しているなら
         if (Field[X, Y].Cube != null)
         {
             switch (Type)
