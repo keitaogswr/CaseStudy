@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;               // UIを使用可能にする
 using UnityEngine.SceneManagement;  // 
 
-public class fadeSqript : MonoBehaviour {
+public class fadeScript : MonoBehaviour {
     //---------------------------
     // 注意 : Fadeは配置の問題からHierarchyの上のほうの位置に置くこと
     //---------------------------

@@ -32,13 +32,13 @@ public class PauseManager : MonoBehaviour {
 
     public void ReturnTitle()
     {
-        GameObject.Find("Fade").GetComponent<fadeSqript>().SetFade(TitleScene);
+        GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(TitleScene);
         pauseCanvas.enabled = false;
     }
 
     public void ReTry()
     {
-        GameObject.Find("Fade").GetComponent<fadeSqript>().SetFade("testscene");
+        GameObject.Find("Fade").GetComponent<fadeScript>().SetFade("testscene");
         pauseCanvas.enabled = false;
     }
 }

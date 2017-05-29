@@ -474,6 +474,16 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClickMoveScene
       objectReference: {fileID: 0}
+    - target: {fileID: 114585357414805754, guid: f66eb2f4c8f3f3e45be440d249361ab3,
+        type: 2}
+      propertyPath: rotTime
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 114585357414805754, guid: f66eb2f4c8f3f3e45be440d249361ab3,
+        type: 2}
+      propertyPath: buttonNum
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114361543628387274, guid: f66eb2f4c8f3f3e45be440d249361ab3, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: f66eb2f4c8f3f3e45be440d249361ab3, type: 2}
