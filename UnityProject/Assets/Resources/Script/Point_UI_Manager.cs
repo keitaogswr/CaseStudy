@@ -10,7 +10,7 @@ public class Point_UI_Manager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        pointManager = GameObject.Find("PointManager");
+        pointManager = transform.FindChild("PointManager").gameObject;
     }
 	
 	// Update is called once per frame
