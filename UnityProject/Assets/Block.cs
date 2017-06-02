@@ -7,14 +7,16 @@ public class Block : MonoBehaviour
     public GameObject Cube;
     public string CubeName = "";
 
-    private Vector3 MovedPos;
+    public Vector3 StartPos;
+    public Vector3 MovedPos;
     
     GameMain Ctrl;
 
 	// Use this for initialization
 	void Start ()
     {
-        MovedPos = new Vector2(0, 10);
+        StartPos = new Vector3(0, 0, 0);
+        MovedPos = new Vector3(0, 0, 0);
         Ctrl = GameObject.Find("GameCtrl").GetComponent<GameMain>();
         //CreateBlock();
 	}
@@ -39,7 +41,13 @@ public class Block : MonoBehaviour
     {
         //Debug.Log(Mathf.Round(this.transform.position.y));
     }
-    
+
+    public void SetStartPos(Vector3 Pos)
+    {
+        StartPos = Pos;
+        //Debug.Log(MovedPos);
+    }
+
     public void SetMovePos(Vector3 Pos)
     {
         MovedPos = Pos;

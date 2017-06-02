@@ -31,8 +31,8 @@ public enum CountType
 public class GameMain : MonoBehaviour {
 
     //検索対象のマテリアル名
-    public string[] CubeMats = { "Red", "Blue", "Green", "Yellow", "Purple" };
-    // 
+    public string[] CubeMats = { "Red", "Blue", "Green", "Yellow" };
+    // , "Purple"
 
     public int gridWidth;       //オブジェクトの横配列量
     public int gridHeight;      //オブジェクトの縦配列量
@@ -50,6 +50,7 @@ public class GameMain : MonoBehaviour {
 
     //フレームの変数
     float time = 0.0f;
+    float SlideTime = 0;
 
     //ゲームのフィールド管理用配列
     public FIELD[,] Field = new FIELD[7,7];
@@ -102,13 +103,31 @@ public class GameMain : MonoBehaviour {
     {
         //int Cube_Cnt = 0;
         int x, y;
-   
+        Rigidbody2D Rigid;
+
         switch (Phase)
         {
             //待機
             case PHASE.STAY:
                 //挿入用ブロックにマテリアルを設定
                 NextBlock.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
+
+                for (x = 0; x < gridWidth; x++)
+                {
+                    for (y = 0; y < gridHeight; y++)
+                    {
+                        if (Field[x, y].Cube != null)
+                        {
+                            //動けなくしていた部分をもとに戻す
+                            Rigid = Field[x, y].Cube.GetComponent<Rigidbody2D>();
+                            //解除
+                            Rigid.constraints = RigidbodyConstraints2D.None;
+                            //再設定
+                            Rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
+                            Rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                        }
+                    }
+                }
 
                 //左クリックされたら
                 if (Input.GetMouseButtonDown(0))
@@ -135,13 +154,39 @@ public class GameMain : MonoBehaviour {
                     Debug.Log("クリック！");
                     Phase = PHASE.PUSH;
                 }
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    var tapPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    var collition2d = Physics2D.OverlapPoint(tapPoint);
+
+                    //２Dのあたり判定に重なっていたら
+                    if (collition2d)
+                    {
+                        //レイを飛ばして当たったオブジェクトがあるなら
+                        var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
+                        if (hit)
+                        {
+                            int Col_X = (int)hit.collider.gameObject.transform.position.x + 3;
+                            int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
+
+                            //オブジェクトが配置されている配列のXとY
+                            TapPoint_X = Col_X;
+                            TapPoint_Y = Col_Y;
+                        }
+                    }
+
+                    Debug.Log("クリック！");
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Block>().CubeName = NextBlocks[0];
+                    //Phase = PHASE.PUSH;
+                }
+
                 break;
             //差し込み時のスライド処理
             case PHASE.PUSH:
                 FIELD SlideWork;
                 FIELD ClashWork;
-
-                Rigidbody2D Rigid;
                 
                 if (TapPoint_X + 1 < gridWidth)
                 {
@@ -172,7 +217,7 @@ public class GameMain : MonoBehaviour {
                     Rigid = SlideWork.Cube.GetComponent<Rigidbody2D>();
                     Rigid.constraints = RigidbodyConstraints2D.None;
                     Rigid.AddForce(new Vector2(100,0));
-                    SlideWork.Cube.GetComponent<Transform>().localPosition += new Vector3(0.9f,0,0);
+                    SlideWork.Cube.GetComponent<Transform>().localPosition += new Vector3(0.99f,0,0);
                     SlideWork.Cube.GetComponent<Transform>().localScale = new Vector3(0.9f, 0.9f, 0.5f);
                     Destroy(SlideWork.Cube,1);
 
@@ -253,6 +298,21 @@ public class GameMain : MonoBehaviour {
                     {
                         for (y = 0; y < gridHeight; y++)
                         {
+                            if (Field[x, y].Cube != null)
+                            {
+                                //動けなくしていた部分をもとに戻す
+                                Rigid = Field[x, y].Cube.GetComponent<Rigidbody2D>();
+                                //解除
+                                Rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+                                
+                            }
+                        }
+                    }
+
+                    for (x = 0; x < gridWidth; x++)
+                    {
+                        for (y = 0; y < gridHeight; y++)
+                        {
                             if (Field[x, y].Break == true)
                             {
                                 GameObject g = Instantiate(VanishEffect, new Vector3(x - 3, y, -1), Quaternion.identity) as GameObject;
@@ -281,7 +341,7 @@ public class GameMain : MonoBehaviour {
 
                     if (VanishCaller == true)
                     {
-                        Phase = PHASE.DROP;
+                        Phase = PHASE.SLIDE;
                         Action = false;
                     }
                     else
@@ -296,21 +356,23 @@ public class GameMain : MonoBehaviour {
             case PHASE.SLIDE:
                 int SlideCnt = 0;
                 int SlideEmpCnt = 0;
+                
+
                 if (Action == false)
                 {
                     for (y = 0; y < gridHeight; y++)
                     {
-                        //左半分
-                        for (x = 0; x < gridHeight / 3; x++)
+                        //右半分
+                        for (x = 3; x < gridHeight; x++)
                         {
                             //フィールドに空きを見つけた
                             if (Field[x, y].Alive == false)
                             {
                                 SlideCnt++;
                                 //空き領域より上にブロックが存在するか探す
-                                for (SlideEmpCnt = x + 1; SlideEmpCnt < gridWidth / 3; SlideEmpCnt++)
+                                for (SlideEmpCnt = x + 1; SlideEmpCnt < gridWidth; SlideEmpCnt++)
                                 {
-                                    if (Field[x, SlideEmpCnt].Alive == true)
+                                    if (Field[SlideEmpCnt, y].Alive == true)
                                     {
                                         break;
                                     }
@@ -329,6 +391,10 @@ public class GameMain : MonoBehaviour {
                                     {
                                         //Debug.Log("移動してる行：" + EmpCnt + "下がった量:" + DropCnt);
                                         Field[SlideEmpCnt - SlideCnt, y] = Field[SlideEmpCnt, y];
+                                        //Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Transform>().localPosition -= new Vector3(SlideCnt, 0, 0);
+                                        Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Block>().SetStartPos(Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Transform>().localPosition);
+                                        Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Transform>().localPosition - new Vector3(SlideCnt, 0, 0) );
+
                                         Field[SlideEmpCnt, y].Cube = null;
                                         Field[SlideEmpCnt, y].Alive = false;
                                     }
@@ -337,19 +403,16 @@ public class GameMain : MonoBehaviour {
                             }
                         }
 
-                        SlideCnt = 0;
-
-                        //右半分
-                        for (x = gridWidth - 1; x > gridWidth / 3; x--)
+                        for (x = 3; x >= 0; x--)
                         {
                             //フィールドに空きを見つけた
                             if (Field[x, y].Alive == false)
                             {
                                 SlideCnt++;
                                 //空き領域より上にブロックが存在するか探す
-                                for (SlideEmpCnt = x - 1; SlideEmpCnt > gridWidth / 3; SlideEmpCnt--)
+                                for (SlideEmpCnt = x - 1; SlideEmpCnt >= 0; SlideEmpCnt--)
                                 {
-                                    if (Field[x, SlideEmpCnt].Alive == true)
+                                    if (Field[SlideEmpCnt, y].Alive == true)
                                     {
                                         break;
                                     }
@@ -357,17 +420,21 @@ public class GameMain : MonoBehaviour {
                                     SlideCnt++;
                                 }
                                 //存在しない場合はカウントが不必要になるので0へ
-                                if (SlideEmpCnt == gridHeight)
+                                if (SlideEmpCnt == (gridWidth/2))
                                 {
                                     SlideCnt = 0;
                                 }
 
                                 if (SlideCnt > 0)
                                 {
-                                    for (int i = SlideEmpCnt; SlideEmpCnt < gridWidth; SlideEmpCnt++)
+                                    for (int i = SlideEmpCnt; SlideEmpCnt >= 0; SlideEmpCnt--)
                                     {
                                         //Debug.Log("移動してる行：" + EmpCnt + "下がった量:" + DropCnt);
-                                        Field[SlideEmpCnt - SlideCnt, y] = Field[SlideEmpCnt, y];
+                                        Field[SlideEmpCnt + SlideCnt, y] = Field[SlideEmpCnt, y];
+                                        //Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition += new Vector3(SlideCnt, 0, 0);
+                                        Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetStartPos(Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition);
+                                        Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition + new Vector3(SlideCnt, 0, 0));
+
                                         Field[SlideEmpCnt, y].Cube = null;
                                         Field[SlideEmpCnt, y].Alive = false;
                                     }
@@ -378,6 +445,51 @@ public class GameMain : MonoBehaviour {
                     }
                     Action = true;
                 }
+
+                time += Time.deltaTime;
+                SlideTime += 0.15f;
+
+                if(SlideTime > 1)
+                {
+                    SlideTime = 1;
+                }
+
+                for (x = 0; x < gridWidth; x++)
+                {
+                    for (y = 0; y < gridHeight; y++)
+                    {
+                        if (Field[x, y].Alive != false)
+                        {
+                            if (Field[x, y].Cube.GetComponent<Block>().MovedPos != new Vector3(0, 0, 0))
+                            {
+                                Field[x, y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[x, y].Cube.GetComponent<Block>().StartPos, Field[x, y].Cube.GetComponent<Block>().MovedPos, SlideTime);
+                                if(SlideTime == 1)
+                                {
+                                    Field[x, y].Cube.GetComponent<Block>().SetMovePos(new Vector3(0, 0, 0));
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                if (time > span * 2)
+                {
+                    time = 0;
+
+                    if (VanishCaller == true)
+                    {
+                        Phase = PHASE.DROP;
+                        SlideTime = 0;
+                        Action = false;
+                    }
+                    else
+                    {
+                        Phase = PHASE.STAY;
+                        Action = false;
+                    }
+                }
+
                 break;
             //ブロックの落下処理
             case PHASE.DROP:
@@ -427,6 +539,23 @@ public class GameMain : MonoBehaviour {
                         }
                     }
                     Action = true;
+
+                    for (x = 0; x < gridWidth; x++)
+                    {
+                        for (y = 0; y < gridHeight; y++)
+                        {
+                            if(Field[x,y].Cube != null)
+                            {
+                                //動けなくしていた部分をもとに戻す
+                                Rigid = Field[x,y].Cube.GetComponent<Rigidbody2D>();
+                                //解除
+                                Rigid.constraints = RigidbodyConstraints2D.None;
+                                //再設定
+                                Rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
+                                Rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                            }
+                        }
+                    }
                 }
                 time += Time.deltaTime;
                 if (time > span * 2)
