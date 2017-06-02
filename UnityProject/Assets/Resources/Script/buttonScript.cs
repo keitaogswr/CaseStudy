@@ -7,7 +7,7 @@ public class buttonScript : MonoBehaviour
 
     public void ClickGameStart()
     {
-        if (GetComponentInParent<titleGearScript>().GetRotFlag())
+        if (GetComponentInParent<titleGearScript>().GetRotFlag() == false)
         {
             Debug.Log("ゲームスタートボタンクリック");
             GameObject.Find("Fade").GetComponent<fadeScript>().SetFade("testscene");
@@ -16,7 +16,7 @@ public class buttonScript : MonoBehaviour
 
     public void ClickExit()
     {
-        if (GetComponentInParent<titleGearScript>().GetRotFlag())
+        if (GetComponentInParent<titleGearScript>().GetRotFlag() == false)
         {
             Debug.Log("ゲーム終了ボタンクリック");
             Application.Quit();
