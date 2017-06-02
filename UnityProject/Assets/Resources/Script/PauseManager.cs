@@ -8,11 +8,13 @@ public class PauseManager : MonoBehaviour {
     [SerializeField]
     private Canvas pauseCanvas;
     private bool pause;
+    public Pauseable Pause;
 
 	// Use this for initialization
 	void Start () {
         pause = false;
         pauseCanvas.enabled = false;
+        Pause.pausing = false;
     }
 
     void Update()
@@ -23,11 +25,13 @@ public class PauseManager : MonoBehaviour {
     public void PushMenu()
     {
         pause = !pause;
+        Pause.pausing = !Pause.pausing;
     }
 
     public void Resume()
     {
         pause = !pause;
+        Pause.pausing = false;
     }
 
     public void ReturnTitle()
