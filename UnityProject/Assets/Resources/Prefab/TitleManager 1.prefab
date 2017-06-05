@@ -51,4 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489d73eee5401d44abeae5b87e6fbf8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeObj: {fileID: 1996005794143070, guid: d2c799eb92cbff54ab05676c17ea838a, type: 2}
   nextScene: testscene
