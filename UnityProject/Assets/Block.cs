@@ -12,11 +12,15 @@ public class Block : MonoBehaviour
     
     GameMain Ctrl;
 
-	// Use this for initialization
-	void Start ()
+    private void Awake()
     {
         StartPos = new Vector3(0, 0, 0);
         MovedPos = new Vector3(0, 0, 0);
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
         Ctrl = GameObject.Find("GameCtrl").GetComponent<GameMain>();
         //CreateBlock();
 	}
@@ -39,7 +43,7 @@ public class Block : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log(Mathf.Round(this.transform.position.y));
+        
     }
 
     public void SetStartPos(Vector3 Pos)

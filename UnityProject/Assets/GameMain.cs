@@ -8,6 +8,8 @@ public struct FIELD
     public bool Break;
     public Vector2 Pos;
     public GameObject Cube;
+
+    public string CubeName;
 };
 
 public enum PHASE
@@ -20,6 +22,14 @@ public enum PHASE
     DROP,
     GENERATE,
 };
+
+public struct ARM
+{
+    public Vector3 Pos;
+    public Vector3 StartPos;
+    public Vector3 EndPos;
+    public GameObject Arm;
+}
 
 
 public enum CountType
@@ -36,8 +46,15 @@ public class GameMain : MonoBehaviour {
 
     public int gridWidth;       //オブジェクトの横配列量
     public int gridHeight;      //オブジェクトの縦配列量
+    public float MoveSpeed;     //オブジェクトの動く速度
     public GameObject Prefab;   //配置するオブジェク
     public GameObject NextBlock;//UI用の次のブロック
+    public GameObject NextBlock1;//UI用の次のブロック
+    public GameObject NextBlock2;//UI用の次のブロック
+
+    public GameObject Arm_R;
+    public GameObject Arm_L;
+
     public GameObject VanishEffect; //ブロック破壊時に出すエフェクト
 
     //更新周期
@@ -51,6 +68,8 @@ public class GameMain : MonoBehaviour {
     //フレームの変数
     float time = 0.0f;
     float SlideTime = 0;
+    float ArmTime = 0;
+    bool ArmTurn = false;
 
     //ゲームのフィールド管理用配列
     public FIELD[,] Field = new FIELD[7,7];
@@ -71,6 +90,9 @@ public class GameMain : MonoBehaviour {
     private int TapPoint_X;
     private int TapPoint_Y;
 
+    ARM[] ARM_L = new ARM[7];
+    ARM[] ARM_R = new ARM[7];
+
     void Start()
     {
         Phase = PHASE.STAY;
@@ -83,7 +105,7 @@ public class GameMain : MonoBehaviour {
 
                 //GameObject g = Instantiate(Prefab, new Vector3(x - (gridWidth / 2), y + 1, 0), Quaternion.identity) as GameObject;
 
-                GameObject g = RandColorCreateBlock(new Vector3(x - (gridWidth / 2), y + 1, 0));
+                GameObject g = RandColorCreateBlock(new Vector3(x - (gridWidth / 2), y, 0));
 
                 //生成したオブジェクとの親にこのオブジェクトを設定
                 g.transform.parent = gameObject.transform;
@@ -92,11 +114,36 @@ public class GameMain : MonoBehaviour {
             }
         }
 
+        //各列毎に右左アームをセットで生成
+        for (int y = 0;y < gridHeight;y++)
+        {
+            GameObject g = Instantiate(Arm_L, new Vector3(-8,y,0), Quaternion.identity) as GameObject;
+            ARM_L[y].Arm = g;
+            ARM_L[y].StartPos = ARM_L[y].Arm.GetComponent<Transform>().localPosition;
+            ARM_L[y].EndPos = ARM_L[y].Arm.GetComponent<Transform>().localPosition;
+
+            //生成したオブジェクとの親にこのオブジェクトを設定
+            g.transform.parent = gameObject.transform;
+
+            g = Instantiate(Arm_R, new Vector3(8, y, 0), Quaternion.identity) as GameObject;
+            ARM_R[y].Arm = g;
+            ARM_R[y].StartPos = ARM_R[y].Arm.GetComponent<Transform>().localPosition;
+            ARM_R[y].EndPos = ARM_R[y].Arm.GetComponent<Transform>().localPosition;
+
+            //生成したオブジェクとの親にこのオブジェクトを設定
+            g.transform.parent = gameObject.transform;
+        }
+
         for(int i = 0;i < 4; i++)
         {
             NextBlocks[i] = CubeMats[Random.Range(0, CubeMats.Length)];
         }
-	}
+
+        //挿入用ブロックにマテリアルを設定
+        NextBlock.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
+        NextBlock1.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[1]) as Material;
+        NextBlock2.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[2]) as Material;
+    }
 
     // Update is called once per frame
     void Update()
@@ -109,9 +156,6 @@ public class GameMain : MonoBehaviour {
         {
             //待機
             case PHASE.STAY:
-                //挿入用ブロックにマテリアルを設定
-                NextBlock.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
-
                 for (x = 0; x < gridWidth; x++)
                 {
                     for (y = 0; y < gridHeight; y++)
@@ -142,12 +186,25 @@ public class GameMain : MonoBehaviour {
                         var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
                         if (hit)
                         {
-                            int Col_X = (int)hit.collider.gameObject.transform.position.x + 3;
+                            int Col_X = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x + 3);
                             int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
+
+                            //int Col_X = Mathf.RoundToInt(collition2d.transform.position.x + 3);
+                            //int Col_Y = Mathf.RoundToInt(collition2d.transform.position.y);
 
                             //オブジェクトが配置されている配列のXとY
                             TapPoint_X = Col_X;
                             TapPoint_Y = Col_Y;
+
+                            if(TapPoint_X > gridWidth || TapPoint_X < 0)
+                            {
+                                TapPoint_X = 0;
+                            }
+
+                            if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
+                            {
+                                TapPoint_Y = 0;
+                            }
                         }
                     }
 
@@ -167,7 +224,7 @@ public class GameMain : MonoBehaviour {
                         var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
                         if (hit)
                         {
-                            int Col_X = (int)hit.collider.gameObject.transform.position.x + 3;
+                            int Col_X = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x + 3);
                             int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
 
                             //オブジェクトが配置されている配列のXとY
@@ -248,9 +305,6 @@ public class GameMain : MonoBehaviour {
                 Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
                 Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Block>().CubeName = NextBlocks[0];
 
-                Debug.Log("X:" + TapPoint_X + "Y:" + TapPoint_Y);
-                Debug.Log("挿入したブロック:" + Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().CubeName);
-
                 //挿入待ちブロックの色を更新
                 NextBlocks[0] = NextBlocks[1];
 
@@ -263,14 +317,16 @@ public class GameMain : MonoBehaviour {
                 //最後尾にランダムでカラーの名前を入れておく
                 NextBlocks[3] = CubeMats[Random.Range(0, CubeMats.Length)];
 
+                //挿入用ブロックにマテリアルを設定
+                NextBlock.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
+                NextBlock1.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[1]) as Material;
+                NextBlock2.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[2]) as Material;
+
                 Phase = PHASE.SERACH;
                 break;
             //ブロックが連なりを検出する処理
             case PHASE.SERACH:
                 Debug.Log("サーチフェイズ");
-
-                Debug.Log("X:" + TapPoint_X + "Y:" + TapPoint_Y);
-                Debug.Log("挿入したブロック:" + Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().CubeName);
 
                 VanishCaller = false;
 
@@ -395,6 +451,8 @@ public class GameMain : MonoBehaviour {
                                         Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Block>().SetStartPos(Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Transform>().localPosition);
                                         Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Transform>().localPosition - new Vector3(SlideCnt, 0, 0) );
 
+                                        ARM_R[y].EndPos = ARM_R[y].Arm.GetComponent<Transform>().localPosition - new Vector3(SlideCnt, 0, 0);
+
                                         Field[SlideEmpCnt, y].Cube = null;
                                         Field[SlideEmpCnt, y].Alive = false;
                                     }
@@ -403,6 +461,7 @@ public class GameMain : MonoBehaviour {
                             }
                         }
 
+                        //左半分
                         for (x = 3; x >= 0; x--)
                         {
                             //フィールドに空きを見つけた
@@ -435,6 +494,8 @@ public class GameMain : MonoBehaviour {
                                         Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetStartPos(Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition);
                                         Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition + new Vector3(SlideCnt, 0, 0));
 
+                                        ARM_L[y].EndPos = ARM_L[y].Arm.GetComponent<Transform>().localPosition + new Vector3(SlideCnt, 0, 0);
+
                                         Field[SlideEmpCnt, y].Cube = null;
                                         Field[SlideEmpCnt, y].Alive = false;
                                     }
@@ -447,11 +508,19 @@ public class GameMain : MonoBehaviour {
                 }
 
                 time += Time.deltaTime;
-                SlideTime += 0.15f;
+                SlideTime += MoveSpeed;
+                ArmTime += 0.25f;
 
                 if(SlideTime > 1)
                 {
                     SlideTime = 1;
+                }
+
+                if(ArmTime > 1 && !ArmTurn)
+                {
+                    //ArmTime = 1;
+                    ArmTime = 0;
+                    ArmTurn = true;
                 }
 
                 for (x = 0; x < gridWidth; x++)
@@ -460,14 +529,36 @@ public class GameMain : MonoBehaviour {
                     {
                         if (Field[x, y].Alive != false)
                         {
+                            //Moveに何か入っているならば動かす
                             if (Field[x, y].Cube.GetComponent<Block>().MovedPos != new Vector3(0, 0, 0))
                             {
                                 Field[x, y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[x, y].Cube.GetComponent<Block>().StartPos, Field[x, y].Cube.GetComponent<Block>().MovedPos, SlideTime);
                                 if(SlideTime == 1)
                                 {
+                                    Field[x, y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, y].Cube.GetComponent<Transform>().localPosition.y), 0);
                                     Field[x, y].Cube.GetComponent<Block>().SetMovePos(new Vector3(0, 0, 0));
                                 }
                             }
+                        }
+                    }
+                }
+
+                for(y = 0;y < gridHeight;y++)
+                {
+                    if (!ArmTurn)
+                    {
+                        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].StartPos, ARM_L[y].EndPos, ArmTime);
+                        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].StartPos, ARM_R[y].EndPos, ArmTime);
+                    }
+                    else
+                    {
+                        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].EndPos, ARM_L[y].StartPos, ArmTime);
+                        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].EndPos, ARM_R[y].StartPos, ArmTime);
+
+                        if(ArmTime >= 1)
+                        {
+                            ARM_L[y].EndPos = ARM_L[y].StartPos;
+                            ARM_R[y].EndPos = ARM_R[y].StartPos;
                         }
                     }
                 }
@@ -481,6 +572,8 @@ public class GameMain : MonoBehaviour {
                     {
                         Phase = PHASE.DROP;
                         SlideTime = 0;
+                        ArmTime = 0;
+                        ArmTurn = false;
                         Action = false;
                     }
                     else
@@ -530,6 +623,10 @@ public class GameMain : MonoBehaviour {
                                     {
                                         //Debug.Log("移動してる行：" + EmpCnt + "下がった量:" + DropCnt);
                                         Field[x, EmpCnt - DropCnt] = Field[x, EmpCnt];
+
+                                        Field[x, EmpCnt - DropCnt].Cube.GetComponent<Block>().SetStartPos(Field[x, EmpCnt - DropCnt].Cube.GetComponent<Transform>().localPosition);
+                                        Field[x, EmpCnt - DropCnt].Cube.GetComponent<Block>().SetMovePos(Field[x, EmpCnt - DropCnt].Cube.GetComponent<Transform>().localPosition - new Vector3(0, DropCnt, 0));
+
                                         Field[x, EmpCnt].Cube = null;
                                         Field[x, EmpCnt].Alive = false;
                                     }
@@ -540,27 +637,40 @@ public class GameMain : MonoBehaviour {
                     }
                     Action = true;
 
-                    for (x = 0; x < gridWidth; x++)
+                }
+                time += Time.deltaTime;
+
+                SlideTime += MoveSpeed;
+
+                if (SlideTime > 1)
+                {
+                    SlideTime = 1;
+                }
+
+                for (x = 0; x < gridWidth; x++)
+                {
+                    for (y = 0; y < gridHeight; y++)
                     {
-                        for (y = 0; y < gridHeight; y++)
+                        if (Field[x, y].Alive != false)
                         {
-                            if(Field[x,y].Cube != null)
+                            //Moveに何か入っているならば動かす
+                            if (Field[x, y].Cube.GetComponent<Block>().MovedPos != new Vector3(0, 0, 0))
                             {
-                                //動けなくしていた部分をもとに戻す
-                                Rigid = Field[x,y].Cube.GetComponent<Rigidbody2D>();
-                                //解除
-                                Rigid.constraints = RigidbodyConstraints2D.None;
-                                //再設定
-                                Rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
-                                Rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                                Field[x, y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[x, y].Cube.GetComponent<Block>().StartPos, Field[x, y].Cube.GetComponent<Block>().MovedPos, SlideTime);
+                                if (SlideTime == 1)
+                                {
+                                    Field[x, y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                                    Field[x, y].Cube.GetComponent<Block>().SetMovePos(new Vector3(0, 0, 0));
+                                }
                             }
                         }
                     }
                 }
-                time += Time.deltaTime;
-                if (time > span * 2)
+
+                if (time > span * 2.0f)
                 {
                     time = 0;
+                    SlideTime = 0;
                     Phase = PHASE.GENERATE;
                     Action = false;
                 }
@@ -592,6 +702,9 @@ public class GameMain : MonoBehaviour {
 
                                 SetCubeData(x, y, g);
 
+                                Field[x, y].Cube.GetComponent<Block>().SetStartPos(Field[x, y].Cube.GetComponent<Transform>().localPosition);
+                                Field[x, y].Cube.GetComponent<Block>().SetMovePos(new Vector3(x - 3, y, 0));
+
                                 GenerateCnt++;
                             }
                         }
@@ -601,18 +714,64 @@ public class GameMain : MonoBehaviour {
                     Action = true;
                 }
                 time += Time.deltaTime;
+
+                SlideTime += MoveSpeed;
+
+                if (SlideTime > 1)
+                {
+                    SlideTime = 1;
+                }
+
+                for (x = 0; x < gridWidth; x++)
+                {
+                    for (y = 0; y < gridHeight; y++)
+                    {
+                        if (Field[x, y].Alive != false)
+                        {
+                            //Moveに何か入っているならば動かす
+                            if (Field[x, y].Cube.GetComponent<Block>().MovedPos != new Vector3(0, 0, 0))
+                            {
+                                Field[x, y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[x, y].Cube.GetComponent<Block>().StartPos, Field[x, y].Cube.GetComponent<Block>().MovedPos, SlideTime);
+                                if (SlideTime == 1)
+                                {
+                                    Field[x, y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                                    Field[x, y].Cube.GetComponent<Block>().SetMovePos(new Vector3(0, 0, 0));
+                                }
+                            }
+                        }
+                    }
+                }
+
                 if (time > span * 2)
                 {
                     if (VanishCaller == false)
                     {
                         Phase = PHASE.STAY;
+                        SlideTime = 0;
                         Action = false;
                     }
                     else
                     {
                         Debug.Log("もっかい探索");
                         Phase = PHASE.SERACH;
+                        SlideTime = 0;
                         Action = false;
+                        for (x = 0; x < gridWidth; x++)
+                        {
+                            for (y = 0; y < gridHeight; y++)
+                            {
+                                if (Field[x, y].Cube != null)
+                                {
+                                    //動けなくしていた部分をもとに戻す
+                                    Rigid = Field[x, y].Cube.GetComponent<Rigidbody2D>();
+                                    //解除
+                                    //Rigid.constraints = RigidbodyConstraints2D.None;
+                                    //再設定
+                                    Rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
+                                    Rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                                }
+                            }
+                        }
                     }
                 }
                 break;
@@ -678,6 +837,7 @@ public class GameMain : MonoBehaviour {
             if (BlockCounter >= 3)
             {
                 Field[X, Y].Break = true;
+                Field[X, Y].Cube.GetComponent<Rigidbody2D>().simulated = false;
             }
         }
     }

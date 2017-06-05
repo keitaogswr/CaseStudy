@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 23086432000915972}
   - component: {fileID: 114755119467693640}
   - component: {fileID: 61754938764022010}
-  - component: {fileID: 50741855439559108}
+  - component: {fileID: 50678899963141136}
   m_Layer: 0
   m_Name: Block
   m_TagString: Blocks
@@ -151,7 +151,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1209972955046798}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!50 &50741855439559108
+--- !u!50 &50678899963141136
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
@@ -165,7 +165,7 @@ Rigidbody2D:
   m_Mass: 0.1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 10
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -184,7 +184,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.1}
+  m_Size: {x: 0.9, y: 1.1}
 --- !u!114 &114755119467693640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,3 +198,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Cube: {fileID: 1209972955046798}
   CubeName: 
+  StartPos: {x: 0, y: 0, z: 0}
+  MovedPos: {x: 0, y: 0, z: 0}
