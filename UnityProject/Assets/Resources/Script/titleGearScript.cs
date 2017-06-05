@@ -6,6 +6,7 @@ public class titleGearScript : MonoBehaviour
 {
     // 設定用
     public GameObject[] button; // ボタン
+    private GameObject[] obj;    // オブジェ
     public float length;        // 配置長さ
     public int rotTime;         // 回転時間
 
@@ -23,6 +24,8 @@ public class titleGearScript : MonoBehaviour
 
     void Start()
     {
+        obj = new GameObject[button.Length];
+
         length *= 0.44f;                        // 長さの修正
         float angle = 360.0f / button.Length;   // 角度
         rotSpeed = (float)(angle / rotTime);    // 目標位置への速度
@@ -30,8 +33,8 @@ public class titleGearScript : MonoBehaviour
 
         Vector3 gearPos = transform.position;   // ギアの位置
         Vector3 pos;                            // 位置
-        GameObject obj;                         // オブジェ
 
+        
         for (int i = 0; i < button.Length; i++)
         {
             // 位置設定
@@ -39,35 +42,41 @@ public class titleGearScript : MonoBehaviour
             pos.y = gearPos.y + Mathf.Cos(( angle * i) * Mathf.PI / 180) * length;
             pos.z = 0.0f;
 
-            obj = gameObject.transform.FindChild(button[i].name).gameObject;
-            obj.transform.position = pos;
-            obj.transform.Rotate(0, 0, -angle * i);
+            obj[i] = Instantiate(button[i]);
+            obj[i].transform.parent = transform;
+            obj[i].transform.position = pos;
+            obj[i].transform.localScale = new Vector3(1,1,1);
+            obj[i].transform.Rotate(0, 0, 0);
         }
 
         // 初期化
         rotFlag = false;                        // フラグ
-
-        //        obj.transform.position = 
-        //        = sinf(D3DX_PI * -0.25f + cameraRot.y) * m_Speed;/
-        //      = cosf(D3DX_PI * -0.25f + cameraRot.y) * m_Speed;
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 回転中は操作不能に
         if (rotFlag == true)
         {
+            // 回転時の時間が 0 ならフリック可能に
             if (time == 0)
             {
                 rotFlag = false;
             }
             else
             {
+                // 時間があるため回転中
                 transform.Rotate(new Vector3(0, 0, rotVecZ));
                 time--;
+                // ここでボタン歯車の向きを設定してる
+                for (int i = 0; i < button.Length; i++)
+                {
+                    obj[i].transform.Rotate(0, 0, -rotVecZ);
+                }
             }
         }
+        // フリック
         else
         {
             Flick();
