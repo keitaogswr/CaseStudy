@@ -26,7 +26,7 @@ public class titleGearScript : MonoBehaviour
     {
         obj = new GameObject[button.Length];
 
-        length *= 0.44f;                        // 長さの修正
+        length = Screen.height / 3f;// 1.5f;                        // 長さの修正
         float angle = 360.0f / button.Length;   // 角度
         rotSpeed = (float)(angle / rotTime);    // 目標位置への速度
 

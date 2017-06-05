@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class rankingScore : MonoBehaviour {
 
-#if UNITY_EDITOR
     public List<int> m_records = new List<int>();           // レコードデータ
     public int m_myRecord;                                  // マイスコア
     public bool m_isRecordTest;                             // レコードのテストデータを使うかどうか
-#endif
 
     public float m_interval;                                // 点滅周期
     public Color m_color;                                   // 通常色
