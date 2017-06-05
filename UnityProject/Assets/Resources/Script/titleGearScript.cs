@@ -56,6 +56,13 @@ public class titleGearScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ここでボタン歯車の向きを設定してる
+        for (int i = 0; i < button.Length; i++)
+        {
+            obj[i].transform.Rotate(0, 0, -0.2f);
+        }
+
+
         // 回転中は操作不能に
         if (rotFlag == true)
         {
@@ -69,11 +76,6 @@ public class titleGearScript : MonoBehaviour
                 // 時間があるため回転中
                 transform.Rotate(new Vector3(0, 0, rotVecZ));
                 time--;
-                // ここでボタン歯車の向きを設定してる
-                for (int i = 0; i < button.Length; i++)
-                {
-                    obj[i].transform.Rotate(0, 0, -rotVecZ);
-                }
             }
         }
         // フリック
