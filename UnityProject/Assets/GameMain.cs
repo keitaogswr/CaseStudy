@@ -637,22 +637,6 @@ public class GameMain : MonoBehaviour {
                     }
                     Action = true;
 
-                    for (x = 0; x < gridWidth; x++)
-                    {
-                        for (y = 0; y < gridHeight; y++)
-                        {
-                            if(Field[x,y].Cube != null)
-                            {
-                                //動けなくしていた部分をもとに戻す
-                                Rigid = Field[x,y].Cube.GetComponent<Rigidbody2D>();
-                                //解除
-                                //Rigid.constraints = RigidbodyConstraints2D.None;
-                                //再設定
-                                Rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
-                                Rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
-                            }
-                        }
-                    }
                 }
                 time += Time.deltaTime;
 
@@ -772,6 +756,22 @@ public class GameMain : MonoBehaviour {
                         Phase = PHASE.SERACH;
                         SlideTime = 0;
                         Action = false;
+                        for (x = 0; x < gridWidth; x++)
+                        {
+                            for (y = 0; y < gridHeight; y++)
+                            {
+                                if (Field[x, y].Cube != null)
+                                {
+                                    //動けなくしていた部分をもとに戻す
+                                    Rigid = Field[x, y].Cube.GetComponent<Rigidbody2D>();
+                                    //解除
+                                    //Rigid.constraints = RigidbodyConstraints2D.None;
+                                    //再設定
+                                    Rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
+                                    Rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                                }
+                            }
+                        }
                     }
                 }
                 break;

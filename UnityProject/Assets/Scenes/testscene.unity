@@ -584,7 +584,7 @@ MonoBehaviour:
   - Yellow
   gridWidth: 7
   gridHeight: 7
-  MoveSpeed: 0.15
+  MoveSpeed: 0.5
   Prefab: {fileID: 1365176737067140, guid: 56fbcabaf3460dc44bf38d992e3f43ca, type: 2}
   NextBlock: {fileID: 1112344074}
   NextBlock1: {fileID: 2000593115}
@@ -593,7 +593,7 @@ MonoBehaviour:
   Arm_L: {fileID: 1745751409322562, guid: 0089c2e3a8d26d84ba6c4edfa1877ec7, type: 2}
   VanishEffect: {fileID: 1728278127178040, guid: 0fa427acbe8f57c4399632871cee39d6,
     type: 2}
-  span: 0.15
+  span: 0.08
   Phase: 0
 --- !u!4 &654049609
 Transform:
