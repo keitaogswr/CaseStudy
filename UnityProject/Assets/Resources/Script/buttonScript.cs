@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class buttonScript : MonoBehaviour
 {
-    // 
+    // シーンのタグ
     public enum sceneNum
     {
         TITLE = 0,
@@ -12,6 +12,7 @@ public class buttonScript : MonoBehaviour
         RANKING,
     }
 
+    // シーンの名前
     private string[] sceneName = {
             "title",
             "testscene",
@@ -21,7 +22,7 @@ public class buttonScript : MonoBehaviour
     // ゲーム開始ボタン
     public void ClickGameStart()
     {
-        if (GetComponentInParent<titleGearScript>().GetRotFlag() == false)
+        if ( GetComponentInParent<titleGearScript>().GetRotFlag() == false)
         {
             Debug.Log("ゲームスタートボタンクリック");
             GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(sceneName[(int)sceneNum.GAME]);
