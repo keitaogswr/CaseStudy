@@ -14,8 +14,10 @@ public class Block : MonoBehaviour
 
     private void Awake()
     {
+        //ブロック移動時の初期座標
         StartPos = new Vector3(0, 0, 0);
-        MovedPos = new Vector3(0, 0, 0);
+        //移動先用　※現在は番外用にX：１００がフラグとして扱ってます　要修正
+        MovedPos = new Vector3(100, 0, 0);
     }
 
     // Use this for initialization
