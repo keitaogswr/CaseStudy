@@ -21,7 +21,7 @@ public class titleGearScript : MonoBehaviour
     private float angle;        // 角度
 
     // フリック
-    private float flickRange = 40;   // フリックの受付範囲
+    private float flickRange = 40;  // フリックの受付範囲
     private Vector3 inClickPos;     // 押したクリック位置
     private Vector3 outClickPos;    // 離したクリック位置
 
@@ -68,8 +68,12 @@ public class titleGearScript : MonoBehaviour
         for (int i = 0; i < buttonPrefab.Length; i++)
         {
             buttonObj[i].transform.Rotate(0, 0, -0.2f);
+
+            // 文字設定
             buttonChild[i].transform.Rotate(new Vector3(0, 0, +0.2f));
         }
+
+
 
 
         // 回転中は操作不能に
@@ -113,6 +117,7 @@ public class titleGearScript : MonoBehaviour
     {
         return rotFlag;
     }
+
 
     // フリック処理
     public void Flick()
