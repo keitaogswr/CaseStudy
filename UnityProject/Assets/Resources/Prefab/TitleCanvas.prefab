@@ -255,10 +255,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e41689c7ac83d9e4e9cdc727275e5ba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button:
+  buttonPrefab:
   - {fileID: 1484223497860314, guid: 686b2adcf6d8e1f419460e60647a9c3d, type: 2}
-  - {fileID: 1799412123060352, guid: 00625de5017e776489ac4aec48e31139, type: 2}
   - {fileID: 1236377712564354, guid: 59e868ca6f735ee4e88071aa66f80863, type: 2}
+  - {fileID: 1799412123060352, guid: 00625de5017e776489ac4aec48e31139, type: 2}
   length: 280
   rotTime: 30
 --- !u!114 &114729171321451022
@@ -345,14 +345,14 @@ RectTransform:
   m_GameObject: {fileID: 1848178243914862}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_Children: []
   m_Father: {fileID: 224390846641967384}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 60, y: -480}
+  m_AnchoredPosition: {x: 45, y: -470}
   m_SizeDelta: {x: 737, y: 419}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224637502676170968
@@ -381,7 +381,7 @@ RectTransform:
   m_GameObject: {fileID: 1791686335637406}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.11, y: 1.11, z: 1}
   m_Children: []
   m_Father: {fileID: 224390846641967384}
   m_RootOrder: 0
