@@ -5,10 +5,13 @@ using UnityEngine;
 public class titleGearScript : MonoBehaviour
 {
     // 設定用
-    public GameObject[] button; // ボタン
-    private GameObject[] obj;    // オブジェ
-    public float length;        // 配置長さ
-    public int rotTime;         // 回転時間
+    public GameObject[] buttonPrefab; // ボタンプレファブ
+    public float length;              // 配置長さ
+    public int rotTime;               // 回転時間
+
+    // オブジェ
+    private GameObject[] buttonObj;   // ボタンオブジェ
+    private GameObject[] buttonChild; // ボタンの子
 
     // 内部数値
     private bool rotFlag;       // 回転フラグ
@@ -24,29 +27,34 @@ public class titleGearScript : MonoBehaviour
 
     void Start()
     {
-        obj = new GameObject[button.Length];
+        buttonObj = new GameObject[buttonPrefab.Length];
+        buttonChild = new GameObject[buttonPrefab.Length];
 
-        length = Screen.height / 3f;// 1.5f;                        // 長さの修正
-        float angle = 360.0f / button.Length;   // 角度
-        rotSpeed = (float)(angle / rotTime);    // 目標位置への速度
+        length = Screen.height / 3f;                        // 長さの修正
+        float angle = 360.0f / buttonPrefab.Length;         // 角度
+        rotSpeed = (float)(angle / rotTime);                // 目標位置への速度
 
 
         Vector3 gearPos = transform.position;   // ギアの位置
         Vector3 pos;                            // 位置
 
         
-        for (int i = 0; i < button.Length; i++)
+        for (int i = 0; i < buttonPrefab.Length; i++)
         {
             // 位置設定
             pos.x = gearPos.x + Mathf.Sin(( angle * i) * Mathf.PI / 180) * length;
             pos.y = gearPos.y + Mathf.Cos(( angle * i) * Mathf.PI / 180) * length;
             pos.z = 0.0f;
 
-            obj[i] = Instantiate(button[i]);
-            obj[i].transform.parent = transform;
-            obj[i].transform.position = pos;
-            obj[i].transform.localScale = new Vector3(1,1,1);
-            obj[i].transform.Rotate(0, 0, 0);
+            // ボタン生成
+            buttonObj[i] = Instantiate(buttonPrefab[i]);
+            buttonObj[i].transform.parent = transform;
+            buttonObj[i].transform.position = pos;
+            buttonObj[i].transform.localScale = new Vector3(1,1,1);
+            buttonObj[i].transform.Rotate(0, 0, 0);
+
+            // 子取得 ( button )のImage
+            buttonChild[i] = buttonObj[i].transform.FindChild("Image").gameObject;
         }
 
         // 初期化
@@ -57,9 +65,10 @@ public class titleGearScript : MonoBehaviour
     void Update()
     {
         // ここでボタン歯車の向きを設定してる
-        for (int i = 0; i < button.Length; i++)
+        for (int i = 0; i < buttonPrefab.Length; i++)
         {
-            obj[i].transform.Rotate(0, 0, -0.2f);
+            buttonObj[i].transform.Rotate(0, 0, -0.2f);
+            buttonChild[i].transform.Rotate(new Vector3(0, 0, +0.2f));
         }
 
 
@@ -76,6 +85,12 @@ public class titleGearScript : MonoBehaviour
                 // 時間があるため回転中
                 transform.Rotate(new Vector3(0, 0, rotVecZ));
                 time--;
+
+                // 文字を回転しないように
+                for (int i = 0; i < buttonPrefab.Length; i++)
+                {
+                    buttonChild[i].transform.Rotate(new Vector3(0, 0, -rotVecZ));
+                }
             }
         }
         // フリック

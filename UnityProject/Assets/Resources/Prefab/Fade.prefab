@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa2aef1a57109e64fb315a1b567443e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  texture: {fileID: 21300000, guid: c8d08ebb57a63d843850361d0e43fd3b, type: 3}
+  texture: {fileID: 0}
   speed: 0.01
 --- !u!114 &114733051928029580
 MonoBehaviour:
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
