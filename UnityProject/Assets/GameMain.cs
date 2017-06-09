@@ -506,9 +506,12 @@ public class GameMain : MonoBehaviour {
                                         //Debug.Log("移動してる行：" + EmpCnt + "下がった量:" + DropCnt);
                                         Field[SlideEmpCnt + SlideCnt, y] = Field[SlideEmpCnt, y];
                                         //Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition += new Vector3(SlideCnt, 0, 0);
-                                        Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetStartPos(Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition);
-                                        //Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition + new Vector3(SlideCnt, 0, 0));
-                                        Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(new Vector3((SlideEmpCnt + SlideCnt) - 3, y, 0));
+                                        if (Field[SlideEmpCnt + SlideCnt, y].Alive != false || Field[SlideEmpCnt + SlideCnt, y].Cube != null)
+                                        {
+                                            Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetStartPos(Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition);
+                                            //Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition + new Vector3(SlideCnt, 0, 0));
+                                            Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(new Vector3((SlideEmpCnt + SlideCnt) - 3, y, 0));
+                                        }
                                         ARM_L[y].EndPos = ARM_L[y].Arm.GetComponent<Transform>().localPosition + new Vector3(SlideCnt, 0, 0);
 
                                         Field[SlideEmpCnt, y].Cube = null;
