@@ -19,13 +19,22 @@ public class buttonScript : MonoBehaviour
             "ranking",
         };
 
+    private float range =30;
+
     // ゲーム開始ボタン
     public void ClickGameStart()
     {
-        if ( GetComponentInParent<titleGearScript>().GetRotFlag() == false)
+        if (GetComponentInParent<titleGearScript>().GetRotFlag() == false)
         {
-            Debug.Log("ゲームスタートボタンクリック");
-            GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(sceneName[(int)sceneNum.GAME]);
+            Vector3 inPos = GetComponentInParent<titleGearScript>().GetClickPos();
+            Vector3 outPos = Input.mousePosition;
+
+            if (inPos.x + range > outPos.x &&
+                inPos.x - range < outPos.x)
+            {
+                Debug.Log("ゲームスタートボタンクリック");
+                GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(sceneName[(int)sceneNum.GAME]);
+            }
         }
     }
 
@@ -34,8 +43,15 @@ public class buttonScript : MonoBehaviour
     {
         if (GetComponentInParent<titleGearScript>().GetRotFlag() == false)
         {
-            Debug.Log("ランキングボタン");
-            GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(sceneName[(int)sceneNum.RANKING]);
+            Vector3 inPos = GetComponentInParent<titleGearScript>().GetClickPos();
+            Vector3 outPos = Input.mousePosition;
+
+            if (inPos.x + range > outPos.x &&
+                inPos.x - range < outPos.x)
+            {
+                Debug.Log("ランキングボタン");
+                GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(sceneName[(int)sceneNum.RANKING]);
+            }
         }
     }
 
@@ -43,10 +59,17 @@ public class buttonScript : MonoBehaviour
     // ゲーム修了ボタン
     public void ClickExit()
     {
-        if (GetComponentInParent<titleGearScript>().GetRotFlag() == false)
+        Vector3 inPos = GetComponentInParent<titleGearScript>().GetClickPos();
+        Vector3 outPos = Input.mousePosition;
+
+        if (inPos.x + range > outPos.x &&
+            inPos.x - range < outPos.x)
         {
-            Debug.Log("ゲーム終了ボタンクリック");
-            Application.Quit();
+            if (GetComponentInParent<titleGearScript>().GetRotFlag() == false)
+            {
+                Debug.Log("ゲーム終了ボタンクリック");
+                Application.Quit();
+            }
         }
     }
 }

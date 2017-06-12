@@ -118,6 +118,10 @@ public class titleGearScript : MonoBehaviour
         return rotFlag;
     }
 
+    public Vector3 GetClickPos()
+    {
+        return inClickPos;
+    }
 
     // フリック処理
     public void Flick()
@@ -131,6 +135,7 @@ public class titleGearScript : MonoBehaviour
         // クリック離した位置
         else if( Input.GetMouseButtonUp(0) )
         {
+
             // 離した位置更新
             outClickPos = Input.mousePosition;
 
