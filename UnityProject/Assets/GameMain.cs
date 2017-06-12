@@ -593,6 +593,25 @@ public class GameMain : MonoBehaviour {
                         ArmTime = 0;
                         ArmTurn = false;
                         Action = false;
+
+                        for (y = 0; y < gridHeight; y++)
+                        {
+                            for (x = 0; x < gridWidth; x++)
+                            {
+                                if (Field[x, y].Alive != false)
+                                {
+                                    //Moveに何か入っているならば動かす
+                                    if (Field[x, y].Cube.GetComponent<Block>().MovedPos != new Vector3(100, 0, 0))
+                                    {
+                                        Field[x, y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[x, y].Cube.GetComponent<Block>().StartPos, Field[x, y].Cube.GetComponent<Block>().MovedPos, 1);
+                                        
+                                        Field[x, y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                                        Field[x, y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
+                                        
+                                    }
+                                }
+                            }
+                        }
                     }
                     else
                     {
@@ -693,6 +712,25 @@ public class GameMain : MonoBehaviour {
                     SlideTime = 0;
                     Phase = PHASE.GENERATE;
                     Action = false;
+
+                    for (y = 0; y < gridHeight; y++)
+                    {
+                        for (x = 0; x < gridWidth; x++)
+                        {
+                            if (Field[x, y].Alive != false)
+                            {
+                                //Moveに何か入っているならば動かす
+                                if (Field[x, y].Cube.GetComponent<Block>().MovedPos != new Vector3(100, 0, 0))
+                                {
+                                    Field[x, y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[x, y].Cube.GetComponent<Block>().StartPos, Field[x, y].Cube.GetComponent<Block>().MovedPos, 1);
+
+                                    Field[x, y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                                    Field[x, y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
+
+                                }
+                            }
+                        }
+                    }
                 }
                
                 break;
@@ -764,6 +802,24 @@ public class GameMain : MonoBehaviour {
 
                 if (time > span)
                 {
+                    for (y = 0; y < gridHeight; y++)
+                    {
+                        for (x = 0; x < gridWidth; x++)
+                        {
+                            if (Field[x, y].Alive != false)
+                            {
+                                //Moveに何か入っているならば動かす
+                                if (Field[x, y].Cube.GetComponent<Block>().MovedPos != new Vector3(100, 0, 0))
+                                {
+                                    Field[x, y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[x, y].Cube.GetComponent<Block>().StartPos, Field[x, y].Cube.GetComponent<Block>().MovedPos, 1);
+
+                                    Field[x, y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                                    Field[x, y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
+
+                                }
+                            }
+                        }
+                    }
                     if (VanishCaller == false)
                     {
                         Phase = PHASE.STAY;
