@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -365,11 +365,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4671927489518922, guid: d737a9b200d19de49bd9496d51a92052, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -2.93
       objectReference: {fileID: 0}
     - target: {fileID: 4671927489518922, guid: d737a9b200d19de49bd9496d51a92052, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4671927489518922, guid: d737a9b200d19de49bd9496d51a92052, type: 2}
       propertyPath: m_LocalRotation.x
@@ -395,6 +395,10 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671927489518922, guid: d737a9b200d19de49bd9496d51a92052, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 12.08
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 61604301235201322, guid: d737a9b200d19de49bd9496d51a92052, type: 2}
@@ -442,7 +446,7 @@ MonoBehaviour:
   NextBlock2: {fileID: 840696335}
   Arm_R: {fileID: 1598659435263316, guid: 96c0c0a038b373c49ba76ec7726a98bf, type: 2}
   Arm_L: {fileID: 1745751409322562, guid: 0089c2e3a8d26d84ba6c4edfa1877ec7, type: 2}
-  VanishEffect: {fileID: 1728278127178040, guid: 0fa427acbe8f57c4399632871cee39d6,
+  VanishEffect: {fileID: 1344236212633030, guid: e48de90218a68564faaec7d6e1ed3e39,
     type: 2}
   span: 0.1
   Phase: 0
@@ -626,20 +630,18 @@ GameObject:
   m_PrefabParentObject: {fileID: 1964853976804600, guid: d737a9b200d19de49bd9496d51a92052,
     type: 2}
   m_PrefabInternal: {fileID: 632843330}
---- !u!61 &1013936859
-BoxCollider2D:
+--- !u!65 &1013936859
+BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1013936858}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1112344074
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,55 +775,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1326900196 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1298049233345122, guid: 82d90a5595ef0bf42a9bf2f524267cf5,
-    type: 2}
-  m_PrefabInternal: {fileID: 435665184}
---- !u!114 &1326900201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1326900196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97e9b95cf609d96409b6c40519432957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1326900202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1326900196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 646b5bc27a658f447b1d929fd5ffbd70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1326900203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1326900196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fd999d1b2cf94a45a5b0a47ce074bef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1326900204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1326900196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fceaeb339b971b429c4cc600acabd13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1735404215
 Prefab:
   m_ObjectHideFlags: 0
