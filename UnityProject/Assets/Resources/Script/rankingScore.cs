@@ -73,7 +73,7 @@ public class rankingScore : MonoBehaviour {
 
             SetRecordColor(m_myScore.FindChild("Digits"), m_flashing ? m_FlashColor : m_color);
 
-            m_rankInRecord.FindChild("Text").GetComponent<Text>().color = m_flashing ? m_FlashColor : m_color;
+            m_rankInRecord.FindChild("Rank").GetComponent<Image>().color = m_flashing ? m_FlashColor : m_color;
             SetRecordColor(m_rankInRecord.FindChild("Digits"), m_flashing ? m_FlashColor : m_color);
 
             // 次の周期へ
