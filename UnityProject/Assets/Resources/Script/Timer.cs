@@ -7,10 +7,12 @@ public class Timer : MonoBehaviour {
     public float GameTime = 60;
     [SerializeField]
     List<GameObject> numberPointList;
+    public Pauseable Pause;
 
     private float Minutes = 0;
     private float Seconds = 0;
     private float FPS = 60;
+    private bool timeOut = false;
 
     // Use this for initialization
     void Start () {
@@ -21,10 +23,28 @@ public class Timer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //  タイム減少。
-        Seconds -= Time.deltaTime;
-        if (Seconds < 0.0f) {       //  秒が0になったら分を削って秒を最大に
-            --Minutes;
-            Seconds = FPS - 1.0f;
+        if (timeOut == false && Pause.pausing == false) {
+            Seconds -= Time.deltaTime;
+            if (Seconds < 0.0f)
+            {       //  秒が0になったら分を削って秒を最大に
+                --Minutes;
+                if (Minutes <= 0 && Seconds <= 0)
+                {
+                    timeOut = true;
+                    Pause.pausing = true;
+                }
+                else
+                {
+                    Seconds = FPS - 1.0f;
+                }
+            }
+        }
+        else if (timeOut == true)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                GameObject.Find("Fade").GetComponent<fadeScript>().SetFade("ranking");
+            }
         }
 
         int second = (int)Seconds;

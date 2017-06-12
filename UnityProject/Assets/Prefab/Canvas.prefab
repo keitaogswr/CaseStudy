@@ -1640,12 +1640,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c53571ab5873c4785fd6ddd5441e02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameTime: 90
+  GameTime: 10
   numberPointList:
   - {fileID: 1940058880668872}
   - {fileID: 1744623010974088}
   - {fileID: 1894911870714754}
   - {fileID: 1123323130296344}
+  Pause: {fileID: 0}
 --- !u!114 &114660661276984662
 MonoBehaviour:
   m_ObjectHideFlags: 1
