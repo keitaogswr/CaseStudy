@@ -28,7 +28,7 @@ public class Timer : MonoBehaviour {
             if (Seconds < 0.0f)
             {       //  秒が0になったら分を削って秒を最大に
                 --Minutes;
-                if (Minutes <= 0 && Seconds <= 0)
+                if (Minutes < 0 && Seconds <= 0)
                 {
                     timeOut = true;
                     Pause.pausing = true;
