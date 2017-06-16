@@ -958,6 +958,11 @@ Prefab:
       propertyPath: Pause
       value: 
       objectReference: {fileID: 938289810}
+    - target: {fileID: 114169207735805432, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed598e1049f6ff44ba6a5d072f4d6c60, type: 2}
   m_IsPrefabParent: 0
