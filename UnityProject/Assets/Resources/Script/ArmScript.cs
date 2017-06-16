@@ -18,7 +18,7 @@ public class ArmScript : MonoBehaviour
     private Vector2 defSize;        // デフォルトのサイズ
     private Vector2 nowSize;        // 現在の幅
     private float addWidth;         // 加算Width
-    private ARM_STATE state;        // 状態
+    public ARM_STATE state;        // 状態
     private int addTime;            // 加算する時間
     private int backTime;           // 戻す時間
 
@@ -53,15 +53,18 @@ public class ArmScript : MonoBehaviour
                     StateBackUpdate();
                     break;
                 }
-
+            case ARM_STATE.ARM_STATE_NONE:
+                {
+                   break;
+                }
             default:
-                OnArmAdd(300, 60);
+                OnArmAdd(4, 60);
                 break;
         }
     }
 
     // 加算実行
-    void OnArmAdd(float addWidthMax, int time)
+    public void OnArmAdd(float addWidthMax, int time)
     {
         if (state == ARM_STATE.ARM_STATE_NONE)
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public struct FIELD
 {
@@ -117,21 +118,26 @@ public class GameMain : MonoBehaviour {
         //各列毎に右左アームをセットで生成
         for (int y = 0;y < gridHeight;y++)
         {
-            GameObject g = Instantiate(Arm_L, new Vector3(-4,y,0), Quaternion.identity) as GameObject;
+            GameObject g = Instantiate(Arm_L, new Vector3(-4.5f,y,0), Quaternion.identity) as GameObject;
             ARM_L[y].Arm = g;
             ARM_L[y].StartPos = ARM_L[y].Arm.GetComponent<Transform>().localPosition;
             ARM_L[y].EndPos = ARM_L[y].Arm.GetComponent<Transform>().localPosition;
 
-            //生成したオブジェクとの親にこのオブジェクトを設定
-            g.transform.parent = gameObject.transform;
+            g.GetComponent<RectTransform>().pivot = new Vector2(1, 0.5f);
+            g.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
 
-            g = Instantiate(Arm_R, new Vector3(4, y, 0), Quaternion.identity) as GameObject;
+            //生成したオブジェクとの親にこのオブジェクトを設定
+            g.transform.parent = GameObject.Find("Canvas").transform;
+
+            g = Instantiate(Arm_R, new Vector3(4.5f, y, 0), Quaternion.identity) as GameObject;
             ARM_R[y].Arm = g;
             ARM_R[y].StartPos = ARM_R[y].Arm.GetComponent<Transform>().localPosition;
             ARM_R[y].EndPos = ARM_R[y].Arm.GetComponent<Transform>().localPosition;
 
+            g.GetComponent<RectTransform>().pivot = new Vector2(1,0.5f);
+
             //生成したオブジェクとの親にこのオブジェクトを設定
-            g.transform.parent = gameObject.transform;
+            g.transform.parent = GameObject.Find("Canvas").transform;
         }
 
         for(int i = 0;i < 4; i++)
@@ -481,8 +487,10 @@ public class GameMain : MonoBehaviour {
                                             Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(new Vector3((SlideEmpCnt - SlideCnt) - 3, y, 0));
                                             //Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(Field[SlideEmpCnt - SlideCnt, y].Cube.GetComponent<Transform>().localPosition - new Vector3(SlideCnt, 0, 0));
                                         }
+                                        //アームの移動距離を設定
+                                        //ARM_R[y].EndPos = ARM_R[y].Arm.GetComponent<Transform>().localPosition - new Vector3(SlideCnt, 0, 0);
 
-                                        ARM_R[y].EndPos = ARM_R[y].Arm.GetComponent<Transform>().localPosition - new Vector3(SlideCnt, 0, 0);
+                                        ARM_R[y].Arm.GetComponent<ArmScript>().OnArmAdd(SlideCnt, (int)(span * 100) / 2);
 
                                         Field[SlideEmpCnt, y].Cube = null;
                                         Field[SlideEmpCnt, y].Alive = false;
@@ -528,7 +536,9 @@ public class GameMain : MonoBehaviour {
                                             //Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Transform>().localPosition + new Vector3(SlideCnt, 0, 0));
                                             Field[SlideEmpCnt + SlideCnt, y].Cube.GetComponent<Block>().SetMovePos(new Vector3((SlideEmpCnt + SlideCnt) - 3, y, 0));
                                         }
-                                        ARM_L[y].EndPos = ARM_L[y].Arm.GetComponent<Transform>().localPosition + new Vector3(SlideCnt, 0, 0);
+
+                                        //アームの移動距離をセット
+                                        ARM_L[y].Arm.GetComponent<ArmScript>().OnArmAdd(SlideCnt, (int)(span * 100) / 2);
 
                                         Field[SlideEmpCnt, y].Cube = null;
                                         Field[SlideEmpCnt, y].Alive = false;
@@ -543,25 +553,25 @@ public class GameMain : MonoBehaviour {
 
                 time += Time.deltaTime;
                 SlideTime += MoveSpeed;
-                ArmTime += 0.25f;
+                //ArmTime += 0.25f;
 
                 if(SlideTime > 1)
                 {
                     SlideTime = 1;
                 }
 
-                if(ArmTime > 1 && !ArmTurn)
-                {
-                    //ArmTime = 1;
-                    ArmTime = 0;
-
-                    for (y = 0; y < gridHeight; y++)
-                    {
-                        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].StartPos, ARM_L[y].EndPos, 1);
-                        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].StartPos, ARM_R[y].EndPos, 1);
-                    }
-                    ArmTurn = true;
-                }
+                //if(ArmTime > 1 && !ArmTurn)
+                //{
+                //    //ArmTime = 1;
+                //    ArmTime = 0;
+                //
+                //    for (y = 0; y < gridHeight; y++)
+                //    {
+                //        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].StartPos, ARM_L[y].EndPos, 1);
+                //        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].StartPos, ARM_R[y].EndPos, 1);
+                //    }
+                //    ArmTurn = true;
+                //}
                 
                 for (y = 0; y < gridHeight; y++)
                 {
@@ -583,42 +593,44 @@ public class GameMain : MonoBehaviour {
                     }
                 }
 
-                for(y = 0;y < gridHeight;y++)
-                {
-                    if (!ArmTurn)
-                    {
-                        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].StartPos, ARM_L[y].EndPos, ArmTime);
-                        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].StartPos, ARM_R[y].EndPos, ArmTime);
-                    }
-                    else
-                    {
-                        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].EndPos, ARM_L[y].StartPos, ArmTime);
-                        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].EndPos, ARM_R[y].StartPos, ArmTime);
-
-                        if(ArmTime >= 1)
-                        {
-                            ARM_L[y].EndPos = ARM_L[y].StartPos;
-                            ARM_R[y].EndPos = ARM_R[y].StartPos;
-                        }
-                    }
-                }
+                //アームの位置を更新
+                //for(y = 0;y < gridHeight;y++)
+                //{
+                //    if (!ArmTurn)
+                //    {
+                //        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].StartPos, ARM_L[y].EndPos, ArmTime);
+                //        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].StartPos, ARM_R[y].EndPos, ArmTime);
+                //    }
+                //    else
+                //    {
+                //        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].EndPos, ARM_L[y].StartPos, ArmTime);
+                //        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].EndPos, ARM_R[y].StartPos, ArmTime);
+                //
+                //        if(ArmTime >= 1)
+                //        {
+                //            ARM_L[y].EndPos = ARM_L[y].StartPos;
+                //            ARM_R[y].EndPos = ARM_R[y].StartPos;
+                //        }
+                //    }
+                //}
 
 
                 if (time > span)
                 {
                     time = 0;
 
-                    for (y = 0; y < gridHeight; y++)
-                    {
-                        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].EndPos, ARM_L[y].StartPos, 1);
-                        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].EndPos, ARM_R[y].StartPos, 1);
+                    //アームを初期位置に戻す
+                    //for (y = 0; y < gridHeight; y++)
+                    //{
+                    //    ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].EndPos, ARM_L[y].StartPos, 1);
+                    //    ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].EndPos, ARM_R[y].StartPos, 1);
+                    //
+                    //    ARM_L[y].EndPos = ARM_L[y].StartPos;
+                    //    ARM_R[y].EndPos = ARM_R[y].StartPos;
+                    //    
+                    //}
 
-                        ARM_L[y].EndPos = ARM_L[y].StartPos;
-                        ARM_R[y].EndPos = ARM_R[y].StartPos;
-                        
-                    }
-
-                        if (VanishCaller == true)
+                    if (VanishCaller == true)
                     {
                         Phase = PHASE.DROP;
                         SlideTime = 0;
