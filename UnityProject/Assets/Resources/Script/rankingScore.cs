@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class rankingScore : MonoBehaviour {
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 
     [ Tooltip("テスト用のマイスコア") ]
     public int m_testMyScore;
@@ -19,16 +19,18 @@ public class rankingScore : MonoBehaviour {
     [ Tooltip("PlayerPrefsを初期化するか") ]
     public bool m_isUseInitializePrefs;
 
-#endif
+//#endif
 
     public List<int> m_recordsDefault = new List<int>();    // デフォルトレコードデータ
 
     public float m_interval;                                // 点滅周期
-    public Color m_color;                                   // 通常色
     public Color m_FlashColor;                              // 点滅色
 
     private Transform m_myScoreObj;                         // マイスコアオブジェクト
     private Transform m_rankInRecordObj;                    // ランクインしたレコードのオブジェクト
+    private Color m_myScoreDefaultColor;                    // マイスコアのデフォルト色
+    private Color m_rankInDefaultColor;                     // ランクインしたランク画像のデフォルト色
+    private Color m_defaultColor;                           // スコアのデフォルト色
     private float m_nextTime;                               // 点滅用カウンタ
     private bool m_flashing = false;                        // 光っている
 
@@ -41,14 +43,14 @@ public class rankingScore : MonoBehaviour {
     {
         Debug.Log("Ranking Awaken");
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 
         if (m_isUseInitializePrefs)
         {
             PlayerPrefs.DeleteAll();
         }
 
-#endif
+//#endif
 
         /* ランキングデータを読み込む */
 
@@ -69,14 +71,14 @@ public class rankingScore : MonoBehaviour {
             }
         }
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 
         if ( m_isUseDefaultRecord )
         {
             records = new List<int>(m_recordsDefault);
         }
 
-#endif
+//#endif
 
         InitializeRecord( ref records ); // オブジェクトへセット
 
@@ -111,16 +113,18 @@ public class rankingScore : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if ( m_rankInRecordObj != null && m_nextTime < Time.time )
+        if ( m_rankInRecordObj != null /*&& m_nextTime < Time.time*/ )
         {
             /* 点滅処理 */
 
-            m_flashing = !m_flashing;
+            //m_flashing = !m_flashing;
+            m_flashing = true;
 
-            SetRecordColor(m_myScoreObj.FindChild("Digits"), m_flashing ? m_FlashColor : m_color);
+            m_myScoreObj.FindChild("Rank").GetComponent<Image>().color = m_flashing ? m_FlashColor : m_myScoreDefaultColor;
+            SetRecordColor(m_myScoreObj.FindChild("Digits"), m_flashing ? m_FlashColor : m_defaultColor);
 
-            m_rankInRecordObj.FindChild("Rank").GetComponent<Image>().color = m_flashing ? m_FlashColor : m_color;
-            SetRecordColor(m_rankInRecordObj.FindChild("Digits"), m_flashing ? m_FlashColor : m_color);
+            m_rankInRecordObj.FindChild("Rank").GetComponent<Image>().color = m_flashing ? m_FlashColor : m_rankInDefaultColor;
+            SetRecordColor(m_rankInRecordObj.FindChild("Digits"), m_flashing ? m_FlashColor : m_defaultColor);
 
             // 次の周期へ
             m_nextTime += m_interval;
@@ -132,14 +136,14 @@ public class rankingScore : MonoBehaviour {
     {
         PointManager pointManager;
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 
         if ( m_isUseTestMyScore )
         {
             SetMyScore(m_testMyScore);
         }
 
-#endif
+//#endif
 
         for (int i = 0; i < records.Count; i++)
         {
@@ -149,6 +153,8 @@ public class rankingScore : MonoBehaviour {
             if (m_isMyScoreChanged && m_rankInRecordObj == null && m_myScore > records[i])
             {
                 m_rankInRecordObj = child;
+                m_rankInDefaultColor = m_rankInRecordObj.FindChild("Rank").GetComponent<Image>().color;
+                m_defaultColor = m_rankInRecordObj.FindChild("Digits/Number").GetComponent<Image>().color;
 
                 records.Insert(i, m_myScore);
                 records.RemoveAt(records.Count - 1);
@@ -158,17 +164,14 @@ public class rankingScore : MonoBehaviour {
 
             pointManager = child.FindChild("PointManager").GetComponent<PointManager>();
             pointManager.AddPoint(records[i]);
-
-            SetRecordColor(child.FindChild("Digits"), m_color);
         }
 
         // マイスコア
 
         m_myScoreObj = transform.FindChild("myScore");
+        m_myScoreDefaultColor = m_myScoreObj.FindChild("Rank").GetComponent<Image>().color;
         pointManager = m_myScoreObj.FindChild("PointManager").GetComponent<PointManager>();
         pointManager.AddPoint(m_myScore);
-
-        SetRecordColor(m_myScoreObj.FindChild("Digits"), m_color);
     }
 
     // レコードのスコアへ色をセット
