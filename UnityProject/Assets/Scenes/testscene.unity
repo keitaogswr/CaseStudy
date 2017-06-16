@@ -279,6 +279,12 @@ Prefab:
       propertyPath: Pause
       value: 
       objectReference: {fileID: 938289810}
+    - target: {fileID: 114677214222475824, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300010, guid: bb45f2fcad3099143aa6d924bfbd911e,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed598e1049f6ff44ba6a5d072f4d6c60, type: 2}
   m_IsPrefabParent: 0
@@ -439,16 +445,16 @@ MonoBehaviour:
   - Yellow
   gridWidth: 7
   gridHeight: 7
-  MoveSpeed: 0.25
+  MoveSpeed: 0.1
   Prefab: {fileID: 1365176737067140, guid: 56fbcabaf3460dc44bf38d992e3f43ca, type: 2}
   NextBlock: {fileID: 1112344074}
   NextBlock1: {fileID: 2000593115}
   NextBlock2: {fileID: 840696335}
-  Arm_R: {fileID: 1598659435263316, guid: 96c0c0a038b373c49ba76ec7726a98bf, type: 2}
-  Arm_L: {fileID: 1745751409322562, guid: 0089c2e3a8d26d84ba6c4edfa1877ec7, type: 2}
-  VanishEffect: {fileID: 1344236212633030, guid: e48de90218a68564faaec7d6e1ed3e39,
+  Arm_R: {fileID: 1023702215947510, guid: 96c0c0a038b373c49ba76ec7726a98bf, type: 2}
+  Arm_L: {fileID: 1103449379154262, guid: 0089c2e3a8d26d84ba6c4edfa1877ec7, type: 2}
+  VanishEffect: {fileID: 1880906651768262, guid: e48de90218a68564faaec7d6e1ed3e39,
     type: 2}
-  span: 0.1
+  span: 0.16
   Phase: 0
 --- !u!4 &654049609
 Transform:

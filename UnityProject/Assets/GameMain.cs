@@ -117,7 +117,7 @@ public class GameMain : MonoBehaviour {
         //各列毎に右左アームをセットで生成
         for (int y = 0;y < gridHeight;y++)
         {
-            GameObject g = Instantiate(Arm_L, new Vector3(-8,y,0), Quaternion.identity) as GameObject;
+            GameObject g = Instantiate(Arm_L, new Vector3(-4,y,0), Quaternion.identity) as GameObject;
             ARM_L[y].Arm = g;
             ARM_L[y].StartPos = ARM_L[y].Arm.GetComponent<Transform>().localPosition;
             ARM_L[y].EndPos = ARM_L[y].Arm.GetComponent<Transform>().localPosition;
@@ -125,7 +125,7 @@ public class GameMain : MonoBehaviour {
             //生成したオブジェクとの親にこのオブジェクトを設定
             g.transform.parent = gameObject.transform;
 
-            g = Instantiate(Arm_R, new Vector3(8, y, 0), Quaternion.identity) as GameObject;
+            g = Instantiate(Arm_R, new Vector3(4, y, 0), Quaternion.identity) as GameObject;
             ARM_R[y].Arm = g;
             ARM_R[y].StartPos = ARM_R[y].Arm.GetComponent<Transform>().localPosition;
             ARM_R[y].EndPos = ARM_R[y].Arm.GetComponent<Transform>().localPosition;
@@ -338,20 +338,36 @@ public class GameMain : MonoBehaviour {
 
                 VanishCaller = false;
 
-                for (x = 0; x < gridWidth; x++)
+                if (Action == false)
                 {
-                    for (y = 0; y < gridHeight; y++)
+                    for (x = 0; x < gridWidth; x++)
                     {
-                        //横方向に連続しているか
-                        BlockCounter = 0;
-                        CountBlocks(x, y, CountType.X_Count);
+                        for (y = 0; y < gridHeight; y++)
+                        {
+                            //横方向に連続しているか
+                            BlockCounter = 0;
+                            CountBlocks(x, y, CountType.X_Count);
 
-                        //縦方向に連続しているか
-                        BlockCounter = 0;
-                        CountBlocks(x, y, CountType.Y_Count); 
+                            //縦方向に連続しているか
+                            BlockCounter = 0;
+                            CountBlocks(x, y, CountType.Y_Count);
+                        }
                     }
+                    Action = true;
                 }
-                Phase = PHASE.VANISH;
+
+                time += Time.deltaTime;
+
+                if (time > span)
+                {
+                    time = 0;
+
+                    
+                    Phase = PHASE.VANISH;
+                    Action = false;
+                }
+
+                //Phase = PHASE.VANISH;
                 break;
             //ブロックの消去処理
             case PHASE.VANISH:
@@ -538,9 +554,15 @@ public class GameMain : MonoBehaviour {
                 {
                     //ArmTime = 1;
                     ArmTime = 0;
+
+                    for (y = 0; y < gridHeight; y++)
+                    {
+                        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].StartPos, ARM_L[y].EndPos, 1);
+                        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].StartPos, ARM_R[y].EndPos, 1);
+                    }
                     ArmTurn = true;
                 }
-
+                
                 for (y = 0; y < gridHeight; y++)
                 {
                     for (x = 0; x < gridWidth; x++)
@@ -586,7 +608,17 @@ public class GameMain : MonoBehaviour {
                 {
                     time = 0;
 
-                    if (VanishCaller == true)
+                    for (y = 0; y < gridHeight; y++)
+                    {
+                        ARM_L[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_L[y].EndPos, ARM_L[y].StartPos, 1);
+                        ARM_R[y].Arm.GetComponent<Transform>().localPosition = Vector3.Lerp(ARM_R[y].EndPos, ARM_R[y].StartPos, 1);
+
+                        ARM_L[y].EndPos = ARM_L[y].StartPos;
+                        ARM_R[y].EndPos = ARM_R[y].StartPos;
+                        
+                    }
+
+                        if (VanishCaller == true)
                     {
                         Phase = PHASE.DROP;
                         SlideTime = 0;
@@ -815,7 +847,6 @@ public class GameMain : MonoBehaviour {
 
                                     Field[x, y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, y].Cube.GetComponent<Transform>().localPosition.y), 0);
                                     Field[x, y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
-
                                 }
                             }
                         }
@@ -824,6 +855,7 @@ public class GameMain : MonoBehaviour {
                     {
                         Phase = PHASE.STAY;
                         SlideTime = 0;
+                        time = 0;
                         Action = false;
                     }
                     else
@@ -831,6 +863,7 @@ public class GameMain : MonoBehaviour {
                         Debug.Log("もっかい探索");
                         Phase = PHASE.SERACH;
                         SlideTime = 0;
+                        time = 0;
                         Action = false;
                         for (x = 0; x < gridWidth; x++)
                         {
@@ -913,6 +946,7 @@ public class GameMain : MonoBehaviour {
             if (BlockCounter >= 3)
             {
                 Field[X, Y].Break = true;
+                Field[X ,Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[X,Y].Cube.GetComponent<Block>().CubeName) as Material;
                 Field[X, Y].Cube.GetComponent<Rigidbody2D>().simulated = false;
             }
         }
