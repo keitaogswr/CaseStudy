@@ -18,6 +18,7 @@ public class ArmScript : MonoBehaviour
     private Vector2 defSize;        // デフォルトのサイズ
     private Vector2 nowSize;        // 現在の幅
     private float addWidth;         // 加算Width
+    private float subWidth;
     public ARM_STATE state;        // 状態
     private int addTime;            // 加算する時間
     private int backTime;           // 戻す時間
@@ -71,8 +72,9 @@ public class ArmScript : MonoBehaviour
             state = ARM_STATE.ARM_STATE_ADD;
 
             addWidth = addWidthMax / time;      // 一度に加算する量を設定
+            subWidth = addWidthMax / 2;
             addTime = time;                     // 加算する時間を設定
-            backTime = addTime;                 // 戻す時間も設定
+            backTime = 2;                 // 戻す時間も設定
         }
     }
 
@@ -98,7 +100,7 @@ public class ArmScript : MonoBehaviour
         if (backTime > 0)
         {
             backTime--;                                 // 時間減算
-            nowSize.x -= addWidth;                      // 幅 戻すため減算
+            nowSize.x -= subWidth;                      // 幅 戻すため減算
             armImg.rectTransform.sizeDelta = nowSize;   // 位置更新
         }
         else

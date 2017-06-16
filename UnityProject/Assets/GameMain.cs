@@ -68,6 +68,7 @@ public class GameMain : MonoBehaviour {
 
     //フレームの変数
     float time = 0.0f;
+    float PushTime = 0;
     float SlideTime = 0;
     float ArmTime = 0;
     bool ArmTurn = false;
@@ -253,90 +254,151 @@ public class GameMain : MonoBehaviour {
             case PHASE.PUSH:
                 FIELD SlideWork;
                 FIELD ClashWork;
-                
-                if (TapPoint_X + 1 < gridWidth)
+
+                if (Action != true)
                 {
-                    if (TapPoint_Y + 1 < gridHeight)
+                    if (TapPoint_X + 1 < gridWidth)
                     {
-                        for (int i = 0; i < gridWidth; i++)
+                        if (TapPoint_Y + 1 < gridHeight)
                         {
-                            //挿入するブロックの上のラインがあるのなら動けなくする
-                            Rigid = Field[i, TapPoint_Y + 1].Cube.GetComponent<Rigidbody2D>();
-                            Rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
+                            for (int i = 0; i < gridWidth; i++)
+                            {
+                                //挿入するブロックの上のラインがあるのなら動けなくする
+                                Rigid = Field[i, TapPoint_Y + 1].Cube.GetComponent<Rigidbody2D>();
+                                Rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
+                            }
+                        }
+
+                        //入れ替え用に変数を避難させる
+                        SlideWork = Field[(int)TapPoint_X, (int)TapPoint_Y];
+
+                        for (int i = TapPoint_X + 1; i < gridWidth; i++)
+                        {
+                            //右隣りのブロック情報をコピー
+                            ClashWork = Field[i, TapPoint_Y];
+                            //書き換え
+                            Field[i, TapPoint_Y] = SlideWork;
+
+                            //Field[i, TapPoint_Y].Cube.GetComponent<Transform>().localPosition += new Vector3(1, 0, 0);
+                            Field[i, TapPoint_Y].Cube.GetComponent<Block>().SetStartPos(Field[i, TapPoint_Y].Cube.GetComponent<Transform>().localPosition);
+                            Field[i, TapPoint_Y].Cube.GetComponent<Block>().SetMovePos(Field[i, TapPoint_Y].Cube.GetComponent<Transform>().localPosition += new Vector3(1, 0, 0));
+
+                            SlideWork = ClashWork;
+                        }
+
+                        //はじき出されるオブジェクトに力を加える
+                        Rigid = SlideWork.Cube.GetComponent<Rigidbody2D>();
+                        Rigid.constraints = RigidbodyConstraints2D.None;
+                        Rigid.AddForce(new Vector2(100, 0));
+                        SlideWork.Cube.GetComponent<Transform>().localPosition += new Vector3(0.99f, 0, 0);
+                        SlideWork.Cube.GetComponent<Transform>().localScale = new Vector3(0.9f, 0.9f, 0.5f);
+                        Destroy(SlideWork.Cube, 1);
+
+                        //挿入用オブジェクトのインスタンス化
+                        GameObject g = Instantiate(Prefab, new Vector3(TapPoint_X - (gridWidth / 2), TapPoint_Y, 0), Quaternion.identity) as GameObject;
+
+                        g.GetComponent<Transform>().localScale = new Vector3(0.8f, 0.8f, 0.8f);
+
+                        //生成したオブジェクとの親にこのオブジェクトを設定
+                        g.transform.parent = gameObject.transform;
+
+                        //Fieldにデータをセット
+                        SetCubeData(TapPoint_X, TapPoint_Y, g);
+
+                        if (TapPoint_Y + 1 < gridHeight)
+                        {
+                            for (int i = 0; i < gridWidth; i++)
+                            {
+                                //動けなくしていた部分をもとに戻す
+                                Rigid = Field[i, TapPoint_Y + 1].Cube.GetComponent<Rigidbody2D>();
+                                //解除
+                                Rigid.constraints = RigidbodyConstraints2D.None;
+                                //再設定
+                                Rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
+                                Rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                            }
                         }
                     }
+                    //挿入したブロックに色を付ける
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Block>().CubeName = NextBlocks[0];
 
-                    //入れ替え用に変数を避難させる
-                    SlideWork = Field[(int)TapPoint_X, (int)TapPoint_Y];
+                    Action = true;
+                }
 
-                    for (int i = TapPoint_X + 1;i < gridWidth; i++)
+                for (x = 0; x < gridWidth; x++)
+                {
+                    if (Field[x, TapPoint_Y].Alive != false)
                     {
-                        //右隣りのブロック情報をコピー
-                        ClashWork = Field[i, TapPoint_Y];
-                        //書き換え
-                        Field[i, TapPoint_Y] = SlideWork;
-
-                        Field[i, TapPoint_Y].Cube.GetComponent<Transform>().localPosition += new Vector3(1,0,0);
-
-                        SlideWork = ClashWork;
-                    }
-
-                    //はじき出されるオブジェクトに力を加える
-                    Rigid = SlideWork.Cube.GetComponent<Rigidbody2D>();
-                    Rigid.constraints = RigidbodyConstraints2D.None;
-                    Rigid.AddForce(new Vector2(100,0));
-                    SlideWork.Cube.GetComponent<Transform>().localPosition += new Vector3(0.99f,0,0);
-                    SlideWork.Cube.GetComponent<Transform>().localScale = new Vector3(0.9f, 0.9f, 0.5f);
-                    Destroy(SlideWork.Cube,1);
-
-
-
-                    //挿入用オブジェクトのインスタンス化
-                    GameObject g = Instantiate(Prefab, new Vector3(TapPoint_X - (gridWidth / 2), TapPoint_Y, 0), Quaternion.identity) as GameObject;
-
-                    //生成したオブジェクとの親にこのオブジェクトを設定
-                    g.transform.parent = gameObject.transform;
-
-                    //Fieldにデータをセット
-                    SetCubeData(TapPoint_X, TapPoint_Y, g);
-
-                    if (TapPoint_Y + 1 < gridHeight)
-                    {
-                        for (int i = 0; i < gridWidth; i++)
+                        //Moveに何か入っているならば動かす
+                        if (Field[x, TapPoint_Y].Cube.GetComponent<Block>().MovedPos != new Vector3(100, 0, 0))
                         {
-                            //動けなくしていた部分をもとに戻す
-                            Rigid = Field[i, TapPoint_Y + 1].Cube.GetComponent<Rigidbody2D>();
-                            //解除
-                            Rigid.constraints = RigidbodyConstraints2D.None;
-                            //再設定
-                            Rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
-                            Rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                            Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[x, TapPoint_Y].Cube.GetComponent<Block>().StartPos, Field[x, TapPoint_Y].Cube.GetComponent<Block>().MovedPos, PushTime);
+                            if (PushTime == 1)
+                            {
+                                Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                                Field[x, TapPoint_Y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
+                            }
                         }
                     }
                 }
 
-                //挿入したブロックに色を付ける
-                Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
-                Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Block>().CubeName = NextBlocks[0];
+                time += Time.deltaTime;
+                PushTime += MoveSpeed;
+                //ArmTime += 0.25f;
 
-                //挿入待ちブロックの色を更新
-                NextBlocks[0] = NextBlocks[1];
-
-                //配列をずらす
-                for (int i = 1;i < 3;i++)
+                if (PushTime > 1)
                 {
-                    NextBlocks[i] = NextBlocks[i + 1];
+                    PushTime = 1;
                 }
 
-                //最後尾にランダムでカラーの名前を入れておく
-                NextBlocks[3] = CubeMats[Random.Range(0, CubeMats.Length)];
+                if (time > span * 0.8f)
+                {
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
+                }
 
-                //挿入用ブロックにマテリアルを設定
-                NextBlock.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
-                NextBlock1.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[1]) as Material;
-                NextBlock2.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[2]) as Material;
+                if (time > span)
+                {
 
-                Phase = PHASE.SERACH;
+                    //挿入待ちブロックの色を更新
+                    NextBlocks[0] = NextBlocks[1];
+
+                    //配列をずらす
+                    for (int i = 1; i < 3; i++)
+                    {
+                        NextBlocks[i] = NextBlocks[i + 1];
+                    }
+
+                    //最後尾にランダムでカラーの名前を入れておく
+                    NextBlocks[3] = CubeMats[Random.Range(0, CubeMats.Length)];
+
+                    //挿入用ブロックにマテリアルを設定
+                    NextBlock.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
+                    NextBlock1.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[1]) as Material;
+                    NextBlock2.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[2]) as Material;
+
+                    for (x = 0; x < gridWidth; x++)
+                    {
+                        if (Field[x, TapPoint_Y].Alive != false)
+                        {
+                            //Moveに何か入っているならば動かす
+                            if (Field[x, TapPoint_Y].Cube.GetComponent<Block>().MovedPos != new Vector3(100, 0, 0))
+                            {
+                                Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[x, TapPoint_Y].Cube.GetComponent<Block>().StartPos, Field[x, TapPoint_Y].Cube.GetComponent<Block>().MovedPos, 1);
+
+                                Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                                Field[x, TapPoint_Y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
+
+                            }
+                        }
+                    }
+
+                    time = 0;
+                    PushTime = 0;
+
+                    Phase = PHASE.SERACH;
+                    Action = false;
+                }
                 break;
             //ブロックが連なりを検出する処理
             case PHASE.SERACH:
@@ -490,7 +552,7 @@ public class GameMain : MonoBehaviour {
                                         //アームの移動距離を設定
                                         //ARM_R[y].EndPos = ARM_R[y].Arm.GetComponent<Transform>().localPosition - new Vector3(SlideCnt, 0, 0);
 
-                                        ARM_R[y].Arm.GetComponent<ArmScript>().OnArmAdd(SlideCnt, (int)(span * 100) / 2);
+                                        ARM_R[y].Arm.GetComponent<ArmScript>().OnArmAdd(SlideCnt, (int)(span * 100));
 
                                         Field[SlideEmpCnt, y].Cube = null;
                                         Field[SlideEmpCnt, y].Alive = false;
@@ -538,7 +600,7 @@ public class GameMain : MonoBehaviour {
                                         }
 
                                         //アームの移動距離をセット
-                                        ARM_L[y].Arm.GetComponent<ArmScript>().OnArmAdd(SlideCnt, (int)(span * 100) / 2);
+                                        ARM_L[y].Arm.GetComponent<ArmScript>().OnArmAdd(SlideCnt, (int)(span * 100));
 
                                         Field[SlideEmpCnt, y].Cube = null;
                                         Field[SlideEmpCnt, y].Alive = false;
@@ -960,6 +1022,7 @@ public class GameMain : MonoBehaviour {
                 Field[X, Y].Break = true;
                 Field[X ,Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[X,Y].Cube.GetComponent<Block>().CubeName) as Material;
                 Field[X, Y].Cube.GetComponent<Rigidbody2D>().simulated = false;
+                GameObject.Find("PointManager").GetComponent<PointManager>().AddPoint(100);
             }
         }
     }
