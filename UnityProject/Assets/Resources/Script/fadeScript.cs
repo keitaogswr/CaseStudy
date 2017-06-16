@@ -94,6 +94,12 @@ public class fadeScript : MonoBehaviour {
     }
 
 
+    // フェード状態取得
+    public FADE_MODE GetFadeMode()
+    {
+        return fadeMode;
+    }
+
     // フェードをセットする
     public bool SetFade(string next)
     {
