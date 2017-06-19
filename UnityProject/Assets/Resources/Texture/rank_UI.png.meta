@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 149ef329a62965f41a3ffd67a961cc64
-timeCreated: 1497597696
+timeCreated: 1497837281
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -101,9 +101,9 @@ TextureImporter:
       name: rank_UI_0
       rect:
         serializedVersion: 2
-        x: 21
+        x: 23
         y: 360
-        width: 358
+        width: 354
         height: 636
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -114,11 +114,11 @@ TextureImporter:
       name: rank_UI_1
       rect:
         serializedVersion: 2
-        x: 437
-        y: 367
-        width: 359
-        height: 637
-      alignment: 0
+        x: 439
+        y: 368
+        width: 355
+        height: 633
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
