@@ -227,6 +227,8 @@ public class GameMain : MonoBehaviour {
                     var tapPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     var collition2d = Physics2D.OverlapPoint(tapPoint);
 
+                    Instantiate(VanishEffect, new Vector3(tapPoint.x,tapPoint.y,-1), Quaternion.identity);
+
                     //２Dのあたり判定に重なっていたら
                     if (collition2d)
                     {
@@ -250,7 +252,7 @@ public class GameMain : MonoBehaviour {
                 }
 
                 break;
-            //差し込み時のスライド処理
+            //差し込み時の押し出し処理
             case PHASE.PUSH:
                 FIELD SlideWork;
                 FIELD ClashWork;
@@ -289,21 +291,27 @@ public class GameMain : MonoBehaviour {
                         //はじき出されるオブジェクトに力を加える
                         Rigid = SlideWork.Cube.GetComponent<Rigidbody2D>();
                         Rigid.constraints = RigidbodyConstraints2D.None;
-                        Rigid.AddForce(new Vector2(100, 0));
+                        Rigid.AddForce(new Vector2(1, 0));
                         SlideWork.Cube.GetComponent<Transform>().localPosition += new Vector3(0.99f, 0, 0);
                         SlideWork.Cube.GetComponent<Transform>().localScale = new Vector3(0.9f, 0.9f, 0.5f);
                         Destroy(SlideWork.Cube, 1);
 
                         //挿入用オブジェクトのインスタンス化
-                        GameObject g = Instantiate(Prefab, new Vector3(TapPoint_X - (gridWidth / 2), TapPoint_Y, 0), Quaternion.identity) as GameObject;
+                        //GameObject g = Instantiate(Prefab, new Vector3(TapPoint_X - (gridWidth / 2), TapPoint_Y, 0), Quaternion.identity) as GameObject;
+                        GameObject g = Instantiate(Prefab, NextBlock.GetComponent<Transform>().localPosition + new Vector3(0,0,3), Quaternion.identity) as GameObject;
 
-                        g.GetComponent<Transform>().localScale = new Vector3(0.8f, 0.8f, 0.8f);
+                        g.GetComponent<Transform>().localScale = new Vector3(0.8f, 0.8f, 0.3f);
 
                         //生成したオブジェクとの親にこのオブジェクトを設定
                         g.transform.parent = gameObject.transform;
 
                         //Fieldにデータをセット
                         SetCubeData(TapPoint_X, TapPoint_Y, g);
+
+                        g.GetComponent<Block>().SetStartPos(NextBlock.GetComponent<Transform>().localPosition);
+                        g.GetComponent<Block>().SetMovePos(new Vector3(TapPoint_X - (gridWidth / 2), TapPoint_Y, 0));
+
+                        g.GetComponent<Rigidbody2D>().simulated = false;
 
                         if (TapPoint_Y + 1 < gridHeight)
                         {
@@ -326,6 +334,8 @@ public class GameMain : MonoBehaviour {
                     Action = true;
                 }
 
+
+                //移動の線形補間部分
                 for (x = 0; x < gridWidth; x++)
                 {
                     if (Field[x, TapPoint_Y].Alive != false)
@@ -343,23 +353,31 @@ public class GameMain : MonoBehaviour {
                     }
                 }
 
+
+                if (Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().MovedPos != new Vector3(100, 0, 0))
+                {
+                    Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().StartPos, Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().MovedPos, PushTime * 2);
+                    if (PushTime == 1)
+                    {
+                        Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                        Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
+                    }
+                }
+
+                //タイムの加算
                 time += Time.deltaTime;
                 PushTime += MoveSpeed;
+
                 //ArmTime += 0.25f;
 
+                //押し込みの時間の制限
                 if (PushTime > 1)
                 {
                     PushTime = 1;
-                }
-
-                if (time > span * 0.8f)
-                {
-                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
-                }
+                }  
 
                 if (time > span)
                 {
-
                     //挿入待ちブロックの色を更新
                     NextBlocks[0] = NextBlocks[1];
 
@@ -377,6 +395,9 @@ public class GameMain : MonoBehaviour {
                     NextBlock1.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[1]) as Material;
                     NextBlock2.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[2]) as Material;
 
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Transform>().localScale = new Vector3(1, 1, 0.3f);
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Rigidbody2D>().simulated = true;
+
                     for (x = 0; x < gridWidth; x++)
                     {
                         if (Field[x, TapPoint_Y].Alive != false)
@@ -388,7 +409,6 @@ public class GameMain : MonoBehaviour {
 
                                 Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.y), 0);
                                 Field[x, TapPoint_Y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
-
                             }
                         }
                     }
