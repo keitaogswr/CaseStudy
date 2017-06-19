@@ -208,18 +208,20 @@ public class GameMain : MonoBehaviour {
                             //レンジアウト防止
                             if(TapPoint_X > gridWidth || TapPoint_X < 0)
                             {
-                                TapPoint_X = 0;
+                                break;
                             }
 
                             if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
                             {
-                                TapPoint_Y = 0;
+                                break;
                             }
                         }
+
+                            Debug.Log("クリック！");
+                            Phase = PHASE.PUSH;
                     }
 
-                    Debug.Log("クリック！");
-                    Phase = PHASE.PUSH;
+                    
                 }
 
                 if (Input.GetMouseButtonDown(1))
@@ -291,7 +293,7 @@ public class GameMain : MonoBehaviour {
                         //はじき出されるオブジェクトに力を加える
                         Rigid = SlideWork.Cube.GetComponent<Rigidbody2D>();
                         Rigid.constraints = RigidbodyConstraints2D.None;
-                        Rigid.AddForce(new Vector2(1, 0));
+                        Rigid.AddForce(new Vector2(10, 0));
                         SlideWork.Cube.GetComponent<Transform>().localPosition += new Vector3(0.99f, 0, 0);
                         SlideWork.Cube.GetComponent<Transform>().localScale = new Vector3(0.9f, 0.9f, 0.5f);
                         Destroy(SlideWork.Cube, 1);
