@@ -109,11 +109,31 @@ public class titleGearScript : MonoBehaviour
     }
 
     // ギア回転
-    public void GearRotation(float rot)
+    public void GearRotation(int vec)
     {
-        rotVecZ = rot;      // 回転方向Z
-        time = rotTime;     // 回転時間
-        rotFlag = true;     // フラグ
+        if (rotFlag == false)
+        {
+            // 左
+            if (vec == 0)
+            {
+                rotVecZ = -rotSpeed;      // 回転方向Z
+                time = rotTime;         // 回転時間
+                rotFlag = true;         // フラグ
+            }
+            // 右
+            else if (vec == 1)
+            {
+                rotVecZ = rotSpeed;      // 回転方向Z
+                time = rotTime;         // 回転時間
+                rotFlag = true;         // フラグ
+            }
+        }
+    }
+
+    // 回転速度取得
+    public float GetRotSpeed()
+    {
+        return rotSpeed;
     }
 
     // 回転中かのフラグ
@@ -122,6 +142,7 @@ public class titleGearScript : MonoBehaviour
         return rotFlag;
     }
 
+    // クリック位置取得
     public Vector3 GetClickPos()
     {
         return inClickPos;
@@ -148,11 +169,11 @@ public class titleGearScript : MonoBehaviour
                 // 補正値より動いていたら
                 if (inClickPos.x + flickRange < outClickPos.x)
                 {
-                    GearRotation(-rotSpeed);
+                    GearRotation(0);
                 }
                 else if (inClickPos.x - flickRange > outClickPos.x)
                 {
-                    GearRotation(rotSpeed);
+                    GearRotation(1);
                 }
             }
         }
