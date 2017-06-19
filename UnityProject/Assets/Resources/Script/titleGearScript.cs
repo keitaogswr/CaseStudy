@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;       // Image型を使うため必要
 
 public class titleGearScript : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class titleGearScript : MonoBehaviour
     // オブジェ
     private GameObject[] buttonObj;   // ボタンオブジェ
     private GameObject[] buttonChild; // ボタンの子
+    private GameObject fade;          // フェード
 
     // 内部数値
     private bool rotFlag;       // 回転フラグ
@@ -30,7 +32,6 @@ public class titleGearScript : MonoBehaviour
         buttonObj = new GameObject[buttonPrefab.Length];
         buttonChild = new GameObject[buttonPrefab.Length];
 
-        length = Screen.height / 3f;                        // 長さの修正
         float angle = 360.0f / buttonPrefab.Length;         // 角度
         rotSpeed = (float)(angle / rotTime);                // 目標位置への速度
 
@@ -53,12 +54,17 @@ public class titleGearScript : MonoBehaviour
             buttonObj[i].transform.localScale = new Vector3(1,1,1);
             buttonObj[i].transform.Rotate(0, 0, 0);
 
+            Image img = buttonObj[i].GetComponent<Image>();
+            pos = img.rectTransform.localPosition;
+            pos.z = 0;
+            img.rectTransform.localPosition = pos;
+
             // 子取得 ( button )のImage
             buttonChild[i] = buttonObj[i].transform.FindChild("Image").gameObject;
         }
+        fade = GameObject.Find("Fade");
 
-        // 初期化
-        rotFlag = false;                        // フラグ
+        rotFlag = false;    // フラグ
     }
 
     // Update is called once per frame
@@ -72,8 +78,6 @@ public class titleGearScript : MonoBehaviour
             // 文字設定
             buttonChild[i].transform.Rotate(new Vector3(0, 0, +0.2f));
         }
-
-
 
 
         // 回転中は操作不能に
@@ -136,17 +140,20 @@ public class titleGearScript : MonoBehaviour
         else if( Input.GetMouseButtonUp(0) )
         {
 
-            // 離した位置更新
-            outClickPos = Input.mousePosition;
+            if (GameObject.Find("Fade").GetComponent<fadeScript>().GetFadeMode() == fadeScript.FADE_MODE.FADE_NONE)
+            {
+                // 離した位置更新
+                outClickPos = Input.mousePosition;
 
-            // 補正値より動いていたら
-            if (inClickPos.x + flickRange < outClickPos.x)
-            {
-                GearRotation(-rotSpeed);
-            }
-            else if (inClickPos.x - flickRange > outClickPos.x)
-            {
-                GearRotation(rotSpeed);
+                // 補正値より動いていたら
+                if (inClickPos.x + flickRange < outClickPos.x)
+                {
+                    GearRotation(-rotSpeed);
+                }
+                else if (inClickPos.x - flickRange > outClickPos.x)
+                {
+                    GearRotation(rotSpeed);
+                }
             }
         }
     }

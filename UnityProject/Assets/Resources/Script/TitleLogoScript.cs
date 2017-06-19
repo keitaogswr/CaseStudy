@@ -21,9 +21,9 @@ public class TitleLogoScript : MonoBehaviour {
 
 
     private int upTime;                 // ↑に行くときの時間
-    public int downTime = 30;           // ↑に行くとき   下がる時間
-    public int downNum = 1;             // ↑に行くとき   下がる数値
-    public int upNum = 8;               // ↑に行くとき   上がる数値
+    public float downTime = 1;          // ↑に行くとき   下がる時間
+    public float downNum = 0.1f;        // ↑に行くとき   下がる数値
+    public float upNum = 0.2f;          // ↑に行くとき   上がる数値
 
 
     private GameObject fade;
