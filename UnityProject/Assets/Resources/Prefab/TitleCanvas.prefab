@@ -203,9 +203,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   addNum: 0.01
   range: 0.5
-  downTime: 5
-  downNum: 0
-  upNum: 8
+  downTime: 20
+  downNum: 0.2
+  upNum: 1
 --- !u!114 &114404827050071394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,7 +275,7 @@ MonoBehaviour:
   - {fileID: 1484223497860314, guid: 686b2adcf6d8e1f419460e60647a9c3d, type: 2}
   - {fileID: 1799412123060352, guid: 00625de5017e776489ac4aec48e31139, type: 2}
   - {fileID: 1236377712564354, guid: 59e868ca6f735ee4e88071aa66f80863, type: 2}
-  length: 4
+  length: 3.5
   rotTime: 30
 --- !u!222 &222150506339175704
 CanvasRenderer:
