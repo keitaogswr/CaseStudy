@@ -17,6 +17,7 @@ public enum PHASE
 {
     STAY = 0,
     PUSH,
+    SP_PUSH,
     SERACH,
     VANISH,
     SLIDE,
@@ -95,9 +96,14 @@ public class GameMain : MonoBehaviour {
     ARM[] ARM_L = new ARM[7];
     ARM[] ARM_R = new ARM[7];
 
+    private GameObject Ber;
+
     void Start()
     {
         Phase = PHASE.STAY;
+
+        Ber = GameObject.Find("Ber");
+
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
@@ -218,10 +224,16 @@ public class GameMain : MonoBehaviour {
                         }
 
                             Debug.Log("クリック！");
-                            Phase = PHASE.PUSH;
-                    }
 
-                    
+                        if (Ber.GetComponent<Image>().fillAmount == 1)
+                        {
+                            Phase = PHASE.SP_PUSH;
+                        }
+                        else
+                        {
+                            Phase = PHASE.PUSH;
+                        }  
+                    }
                 }
 
                 if (Input.GetMouseButtonDown(1))
@@ -423,6 +435,31 @@ public class GameMain : MonoBehaviour {
                 }
                 break;
             //ブロックが連なりを検出する処理
+            case PHASE.SP_PUSH:
+                Ber.GetComponent<Image>().fillAmount = 0;
+                if (Action == false)
+                {
+                    for (x = 0; x < gridWidth; x++)
+                    {
+                        
+                        Field[x, TapPoint_Y].Break = true;
+                        Field[x, TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[x, TapPoint_Y].Cube.GetComponent<Block>().CubeName) as Material;
+
+                    }
+                    Action = true;
+                }
+
+                time += Time.deltaTime;
+
+                if (time > span)
+                {
+                    time = 0;
+
+
+                    Phase = PHASE.SERACH;
+                    Action = false;
+                }
+                break;
             case PHASE.SERACH:
                 Debug.Log("サーチフェイズ");
 
@@ -498,6 +535,8 @@ public class GameMain : MonoBehaviour {
                                 VanishCaller = true;
 
                                 //Debug.Log("X" + x + "Y" + y);
+
+                                Ber.GetComponent<berScript>().SetAddMode(60, 0.001f);
                             }
                         }
                     }
