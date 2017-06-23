@@ -1,20 +1,20 @@
 fileFormatVersion: 2
-guid: 6efbae9bd9e15274d879432de001ed27
-timeCreated: 1498201326
+guid: f489d709b3fb35541b5444a8a98a7a41
+timeCreated: 1498202372
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: rank_UI3_0
-    21300002: rank_UI3_1
-    21300004: rank_UI3_2
-    21300006: rank_UI3_3
-    21300008: rank_UI3_4
-    21300010: rank_UI3_5
-    21300012: rank_UI3_6
-    21300014: rank_UI3_7
-    21300016: rank_UI3_8
-    21300018: rank_UI3_9
-    21300020: rank_UI3_10
+    21300000: rank_UI4_0
+    21300002: rank_UI4_1
+    21300004: rank_UI4_2
+    21300006: rank_UI4_4
+    21300008: rank_UI4_6
+    21300010: rank_UI4_7
+    21300012: rank_UI4_8
+    21300014: rank_UI4_9
+    21300016: rank_UI4_10
+    21300018: rank_UI4_11
+    21300020: rank_UI4_14
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -77,27 +77,11 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: iPhone
-    maxTextureSize: 2048
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-  - buildTarget: Android
-    maxTextureSize: 2048
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: rank_UI3_0
+      name: rank_UI4_0
       rect:
         serializedVersion: 2
         x: 11
@@ -105,25 +89,51 @@ TextureImporter:
         width: 378
         height: 644
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rank_UI3_1
+      name: rank_UI4_1
       rect:
         serializedVersion: 2
-        x: 437
-        y: 367
-        width: 359
-        height: 637
+        x: 444
+        y: 908
+        width: 325
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: rank_UI4_2
+      rect:
+        serializedVersion: 2
+        x: 467
+        y: 836
+        width: 159
+        height: 46
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rank_UI3_2
+      name: rank_UI4_4
+      rect:
+        serializedVersion: 2
+        x: 469
+        y: 764
+        width: 159
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: rank_UI4_6
       rect:
         serializedVersion: 2
         x: 23
@@ -131,12 +141,12 @@ TextureImporter:
         width: 59
         height: 83
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rank_UI3_3
+      name: rank_UI4_7
       rect:
         serializedVersion: 2
         x: 116
@@ -144,12 +154,12 @@ TextureImporter:
         width: 60
         height: 83
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rank_UI3_4
+      name: rank_UI4_8
       rect:
         serializedVersion: 2
         x: 240
@@ -157,25 +167,25 @@ TextureImporter:
         width: 325
         height: 85
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rank_UI3_5
+      name: rank_UI4_9
       rect:
         serializedVersion: 2
-        x: 590
-        y: 299
-        width: 186
-        height: 49
+        x: 601
+        y: 328
+        width: 180
+        height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rank_UI3_6
+      name: rank_UI4_10
       rect:
         serializedVersion: 2
         x: 240
@@ -188,25 +198,25 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rank_UI3_7
+      name: rank_UI4_11
       rect:
         serializedVersion: 2
         x: 593
-        y: 229
-        width: 285
-        height: 55
+        y: 230
+        width: 289
+        height: 54
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rank_UI3_10
+      name: rank_UI4_14
       rect:
         serializedVersion: 2
-        x: 224
+        x: 240
         y: 68
-        width: 341
+        width: 325
         height: 85
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
