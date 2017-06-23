@@ -48,6 +48,9 @@ public class Timer : MonoBehaviour {
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                  　PointManager pointManager = GameObject.Find("PointManager").GetComponent<PointManager>();
+                　  rankingScore.SetMyScore(pointManager.GetPoint());
+                  
                     GameObject.Find("Fade").GetComponent<fadeScript>().SetFade("ranking");
                 }
             }
