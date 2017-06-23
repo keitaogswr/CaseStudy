@@ -79,12 +79,10 @@ public class Pauseable : MonoBehaviour
         if (pausing)
         {
             intencity += deltaTime * 8;
-            Time.timeScale = 0;
         }
         else
         {
             intencity -= deltaTime * 8;
-            Time.timeScale = 1;
         }
         intencity = Mathf.Clamp01(intencity);
         gauss.Resolution = (int)(intencity * 10);
