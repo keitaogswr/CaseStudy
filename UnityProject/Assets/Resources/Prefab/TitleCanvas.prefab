@@ -522,7 +522,7 @@ MonoBehaviour:
   - {fileID: 1484223497860314, guid: 686b2adcf6d8e1f419460e60647a9c3d, type: 2}
   - {fileID: 1799412123060352, guid: 00625de5017e776489ac4aec48e31139, type: 2}
   - {fileID: 1236377712564354, guid: 59e868ca6f735ee4e88071aa66f80863, type: 2}
-  length: 3.5
+  length: 5.5
   rotTime: 30
 --- !u!114 &114599052776869172
 MonoBehaviour:
