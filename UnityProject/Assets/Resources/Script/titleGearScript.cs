@@ -167,11 +167,13 @@ public class titleGearScript : MonoBehaviour
                 outClickPos = Input.mousePosition;
 
                 // 補正値より動いていたら
-                if (inClickPos.x + flickRange < outClickPos.x)
+                if (inClickPos.x + flickRange < outClickPos.x &&
+                    inClickPos.y - outClickPos.y < flickRange )
                 {
                     GearRotation(0);
                 }
-                else if (inClickPos.x - flickRange > outClickPos.x)
+                else if (inClickPos.x - flickRange > outClickPos.x &&
+                        inClickPos.y - outClickPos.y < flickRange)
                 {
                     GearRotation(1);
                 }
