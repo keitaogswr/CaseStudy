@@ -168,12 +168,12 @@ public class titleGearScript : MonoBehaviour
 
                 // 補正値より動いていたら
                 if (inClickPos.x + flickRange < outClickPos.x &&
-                    inClickPos.y - outClickPos.y < flickRange )
+                    Mathf.Abs(inClickPos.y - outClickPos.y) < flickRange )
                 {
                     GearRotation(0);
                 }
                 else if (inClickPos.x - flickRange > outClickPos.x &&
-                        inClickPos.y - outClickPos.y < flickRange)
+                        Mathf.Abs( inClickPos.y - outClickPos.y ) < flickRange)
                 {
                     GearRotation(1);
                 }
