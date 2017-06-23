@@ -92,6 +92,9 @@ Material:
         name: <noninit>
       second: 1
     - first:
+        name: _BumpAmt
+      second: 128
+    - first:
         name: _BumpScale
       second: 1
     - first:
@@ -114,7 +117,7 @@ Material:
       second: 1
     - first:
         name: _InvFade
-      second: 1
+      second: 0.801
     - first:
         name: _Metallic
       second: 0

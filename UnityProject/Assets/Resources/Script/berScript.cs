@@ -15,7 +15,7 @@ public class berScript : MonoBehaviour {
         addNum = 0;
         addTime = 0;
 
-        SetAddMode(60, 0.01f);
+        //SetAddMode(60, 0.01f);
     }
 	
 	// Update is called once per frame
