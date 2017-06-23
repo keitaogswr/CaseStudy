@@ -1,13 +1,19 @@
-﻿using System.Collections;
+﻿
+#define TEST_RANKING
+#if TEST_RANKING
+#define UNITY_EDITOR
+#endif
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class rankingScore : MonoBehaviour {
 
-//#if UNITY_EDITOR
+#if UNITY_EDITOR
 
-    [ Tooltip("テスト用のマイスコア") ]
+    [Tooltip("テスト用のマイスコア") ]
     public int m_testMyScore;
 
     [ Tooltip("テスト用のマイスコアを使うか") ]
@@ -19,7 +25,7 @@ public class rankingScore : MonoBehaviour {
     [ Tooltip("PlayerPrefsを初期化するか") ]
     public bool m_isUseInitializePrefs;
 
-//#endif
+#endif
 
     public List<int> m_recordsDefault = new List<int>();    // デフォルトレコードデータ
 
@@ -43,14 +49,14 @@ public class rankingScore : MonoBehaviour {
     {
         Debug.Log("Ranking Awaken");
 
-//#if UNITY_EDITOR
+#if UNITY_EDITOR
 
         if (m_isUseInitializePrefs)
         {
             PlayerPrefs.DeleteAll();
         }
 
-//#endif
+#endif
 
         /* ランキングデータを読み込む */
 
@@ -71,14 +77,14 @@ public class rankingScore : MonoBehaviour {
             }
         }
 
-//#if UNITY_EDITOR
+#if UNITY_EDITOR
 
         if ( m_isUseDefaultRecord )
         {
             records = new List<int>(m_recordsDefault);
         }
 
-//#endif
+#endif
 
         InitializeRecord( ref records ); // オブジェクトへセット
 
@@ -136,14 +142,14 @@ public class rankingScore : MonoBehaviour {
     {
         PointManager pointManager;
 
-//#if UNITY_EDITOR
+#if UNITY_EDITOR
 
         if ( m_isUseTestMyScore )
         {
             SetMyScore(m_testMyScore);
         }
 
-//#endif
+#endif
 
         for (int i = 0; i < records.Count; i++)
         {
