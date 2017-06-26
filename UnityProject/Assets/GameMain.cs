@@ -102,7 +102,7 @@ public class GameMain : MonoBehaviour {
 
 
     private Vector2 tapPosition;
-    private bool tapped, accept;
+    private bool tapped;
     public const float flickLength = 20;
     public const float flickAngle = 30;
 
@@ -199,8 +199,6 @@ public class GameMain : MonoBehaviour {
                     }
                 }
 
-
-
                 if ( Input.GetMouseButtonDown(0) )
                 {
                     tapPosition = Input.mousePosition;
@@ -253,25 +251,32 @@ public class GameMain : MonoBehaviour {
                     TapPoint_X = Col_X;
                     TapPoint_Y = Col_Y;
 
+                    //レンジアウト防止
+                    if (TapPoint_X > gridWidth || TapPoint_X < 0)
+                    {
+                        break;
+                    }
+                    if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
+                    {
+                        break;
+                    }
+
                     if (Ber.GetComponent<Image>().fillAmount == 1)
                     {
                         // スーパーアーム
 
-                        accept = true;
                         Phase = PHASE.SP_PUSH;
                     }
                     else if (Vector2.Angle(dir, Vector2.right) < flickAngle)
                     {
                         // 右へフリック
 
-                        accept = true;
                         Phase = PHASE.R_PUSH;
                     }
                     else if (Vector2.Angle(dir, Vector2.left) < flickAngle)
                     {
                         // 左へフリック
 
-                        accept = true;
                         Phase = PHASE.L_PUSH;
                     }
                 }
@@ -299,28 +304,11 @@ public class GameMain : MonoBehaviour {
                         }
                     }
 
-                    accept = true;
-                }
-
-                if (accept)
-                {
-                    Debug.Log("( " + TapPoint_X + " " + TapPoint_Y + " )");
-                    accept = false;
-
-                    //レンジアウト防止
-                    if (TapPoint_X > gridWidth || TapPoint_X < 0)
-                    {
-                        break;
-                    }
-                    if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
-                    {
-                        break;
-                    }
-
+                    Debug.Log("クリック！");
                     Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
                     Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Block>().CubeName = NextBlocks[0];
+                    //Phase = PHASE.PUSH;
                 }
-
                 break;
 
             //差し込み時の押し出し処理
