@@ -14,7 +14,6 @@ public class PauseManager : MonoBehaviour {
 	void Start () {
         pause = false;
         pauseCanvas.enabled = false;
-        Pause.pausing = false;
     }
 
     void Update()
