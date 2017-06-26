@@ -25,8 +25,6 @@ public class Timer : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (gameMain.Phase == 0)
-        {
             //  タイム減少。
             if (timeOut == false && Pause.pausing == false)
             {
@@ -49,8 +47,8 @@ public class Timer : MonoBehaviour {
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                  　PointManager pointManager = GameObject.Find("PointManager").GetComponent<PointManager>();
-                　  rankingScore.SetMyScore(pointManager.GetPoint());
+                  　 PointManager pointManager = GameObject.Find("PointManager").GetComponent<PointManager>();
+                　   rankingScore.SetMyScore(pointManager.GetPoint());
                   
                     GameObject.Find("Fade").GetComponent<fadeScript>().SetFade("ranking");
                 }
@@ -80,7 +78,7 @@ public class Timer : MonoBehaviour {
                     }
                 }
             }
-        }
+        
     }
 
     void SetTimeStop(bool timeStop)
