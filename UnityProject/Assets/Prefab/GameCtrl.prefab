@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4968676546362006}
-  - component: {fileID: 114808256582939090}
+  - component: {fileID: 114738222137331722}
   m_Layer: 0
   m_Name: GameCtrl
   m_TagString: GameController
@@ -33,14 +33,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1419292923382320}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.9921387, y: 3.603677, z: -8.6640625}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -172.67188, y: -244.26562, z: -16.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114808256582939090
+--- !u!114 &114738222137331722
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,11 +48,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1419292923382320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cbaee80f48806d4280b83411f5fe2c0, type: 3}
+  m_Script: {fileID: 11500000, guid: ad70d614c963ad34082e03e03c503ca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CubeMats:
+  - Red
+  - Blue
+  - Green
+  - Yellow
   gridWidth: 7
-  gridHeight: 10
-  Prefab: {fileID: 1365176737067140, guid: 2598383cc4012fd4886b842e1f6e20ff, type: 2}
-  span: 0
+  gridHeight: 7
+  MoveSpeed: 0.1
+  Prefab: {fileID: 1365176737067140, guid: 56fbcabaf3460dc44bf38d992e3f43ca, type: 2}
+  NextBlock: {fileID: 1282984547411622, guid: 1fec0bcfd5a0e514ea4d5b175f85b0df, type: 2}
+  NextBlock1: {fileID: 1369440199094782, guid: 1fec0bcfd5a0e514ea4d5b175f85b0df, type: 2}
+  NextBlock2: {fileID: 1646178504279422, guid: 1fec0bcfd5a0e514ea4d5b175f85b0df, type: 2}
+  Arm_R: {fileID: 1023914342491966, guid: ac51da3429b071a4ab107feee318e0d7, type: 2}
+  Arm_L: {fileID: 1023914342491966, guid: ac51da3429b071a4ab107feee318e0d7, type: 2}
+  SuperArm: {fileID: 1498046171213114, guid: 6b5f5875f12627e4aa8906d8e0801359, type: 2}
+  VanishEffect: {fileID: 1880906651768262, guid: e48de90218a68564faaec7d6e1ed3e39,
+    type: 2}
+  Fill: 0
+  span: 0.16
   Phase: 0
