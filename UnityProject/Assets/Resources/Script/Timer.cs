@@ -41,7 +41,7 @@ public class Timer : MonoBehaviour {
                     }
                     else
                     {
-                        Seconds = FPS - 1.0f;
+                        Seconds = FPS;
                     }
                 }
             }
@@ -86,5 +86,12 @@ public class Timer : MonoBehaviour {
     void SetTimeStop(bool timeStop)
     {
         stop = timeStop;
+    }
+
+    void AddTimeSecond(float time)
+    {
+        GameTime += time;
+        Minutes = GameTime / FPS;       //  分取得。
+        Seconds = GameTime % FPS;       //  秒取得。
     }
 }

@@ -967,7 +967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c53571ab5873c4785fd6ddd5441e02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameTime: 60
+  GameTime: 65
   numberPointList:
   - {fileID: 1128473386108224}
   - {fileID: 1526441968796080}
