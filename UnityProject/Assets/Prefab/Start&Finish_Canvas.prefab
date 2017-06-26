@@ -78,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stagingScale: {x: 2.5, y: 2.5, z: 1}
   lastScale: {x: 2, y: 2, z: 1}
-  stagingTime: 60
+  stagingTime: 10
   lastTime: 30
 --- !u!114 &114243442330796452
 MonoBehaviour:
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   second: 1
-  rotSoeed: 10
+  rotSoeed: 5
   TargetPoint: {x: 0, y: 90, z: 0}
   ScalingValue: 0.03
   Pause: {fileID: 0}
