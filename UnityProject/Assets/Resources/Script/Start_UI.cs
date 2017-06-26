@@ -27,7 +27,7 @@ public class Start_UI : MonoBehaviour {
 		if (counter != second * FPS)
         {
             ++counter;
-            transform.position += Addend;
+            transform.localPosition += Addend;
         }
         else
         {
