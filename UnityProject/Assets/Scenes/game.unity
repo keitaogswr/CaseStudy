@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -96,12 +96,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1298049233345122, guid: 82d90a5595ef0bf42a9bf2f524267cf5,
     type: 2}
   m_PrefabInternal: {fileID: 435665184}
---- !u!114 &7556850 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114003247917968008, guid: 82d90a5595ef0bf42a9bf2f524267cf5,
-    type: 2}
-  m_PrefabInternal: {fileID: 435665184}
-  m_Script: {fileID: 11500000, guid: 78b91c608e6fe7d4abc87abf6dfe5303, type: 3}
 --- !u!114 &7556854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,33 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fceaeb339b971b429c4cc600acabd13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tweakMode: 0
-  screenBlendMode: 1
-  hdr: 0
-  sepBlurSpread: 2.5
-  quality: 1
-  bloomIntensity: 0.5
-  bloomThreshold: 0.5
-  bloomThresholdColor: {r: 1, g: 1, b: 1, a: 1}
-  bloomBlurIterations: 2
-  hollywoodFlareBlurIterations: 2
-  flareRotation: 0
-  lensflareMode: 1
-  hollyStretchWidth: 2.5
-  lensflareIntensity: 0
-  lensflareThreshold: 0.3
-  lensFlareSaturation: 0.75
-  flareColorA: {r: 0.4, g: 0.4, b: 0.8, a: 0.75}
-  flareColorB: {r: 0.4, g: 0.8, b: 0.8, a: 0.75}
-  flareColorC: {r: 0.8, g: 0.4, b: 0.8, a: 0.75}
-  flareColorD: {r: 0.8, g: 0.4, b: 0, a: 0.75}
-  lensFlareVignetteMask: {fileID: 2800000, guid: 95ef4804fe0be4c999ddaa383536cde8,
-    type: 3}
-  lensFlareShader: {fileID: 4800000, guid: 459fe69d2f6d74ddb92f04dbf45a866b, type: 3}
-  screenBlendShader: {fileID: 4800000, guid: 7856cbff0a0ca45c787d5431eb805bb0, type: 3}
-  blurAndFlaresShader: {fileID: 4800000, guid: be6e39cf196f146d5be72fbefb18ed75, type: 3}
-  brightPassFilterShader: {fileID: 4800000, guid: 0aeaa4cb29f5d4e9c8455f04c8575c8c,
-    type: 3}
 --- !u!1 &229792574
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,6 +486,7 @@ MonoBehaviour:
   SuperArm: {fileID: 1477727435479884, guid: 21157ffc6205daf41a5f740259f31fe6, type: 2}
   VanishEffect: {fileID: 1880906651768262, guid: e48de90218a68564faaec7d6e1ed3e39,
     type: 2}
+  Fill: 0
   span: 0.16
   Phase: 0
 --- !u!4 &654049609
@@ -699,7 +667,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pausing: 0
   ignoreGameObjects: []
-  gauss: {fileID: 7556850}
 --- !u!4 &938289811
 Transform:
   m_ObjectHideFlags: 0
@@ -1154,18 +1121,9 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 223133056678393362, guid: 0b5c543ec42587d448f421c624a2fa14,
         type: 2}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 223133056678393362, guid: 0b5c543ec42587d448f421c624a2fa14,
-        type: 2}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 329167465}
-    - target: {fileID: 1590405794742724, guid: 0b5c543ec42587d448f421c624a2fa14, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0b5c543ec42587d448f421c624a2fa14, type: 2}
   m_IsPrefabParent: 0
