@@ -16,7 +16,8 @@ public struct FIELD
 public enum PHASE
 {
     STAY = 0,
-    PUSH,
+    R_PUSH,
+    L_PUSH,
     SP_PUSH,
     SERACH,
     VANISH,
@@ -172,6 +173,8 @@ public class GameMain : MonoBehaviour {
         //int Cube_Cnt = 0;
         int x, y;
         Rigidbody2D Rigid;
+        FIELD SlideWork;
+        FIELD ClashWork;
 
         switch (Phase)
         {
@@ -210,133 +213,66 @@ public class GameMain : MonoBehaviour {
                         break;
                     }
 
-                    Vector2 dir = ( Vector2 )Input.mousePosition - tapPosition;
                     tapped = false;
 
+                    var tapPoint = Camera.main.ScreenToWorldPoint(tapPosition);
+                    var collition2d = Physics2D.OverlapPoint(tapPoint);
+
+                    if (!collition2d)
+                    {
+                        //２Dのあたり判定に重なっていない
+                        break;
+                    }
+
+                    var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
+                    if (!hit)
+                    {
+                        //レイを飛ばして当たったオブジェクトがない
+                        break;
+                    }
+
+                    Vector2 dir = ( Vector2 )Input.mousePosition - tapPosition;
+                    
                     if (Ber.GetComponent<Image>().fillAmount != 1 && dir.sqrMagnitude < flickLength * flickLength)
                     {
+                        // ゲージマックスでなく、フリックとみなさない距離は無視
                         break;
                     }
 
                     dir.Normalize();
 
+
+
+                    int Col_X = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x + 3);
+                    int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
+
+                    //int Col_X = Mathf.RoundToInt(collition2d.transform.position.x + 3);
+                    //int Col_Y = Mathf.RoundToInt(collition2d.transform.position.y);
+
+                    //オブジェクトが配置されている配列のXとY
+                    TapPoint_X = Col_X;
+                    TapPoint_Y = Col_Y;
+
                     if (Ber.GetComponent<Image>().fillAmount == 1)
                     {
-                        var tapPoint = Camera.main.ScreenToWorldPoint(tapPosition);
-                        var collition2d = Physics2D.OverlapPoint(tapPoint);
+                        // スーパーアーム
 
-                        //２Dのあたり判定に重なっていたら
-                        if (collition2d)
-                        {
-                            //レイを飛ばして当たったオブジェクトがあるなら
-                            var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
-                            if (hit)
-                            {
-                                int Col_X = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x + 3);
-                                int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
-
-                                //int Col_X = Mathf.RoundToInt(collition2d.transform.position.x + 3);
-                                //int Col_Y = Mathf.RoundToInt(collition2d.transform.position.y);
-
-                                //オブジェクトが配置されている配列のXとY
-                                TapPoint_X = Col_X;
-                                TapPoint_Y = Col_Y;
-
-                                //レンジアウト防止
-                                if (TapPoint_X > gridWidth || TapPoint_X < 0)
-                                {
-                                    break;
-                                }
-                                if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
-                                {
-                                    break;
-                                }
-                            }
-
-                            accept = true;
-                            Phase = PHASE.SP_PUSH;
-                        }
+                        accept = true;
+                        Phase = PHASE.SP_PUSH;
                     }
                     else if (Vector2.Angle(dir, Vector2.right) < flickAngle)
                     {
                         // 右へフリック
 
-                        var tapPoint = Camera.main.ScreenToWorldPoint(tapPosition);
-                        var collition2d = Physics2D.OverlapPoint(tapPoint);
-
-                        //２Dのあたり判定に重なっていたら
-                        if (collition2d)
-                        {
-                            //レイを飛ばして当たったオブジェクトがあるなら
-                            var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
-                            if (hit)
-                            {
-                                int Col_X = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x + 3);
-                                int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
-
-                                //int Col_X = Mathf.RoundToInt(collition2d.transform.position.x + 3);
-                                //int Col_Y = Mathf.RoundToInt(collition2d.transform.position.y);
-
-                                //オブジェクトが配置されている配列のXとY
-                                TapPoint_X = Col_X;
-                                TapPoint_Y = Col_Y;
-
-                                //レンジアウト防止
-                                if (TapPoint_X > gridWidth || TapPoint_X < 0)
-                                {
-                                    break;
-                                }
-
-                                if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
-                                {
-                                    break;
-                                }
-                            }
-
-                            accept = true;
-                            Phase = PHASE.PUSH;
-                        }
+                        accept = true;
+                        Phase = PHASE.R_PUSH;
                     }
                     else if (Vector2.Angle(dir, Vector2.left) < flickAngle)
                     {
                         // 左へフリック
 
-                        var tapPoint = Camera.main.ScreenToWorldPoint(tapPosition);
-                        var collition2d = Physics2D.OverlapPoint(tapPoint);
-
-                        //２Dのあたり判定に重なっていたら
-                        if (collition2d)
-                        {
-                            //レイを飛ばして当たったオブジェクトがあるなら
-                            var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
-                            if (hit)
-                            {
-                                int Col_X = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x + 3) - 1;
-                                int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
-
-                                //int Col_X = Mathf.RoundToInt(collition2d.transform.position.x + 3);
-                                //int Col_Y = Mathf.RoundToInt(collition2d.transform.position.y);
-
-                                //オブジェクトが配置されている配列のXとY
-                                TapPoint_X = Col_X;
-                                TapPoint_Y = Col_Y;
-                                Debug.Log("( " + TapPoint_X + " " + TapPoint_Y + " )");
-                                //レンジアウト防止
-                                if (TapPoint_X > gridWidth || TapPoint_X < 0)
-                                {
-                                    break;
-                                }
-
-                                if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
-                                {
-                                    break;
-                                }
-
-                            }
-
-                            accept = true;
-                            Phase = PHASE.PUSH;
-                        }
+                        accept = true;
+                        Phase = PHASE.L_PUSH;
                     }
                 }
 
@@ -369,18 +305,26 @@ public class GameMain : MonoBehaviour {
                 if (accept)
                 {
                     Debug.Log("( " + TapPoint_X + " " + TapPoint_Y + " )");
+                    accept = false;
+
+                    //レンジアウト防止
+                    if (TapPoint_X > gridWidth || TapPoint_X < 0)
+                    {
+                        break;
+                    }
+                    if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
+                    {
+                        break;
+                    }
 
                     Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
                     Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Block>().CubeName = NextBlocks[0];
-                    accept = false;
                 }
 
                 break;
 
             //差し込み時の押し出し処理
-            case PHASE.PUSH:
-                FIELD SlideWork;
-                FIELD ClashWork;
+            case PHASE.R_PUSH:
 
                 if (Action != true)
                 {
@@ -423,7 +367,7 @@ public class GameMain : MonoBehaviour {
 
                         //挿入用オブジェクトのインスタンス化
                         //GameObject g = Instantiate(Prefab, new Vector3(TapPoint_X - (gridWidth / 2), TapPoint_Y, 0), Quaternion.identity) as GameObject;
-                        GameObject g = Instantiate(Prefab, NextBlock.GetComponent<Transform>().localPosition + new Vector3(0,0,3), Quaternion.identity) as GameObject;
+                        GameObject g = Instantiate(Prefab, NextBlock.GetComponent<Transform>().localPosition + new Vector3(0, 0, 3), Quaternion.identity) as GameObject;
 
                         g.GetComponent<Transform>().localScale = new Vector3(0.8f, 0.8f, 0.3f);
 
@@ -499,7 +443,7 @@ public class GameMain : MonoBehaviour {
                 if (PushTime > 1)
                 {
                     PushTime = 1;
-                }  
+                }
 
                 if (time > span)
                 {
@@ -545,6 +489,178 @@ public class GameMain : MonoBehaviour {
                     Action = false;
                 }
                 break;
+
+            //差し込み時の押し出し処理
+            case PHASE.L_PUSH:
+
+                if (Action != true)
+                {
+                    if (TapPoint_X - 1 >= 0)
+                    {
+                        if (TapPoint_Y + 1 < gridHeight)
+                        {
+                            for (int i = 0; i < gridWidth; i++)
+                            {
+                                //挿入するブロックの上のラインがあるのなら動けなくする
+                                Rigid = Field[i, TapPoint_Y + 1].Cube.GetComponent<Rigidbody2D>();
+                                Rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
+                            }
+                        }
+
+                        //入れ替え用に変数を避難させる
+                        SlideWork = Field[(int)TapPoint_X, (int)TapPoint_Y];
+
+                        for (int i = TapPoint_X - 1; i >= 0; i--)
+                        {
+                            //左隣りのブロック情報をコピー
+                            ClashWork = Field[i, TapPoint_Y];
+                            //書き換え
+                            Field[i, TapPoint_Y] = SlideWork;
+
+                            //Field[i, TapPoint_Y].Cube.GetComponent<Transform>().localPosition += new Vector3(1, 0, 0);
+                            Field[i, TapPoint_Y].Cube.GetComponent<Block>().
+                                SetStartPos(Field[i, TapPoint_Y].Cube.GetComponent<Transform>().localPosition);
+                            Field[i, TapPoint_Y].Cube.GetComponent<Block>().
+                                SetMovePos(Field[i, TapPoint_Y].Cube.GetComponent<Transform>().localPosition += new Vector3(-1, 0, 0));
+
+                            SlideWork = ClashWork;
+                        }
+
+                        //はじき出されるオブジェクトに力を加える
+                        Rigid = SlideWork.Cube.GetComponent<Rigidbody2D>();
+                        Rigid.constraints = RigidbodyConstraints2D.None;
+                        Rigid.AddForce(new Vector2(-10, 0));
+                        SlideWork.Cube.GetComponent<Transform>().localPosition += new Vector3(-0.99f, 0, 0);
+                        SlideWork.Cube.GetComponent<Transform>().localScale = new Vector3(0.9f, 0.9f, 0.5f);
+                        Destroy(SlideWork.Cube, 1);
+
+                        //挿入用オブジェクトのインスタンス化
+                        //GameObject g = Instantiate(Prefab, new Vector3(TapPoint_X - (gridWidth / 2), TapPoint_Y, 0), Quaternion.identity) as GameObject;
+                        GameObject g = Instantiate(Prefab, NextBlock.GetComponent<Transform>().localPosition + new Vector3(0, 0, 3), Quaternion.identity) as GameObject;
+
+                        g.GetComponent<Transform>().localScale = new Vector3(0.8f, 0.8f, 0.3f);
+
+                        //生成したオブジェクとの親にこのオブジェクトを設定
+                        g.transform.parent = gameObject.transform;
+
+                        //Fieldにデータをセット
+                        SetCubeData(TapPoint_X, TapPoint_Y, g);
+
+                        g.GetComponent<Block>().SetStartPos(NextBlock.GetComponent<Transform>().localPosition);
+                        g.GetComponent<Block>().SetMovePos(new Vector3(TapPoint_X - (gridWidth / 2), TapPoint_Y, 0));
+
+                        g.GetComponent<Rigidbody2D>().simulated = false;
+
+                        if (TapPoint_Y + 1 < gridHeight)
+                        {
+                            for (int i = 0; i < gridWidth; i++)
+                            {
+                                //動けなくしていた部分をもとに戻す
+                                Rigid = Field[i, TapPoint_Y + 1].Cube.GetComponent<Rigidbody2D>();
+                                //解除
+                                Rigid.constraints = RigidbodyConstraints2D.None;
+                                //再設定
+                                Rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
+                                Rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                            }
+                        }
+                    }
+                    //挿入したブロックに色を付ける
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Block>().CubeName = NextBlocks[0];
+
+                    Action = true;
+                }
+
+
+                //移動の線形補間部分
+                for (x = 0; x < gridWidth; x++)
+                {
+                    if (Field[x, TapPoint_Y].Alive != false)
+                    {
+                        //Moveに何か入っているならば動かす
+                        if (Field[x, TapPoint_Y].Cube.GetComponent<Block>().MovedPos != new Vector3(100, 0, 0))
+                        {
+                            Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition =
+                                Vector3.Lerp(Field[x, TapPoint_Y].Cube.GetComponent<Block>().StartPos, Field[x, TapPoint_Y].Cube.GetComponent<Block>().MovedPos, PushTime);
+
+                            if (PushTime == 1)
+                            {
+                                Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                                Field[x, TapPoint_Y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
+                            }
+                        }
+                    }
+                }
+
+
+                if (Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().MovedPos != new Vector3(100, 0, 0))
+                {
+                    Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().StartPos, Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().MovedPos, PushTime * 2);
+                    if (PushTime == 1)
+                    {
+                        Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                        Field[TapPoint_X, TapPoint_Y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
+                    }
+                }
+
+                //タイムの加算
+                time += Time.deltaTime;
+                PushTime += MoveSpeed;
+
+                //ArmTime += 0.25f;
+
+                //押し込みの時間の制限
+                if (PushTime > 1)
+                {
+                    PushTime = 1;
+                }
+
+                if (time > span)
+                {
+                    //挿入待ちブロックの色を更新
+                    NextBlocks[0] = NextBlocks[1];
+
+                    //配列をずらす
+                    for (int i = 1; i < 3; i++)
+                    {
+                        NextBlocks[i] = NextBlocks[i + 1];
+                    }
+
+                    //最後尾にランダムでカラーの名前を入れておく
+                    NextBlocks[3] = CubeMats[Random.Range(0, CubeMats.Length)];
+
+                    //挿入用ブロックにマテリアルを設定
+                    NextBlock.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
+                    NextBlock1.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[1]) as Material;
+                    NextBlock2.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[2]) as Material;
+
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Transform>().localScale = new Vector3(1, 1, 0.3f);
+                    Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Rigidbody2D>().simulated = true;
+
+                    for (x = 0; x < gridWidth; x++)
+                    {
+                        if (Field[x, TapPoint_Y].Alive != false)
+                        {
+                            //Moveに何か入っているならば動かす
+                            if (Field[x, TapPoint_Y].Cube.GetComponent<Block>().MovedPos != new Vector3(100, 0, 0))
+                            {
+                                Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = Vector3.Lerp(Field[x, TapPoint_Y].Cube.GetComponent<Block>().StartPos, Field[x, TapPoint_Y].Cube.GetComponent<Block>().MovedPos, 1);
+
+                                Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition = new Vector3(Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.x, Mathf.Round(Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.y), 0);
+                                Field[x, TapPoint_Y].Cube.GetComponent<Block>().SetMovePos(new Vector3(100, 0, 0));
+                            }
+                        }
+                    }
+
+                    time = 0;
+                    PushTime = 0;
+
+                    Phase = PHASE.SERACH;
+                    Action = false;
+                }
+                break;
+
             //ブロックが連なりを検出する処理
             case PHASE.SP_PUSH:
                 Ber.GetComponent<Image>().fillAmount = 0;
