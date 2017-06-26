@@ -461,7 +461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c9ee42ac53c0194aadf4e1724c7b298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TitleScene: title
   pauseCanvas: {fileID: 223412342694623024}
   Pause: {fileID: 0}
 --- !u!114 &114629957980662020
@@ -717,7 +716,7 @@ Canvas:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1111262997760648}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_RenderMode: 0
   m_Camera: {fileID: 0}

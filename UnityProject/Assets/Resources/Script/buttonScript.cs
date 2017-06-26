@@ -15,7 +15,7 @@ public class buttonScript : MonoBehaviour
     // シーンの名前
     private string[] sceneName = {
             "title",
-            "testscene",
+            "game",
             "ranking",
         };
 
