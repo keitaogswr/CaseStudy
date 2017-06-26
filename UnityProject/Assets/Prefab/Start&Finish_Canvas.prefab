@@ -21,13 +21,14 @@ GameObject:
   - component: {fileID: 224313440059398736}
   - component: {fileID: 222941374008565670}
   - component: {fileID: 114691962430526158}
+  - component: {fileID: 114066793030200986}
   m_Layer: 5
   m_Name: Finish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1586500829497254
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +64,22 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
+--- !u!114 &114066793030200986
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1176155863196696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11291968fde8c124ea7657c2f290abdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stagingScale: {x: 2.5, y: 2.5, z: 1}
+  lastScale: {x: 2, y: 2, z: 1}
+  stagingTime: 60
+  lastTime: 30
 --- !u!114 &114243442330796452
 MonoBehaviour:
   m_ObjectHideFlags: 1
