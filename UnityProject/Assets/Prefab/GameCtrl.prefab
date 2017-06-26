@@ -60,9 +60,9 @@ MonoBehaviour:
   gridHeight: 7
   MoveSpeed: 0.1
   Prefab: {fileID: 1365176737067140, guid: 56fbcabaf3460dc44bf38d992e3f43ca, type: 2}
-  NextBlock: {fileID: 1282984547411622, guid: 1fec0bcfd5a0e514ea4d5b175f85b0df, type: 2}
-  NextBlock1: {fileID: 1369440199094782, guid: 1fec0bcfd5a0e514ea4d5b175f85b0df, type: 2}
-  NextBlock2: {fileID: 1646178504279422, guid: 1fec0bcfd5a0e514ea4d5b175f85b0df, type: 2}
+  NextBlock: {fileID: 0}
+  NextBlock1: {fileID: 0}
+  NextBlock2: {fileID: 0}
   Arm_R: {fileID: 1023914342491966, guid: ac51da3429b071a4ab107feee318e0d7, type: 2}
   Arm_L: {fileID: 1023914342491966, guid: ac51da3429b071a4ab107feee318e0d7, type: 2}
   SuperArm: {fileID: 1498046171213114, guid: 6b5f5875f12627e4aa8906d8e0801359, type: 2}
