@@ -8,6 +8,7 @@ public class Timer : MonoBehaviour {
     [SerializeField]
     List<GameObject> numberPointList;
     public Pauseable Pause;
+    public GameMain gameMain;
 
     private float Minutes = 0;
     private float Seconds = 0;
@@ -24,7 +25,7 @@ public class Timer : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (stop == false)
+        if (gameMain.Phase == 0)
         {
             //  タイム減少。
             if (timeOut == false && Pause.pausing == false)

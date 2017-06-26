@@ -974,6 +974,7 @@ MonoBehaviour:
   - {fileID: 1455410017860384}
   - {fileID: 1972629173776162}
   Pause: {fileID: 0}
+  gameMain: {fileID: 0}
 --- !u!114 &114452362500474128
 MonoBehaviour:
   m_ObjectHideFlags: 1
