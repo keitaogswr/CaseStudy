@@ -98,6 +98,14 @@ public class GameMain : MonoBehaviour {
 
     private GameObject Ber;
 
+
+
+    private Vector2 tapPosition;
+    private bool tapped, accept;
+    public const float flickLength = 20;
+    public const float flickAngle = 30;
+
+
     void Start()
     {
         Phase = PHASE.STAY;
@@ -188,51 +196,147 @@ public class GameMain : MonoBehaviour {
                     }
                 }
 
-                //左クリックされたら
-                if (Input.GetMouseButtonDown(0))
+
+
+                if ( Input.GetMouseButtonDown(0) )
                 {
-                    var tapPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    var collition2d = Physics2D.OverlapPoint(tapPoint);
-
-                    //２Dのあたり判定に重なっていたら
-                    if (collition2d)
+                    tapPosition = Input.mousePosition;
+                    tapped = true;
+                }
+                else if ( Input.GetMouseButtonUp(0) )
+                {
+                    if ( ! tapped )
                     {
-                        //レイを飛ばして当たったオブジェクトがあるなら
-                        var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
-                        if (hit)
+                        break;
+                    }
+
+                    Vector2 dir = ( Vector2 )Input.mousePosition - tapPosition;
+                    tapped = false;
+
+                    if (Ber.GetComponent<Image>().fillAmount != 1 && dir.sqrMagnitude < flickLength * flickLength)
+                    {
+                        break;
+                    }
+
+                    dir.Normalize();
+
+                    if (Ber.GetComponent<Image>().fillAmount == 1)
+                    {
+                        var tapPoint = Camera.main.ScreenToWorldPoint(tapPosition);
+                        var collition2d = Physics2D.OverlapPoint(tapPoint);
+
+                        //２Dのあたり判定に重なっていたら
+                        if (collition2d)
                         {
-                            int Col_X = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x + 3);
-                            int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
-
-                            //int Col_X = Mathf.RoundToInt(collition2d.transform.position.x + 3);
-                            //int Col_Y = Mathf.RoundToInt(collition2d.transform.position.y);
-
-                            //オブジェクトが配置されている配列のXとY
-                            TapPoint_X = Col_X;
-                            TapPoint_Y = Col_Y;
-
-                            //レンジアウト防止
-                            if(TapPoint_X > gridWidth || TapPoint_X < 0)
+                            //レイを飛ばして当たったオブジェクトがあるなら
+                            var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
+                            if (hit)
                             {
-                                break;
+                                int Col_X = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x + 3);
+                                int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
+
+                                //int Col_X = Mathf.RoundToInt(collition2d.transform.position.x + 3);
+                                //int Col_Y = Mathf.RoundToInt(collition2d.transform.position.y);
+
+                                //オブジェクトが配置されている配列のXとY
+                                TapPoint_X = Col_X;
+                                TapPoint_Y = Col_Y;
+
+                                //レンジアウト防止
+                                if (TapPoint_X > gridWidth || TapPoint_X < 0)
+                                {
+                                    break;
+                                }
+                                if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
+                                {
+                                    break;
+                                }
                             }
 
-                            if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
-                            {
-                                break;
-                            }
-                        }
-
-                            Debug.Log("クリック！");
-
-                        if (Ber.GetComponent<Image>().fillAmount == 1)
-                        {
+                            accept = true;
                             Phase = PHASE.SP_PUSH;
                         }
-                        else
+                    }
+                    else if (Vector2.Angle(dir, Vector2.right) < flickAngle)
+                    {
+                        // 右へフリック
+
+                        var tapPoint = Camera.main.ScreenToWorldPoint(tapPosition);
+                        var collition2d = Physics2D.OverlapPoint(tapPoint);
+
+                        //２Dのあたり判定に重なっていたら
+                        if (collition2d)
                         {
+                            //レイを飛ばして当たったオブジェクトがあるなら
+                            var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
+                            if (hit)
+                            {
+                                int Col_X = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x + 3);
+                                int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
+
+                                //int Col_X = Mathf.RoundToInt(collition2d.transform.position.x + 3);
+                                //int Col_Y = Mathf.RoundToInt(collition2d.transform.position.y);
+
+                                //オブジェクトが配置されている配列のXとY
+                                TapPoint_X = Col_X;
+                                TapPoint_Y = Col_Y;
+
+                                //レンジアウト防止
+                                if (TapPoint_X > gridWidth || TapPoint_X < 0)
+                                {
+                                    break;
+                                }
+
+                                if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
+                                {
+                                    break;
+                                }
+                            }
+
+                            accept = true;
                             Phase = PHASE.PUSH;
-                        }  
+                        }
+                    }
+                    else if (Vector2.Angle(dir, Vector2.left) < flickAngle)
+                    {
+                        // 左へフリック
+
+                        var tapPoint = Camera.main.ScreenToWorldPoint(tapPosition);
+                        var collition2d = Physics2D.OverlapPoint(tapPoint);
+
+                        //２Dのあたり判定に重なっていたら
+                        if (collition2d)
+                        {
+                            //レイを飛ばして当たったオブジェクトがあるなら
+                            var hit = Physics2D.Raycast(tapPoint, -Vector2.up);
+                            if (hit)
+                            {
+                                int Col_X = Mathf.RoundToInt(hit.collider.gameObject.transform.position.x + 3) - 1;
+                                int Col_Y = Mathf.RoundToInt(hit.collider.gameObject.transform.position.y);
+
+                                //int Col_X = Mathf.RoundToInt(collition2d.transform.position.x + 3);
+                                //int Col_Y = Mathf.RoundToInt(collition2d.transform.position.y);
+
+                                //オブジェクトが配置されている配列のXとY
+                                TapPoint_X = Col_X;
+                                TapPoint_Y = Col_Y;
+                                Debug.Log("( " + TapPoint_X + " " + TapPoint_Y + " )");
+                                //レンジアウト防止
+                                if (TapPoint_X > gridWidth || TapPoint_X < 0)
+                                {
+                                    break;
+                                }
+
+                                if (TapPoint_Y > gridHeight || TapPoint_Y < 0)
+                                {
+                                    break;
+                                }
+
+                            }
+
+                            accept = true;
+                            Phase = PHASE.PUSH;
+                        }
                     }
                 }
 
@@ -241,7 +345,7 @@ public class GameMain : MonoBehaviour {
                     var tapPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     var collition2d = Physics2D.OverlapPoint(tapPoint);
 
-                    Instantiate(VanishEffect, new Vector3(tapPoint.x,tapPoint.y,-1), Quaternion.identity);
+                    Instantiate(VanishEffect, new Vector3(tapPoint.x, tapPoint.y, -1), Quaternion.identity);
 
                     //２Dのあたり判定に重なっていたら
                     if (collition2d)
@@ -259,13 +363,20 @@ public class GameMain : MonoBehaviour {
                         }
                     }
 
-                    Debug.Log("クリック！");
+                    accept = true;
+                }
+
+                if (accept)
+                {
+                    Debug.Log("( " + TapPoint_X + " " + TapPoint_Y + " )");
+
                     Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
                     Field[(int)TapPoint_X, (int)TapPoint_Y].Cube.GetComponent<Block>().CubeName = NextBlocks[0];
-                    //Phase = PHASE.PUSH;
+                    accept = false;
                 }
 
                 break;
+
             //差し込み時の押し出し処理
             case PHASE.PUSH:
                 FIELD SlideWork;
