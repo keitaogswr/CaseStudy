@@ -67,6 +67,8 @@ public class GameMain : MonoBehaviour {
 
     public GameObject VanishEffect; //ブロック破壊時に出すエフェクト
 
+    public float Fill;
+
     //更新周期
     public float span;
 
@@ -116,7 +118,7 @@ public class GameMain : MonoBehaviour {
 
         Ber = GameObject.Find("Ber");
 
-        Ber.GetComponent<Image>().fillAmount = 1;
+        Ber.GetComponent<Image>().fillAmount = Fill;
 
         Score = GameObject.Find("PointManager");
 
@@ -452,7 +454,7 @@ public class GameMain : MonoBehaviour {
                 break;
             //ブロックが連なりを検出する処理
             case PHASE.SP_PUSH:
-                //Ber.GetComponent<Image>().fillAmount = 0;
+                Ber.GetComponent<Image>().fillAmount = 0;
 
                 if (Action == false)
                 {
