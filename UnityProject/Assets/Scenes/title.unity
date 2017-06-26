@@ -490,6 +490,11 @@ Prefab:
       propertyPath: length
       value: 5.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114585357414805754, guid: f66eb2f4c8f3f3e45be440d249361ab3,
+        type: 2}
+      propertyPath: flickRange.y
+      value: 55
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f66eb2f4c8f3f3e45be440d249361ab3, type: 2}
   m_IsPrefabParent: 0
