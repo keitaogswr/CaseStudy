@@ -436,7 +436,9 @@ public class GameMain : MonoBehaviour {
                 break;
             //ブロックが連なりを検出する処理
             case PHASE.SP_PUSH:
-                Ber.GetComponent<Image>().fillAmount = 0;
+
+                Ber.GetComponent<berScript>().ResetAmount();
+
                 if (Action == false)
                 {
                     for (x = 0; x < gridWidth; x++)
