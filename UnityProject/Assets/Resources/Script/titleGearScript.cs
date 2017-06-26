@@ -23,7 +23,7 @@ public class titleGearScript : MonoBehaviour
     private float angle;        // 角度
 
     // フリック
-    private float flickRange = 40;  // フリックの受付範囲
+    public Vector2 flickRange = new Vector2( 40, 60 );  // フリックの受付範囲
     private Vector3 inClickPos;     // 押したクリック位置
     private Vector3 outClickPos;    // 離したクリック位置
 
@@ -167,13 +167,13 @@ public class titleGearScript : MonoBehaviour
                 outClickPos = Input.mousePosition;
 
                 // 補正値より動いていたら
-                if (inClickPos.x + flickRange < outClickPos.x &&
-                    Mathf.Abs(inClickPos.y - outClickPos.y) < flickRange )
+                if (inClickPos.x + flickRange.x < outClickPos.x &&
+                    Mathf.Abs(inClickPos.y - outClickPos.y) < flickRange.y )
                 {
                     GearRotation(0);
                 }
-                else if (inClickPos.x - flickRange > outClickPos.x &&
-                        Mathf.Abs( inClickPos.y - outClickPos.y ) < flickRange)
+                else if (inClickPos.x - flickRange.x > outClickPos.x &&
+                        Mathf.Abs( inClickPos.y - outClickPos.y ) < flickRange.y)
                 {
                     GearRotation(1);
                 }
