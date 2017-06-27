@@ -97,7 +97,11 @@ public class GameMain : MonoBehaviour {
     ARM[] ARM_L = new ARM[7];
     ARM[] ARM_R = new ARM[7];
 
-    private GameObject Ber;
+    private berScript Ber;
+    private Timer Timer;
+    private int vanishCount;
+    public int addTimeVanishCount = 10;
+	public float addTime = 0.5f;
 
 
 
@@ -107,11 +111,13 @@ public class GameMain : MonoBehaviour {
     public const float flickAngle = 30;
 
 
+
     void Start()
     {
         Phase = PHASE.STAY;
 
-        Ber = GameObject.Find("Ber");
+        Ber = GameObject.Find("Ber").GetComponent<berScript>();
+        Timer = GameObject.Find("Timer").GetComponent<Timer>();
 
         for (int x = 0; x < gridWidth; x++)
         {
@@ -180,6 +186,9 @@ public class GameMain : MonoBehaviour {
         {
             //待機
             case PHASE.STAY:
+
+                vanishCount = 0;
+
                 for (x = 0; x < gridWidth; x++)
                 {
                     for (y = 0; y < gridHeight; y++)
@@ -231,7 +240,7 @@ public class GameMain : MonoBehaviour {
 
                     Vector2 dir = ( Vector2 )Input.mousePosition - tapPosition;
                     
-                    if (Ber.GetComponent<Image>().fillAmount != 1 && dir.sqrMagnitude < flickLength * flickLength)
+                    if (Ber.GetFillAmount() != 1 && dir.sqrMagnitude < flickLength * flickLength)
                     {
                         // ゲージマックスでなく、フリックとみなさない距離は無視
                         break;
@@ -261,7 +270,7 @@ public class GameMain : MonoBehaviour {
                         break;
                     }
 
-                    if (Ber.GetComponent<Image>().fillAmount == 1)
+                    if (Ber.GetFillAmount() == 1)
                     {
                         // スーパーアーム
 
@@ -651,7 +660,9 @@ public class GameMain : MonoBehaviour {
 
             //ブロックが連なりを検出する処理
             case PHASE.SP_PUSH:
-                Ber.GetComponent<Image>().fillAmount = 0;
+
+                Ber.ResetAmount();
+
                 if (Action == false)
                 {
                     for (x = 0; x < gridWidth; x++)
@@ -751,7 +762,12 @@ public class GameMain : MonoBehaviour {
 
                                 //Debug.Log("X" + x + "Y" + y);
 
-                                Ber.GetComponent<berScript>().SetAddMode(60, 0.001f);
+                                Ber.SetAddMode(60, 0.001f);
+
+                                if (vanishCount >= addTimeVanishCount)
+                                {
+                                    Timer.AddTimeSecond(addTime);
+                                }
                             }
                         }
                     }
@@ -1299,6 +1315,7 @@ public class GameMain : MonoBehaviour {
                 Field[X ,Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[X,Y].Cube.GetComponent<Block>().CubeName) as Material;
                 Field[X, Y].Cube.GetComponent<Rigidbody2D>().simulated = false;
                 GameObject.Find("PointManager").GetComponent<PointManager>().AddPoint(100);
+                vanishCount++;
             }
         }
     }
