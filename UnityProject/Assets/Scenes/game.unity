@@ -42,7 +42,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 7
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -71,7 +71,8 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000001, guid: 4fe823147e126b643bb9b49678d6ad55,
+    type: 2}
   m_RuntimeCPUUsage: 25
 --- !u!196 &4
 NavMeshSettings:
@@ -169,6 +170,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &279887619 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114738222137331722, guid: 2426e6b6ce6d2394d81a129510d7f7fb,
+    type: 2}
+  m_PrefabInternal: {fileID: 889009195}
+  m_Script: {fileID: 11500000, guid: ad70d614c963ad34082e03e03c503ca8, type: 3}
 --- !u!20 &329167465 stripped
 Camera:
   m_PrefabParentObject: {fileID: 20927974168906746, guid: 82d90a5595ef0bf42a9bf2f524267cf5,
@@ -285,7 +292,7 @@ Prefab:
         type: 2}
       propertyPath: gameMain
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 279887619}
     - target: {fileID: 114641093933104094, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
         type: 2}
       propertyPath: pauseCanvas
@@ -304,7 +311,7 @@ Prefab:
     - target: {fileID: 114445985350475908, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
         type: 2}
       propertyPath: GameTime
-      value: 3
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 114641093933104094, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
         type: 2}
@@ -315,6 +322,26 @@ Prefab:
         type: 2}
       propertyPath: SceneName.Array.data[1]
       value: game
+      objectReference: {fileID: 0}
+    - target: {fileID: 114407129453258570, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 0.503
+      objectReference: {fileID: 0}
+    - target: {fileID: 114407129453258570, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114407129453258570, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114407129453258570, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+        type: 2}
+      propertyPath: m_Color.a
+      value: 0.822
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed598e1049f6ff44ba6a5d072f4d6c60, type: 2}
@@ -562,6 +589,11 @@ Prefab:
       propertyPath: NextBlock2
       value: 
       objectReference: {fileID: 860542823}
+    - target: {fileID: 114738222137331722, guid: 2426e6b6ce6d2394d81a129510d7f7fb,
+        type: 2}
+      propertyPath: Fill
+      value: 0.9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2426e6b6ce6d2394d81a129510d7f7fb, type: 2}
   m_IsPrefabParent: 0
@@ -901,6 +933,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114120237702148562, guid: c8b3db86cbcc1634987a92b812661183,
+        type: 2}
+      propertyPath: prefab.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4658864158149460, guid: c8b3db86cbcc1634987a92b812661183, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -933,6 +970,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 114120237702148562, guid: c8b3db86cbcc1634987a92b812661183,
+        type: 2}
+      propertyPath: prefab.Array.data[2]
+      value: 
+      objectReference: {fileID: 1014639118259738, guid: 06c374b6563506f4d815a251697fad2a,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c8b3db86cbcc1634987a92b812661183, type: 2}
   m_IsPrefabParent: 0
