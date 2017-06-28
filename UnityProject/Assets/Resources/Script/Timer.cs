@@ -56,6 +56,16 @@ public class Timer : MonoBehaviour {
             }
         }
 
+        if (timeOut == false)
+        {
+            ResetTime();
+        }
+        else
+        {
+            Seconds = FPS;
+        }
+
+
         if (timeOut == true && gameMain.Phase == 0)
         {
             Pause.pausing = true;
@@ -85,7 +95,6 @@ public class Timer : MonoBehaviour {
                 }
             }
         }
-        
     }
 
     void SetTimeStop(bool timeStop)
@@ -93,10 +102,41 @@ public class Timer : MonoBehaviour {
         stop = timeStop;
     }
 
-    void AddTimeSecond(float time)
+    void ResetTime()
     {
-        GameTime += time;
-        Minutes = GameTime / FPS;       //  分取得。
-        Seconds = GameTime % FPS;       //  秒取得。
+        int second = (int)Seconds;
+        int minutes = (int)Minutes;
+        int work;
+
+        for (int i = 0; i < numberPointList.Count; i++)
+        {
+            if (i < 2)
+            {    //  秒の計算
+                work = second % 10;
+                Point number = numberPointList[i].GetComponent<Point>();
+                number.SetNumber(work);
+                second = second / 10;
+            }
+            else
+            {      //  分の計算
+                work = minutes % 10;
+                Point number = numberPointList[i].GetComponent<Point>();
+                number.SetNumber(work);
+                minutes = minutes / 10;
+            }
+        }
+    }
+
+    public void AddTimeSecond(float time)
+    {
+        Seconds += time;
+
+        if (Seconds >= FPS)
+        {
+            Seconds -= FPS;
+            ++Minutes;
+
+            ResetTime();
+        }
     }
 }
