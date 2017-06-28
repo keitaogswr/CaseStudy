@@ -26,7 +26,7 @@ public class Timer : MonoBehaviour {
     void Update()
     {
         //  タイム減少。
-        if (gameMain.Phase == 0 && timeOut == false && Pause.pausing == false)
+        if (timeOut == false && Pause.pausing == false)
         {
             Seconds -= Time.deltaTime;
             if (Seconds < 0.0f)
@@ -45,18 +45,56 @@ public class Timer : MonoBehaviour {
         }
         else if (timeOut == true)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (gameMain.Phase == 0)
             {
-                PointManager pointManager = GameObject.Find("PointManager").GetComponent<PointManager>();
-                rankingScore.SetMyScore(pointManager.GetPoint());
+                if (Input.GetMouseButtonDown(0))
+                {
+                    PointManager pointManager = GameObject.Find("PointManager").GetComponent<PointManager>();
+                    rankingScore.SetMyScore(pointManager.GetPoint());
 
-                GameObject.Find("Fade").GetComponent<fadeScript>().SetFade("ranking");
+                    GameObject.Find("Fade").GetComponent<fadeScript>().SetFade("ranking");
+                }
             }
         }
 
         if (timeOut == false)
         {
             ResetTime();
+        }
+        else
+        {
+            Seconds = FPS;
+        }
+
+
+        if (timeOut == true && gameMain.Phase == 0)
+        {
+            Pause.pausing = true;
+        }
+
+        if (timeOut == false)
+        {
+            int second = (int)Seconds;
+            int minutes = (int)Minutes;
+            int work;
+
+            for (int i = 0; i < numberPointList.Count; i++)
+            {
+                if (i < 2)
+                {    //  秒の計算
+                    work = second % 10;
+                    Point number = numberPointList[i].GetComponent<Point>();
+                    number.SetNumber(work);
+                    second = second / 10;
+                }
+                else
+                {      //  分の計算
+                    work = minutes % 10;
+                    Point number = numberPointList[i].GetComponent<Point>();
+                    number.SetNumber(work);
+                    minutes = minutes / 10;
+                }
+            }
         }
     }
 
@@ -94,7 +132,7 @@ public class Timer : MonoBehaviour {
     {
         Seconds += time;
 
-        if ( Seconds >= FPS )
+        if (Seconds >= FPS)
         {
             Seconds -= FPS;
             ++Minutes;

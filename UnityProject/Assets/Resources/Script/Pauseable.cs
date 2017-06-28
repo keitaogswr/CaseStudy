@@ -50,17 +50,11 @@ public class Pauseable : MonoBehaviour
     /// </summary>
     MonoBehaviour[] pausingMonoBehaviours;
 
-    [SerializeField]
-    Gauss gauss;
-    float intencity = 0;
-    float prevTime;
-
     /// <summary>
     /// 更新処理
     /// </summary>
     void Update()
     {
-        float deltaTime = Time.realtimeSinceStartup - prevTime;
         // ポーズ状態が変更されていたら、Pause/Resumeを呼び出す。
         if (prevPausing != pausing)
         {
@@ -75,19 +69,6 @@ public class Pauseable : MonoBehaviour
             prevPausing = pausing;
             
         }
-
-        if (pausing)
-        {
-            intencity += deltaTime * 8;
-        }
-        else
-        {
-            intencity -= deltaTime * 8;
-        }
-        intencity = Mathf.Clamp01(intencity);
-        gauss.Resolution = (int)(intencity * 10);
-
-        prevTime = Time.realtimeSinceStartup;
     }
 
     /// <summary>

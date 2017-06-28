@@ -34,6 +34,12 @@ public struct ARM
     public GameObject Arm;
 }
 
+public struct SArm
+{
+    public Vector3 StartPos;
+    public Vector3 EndPos;
+    public GameObject g;
+}
 
 public enum CountType
 {
@@ -58,7 +64,11 @@ public class GameMain : MonoBehaviour {
     public GameObject Arm_R;
     public GameObject Arm_L;
 
+    public GameObject SuperArm;
+
     public GameObject VanishEffect; //ブロック破壊時に出すエフェクト
+
+    public float Fill;
 
     //更新周期
     public float span;
@@ -96,21 +106,22 @@ public class GameMain : MonoBehaviour {
 
     ARM[] ARM_L = new ARM[7];
     ARM[] ARM_R = new ARM[7];
-
+    
     private berScript Ber;
     private Timer Timer;
-    private int vanishCount;
-    public int addTimeVanishCount = 10;
-	public float addTime = 0.5f;
+    private PointManager Score;
 
-
+    private int vanishCount;                // 1操作後のブロック消滅数
+    public int addTimeVanishCount = 12;     // 何ブロック以上消えたらタイム加算か
+    public float addTime;                   // 加算タイム量
 
     private Vector2 tapPosition;
     private bool tapped;
     public const float flickLength = 20;
     public const float flickAngle = 30;
 
-
+    
+    private SArm Pos = new SArm();
 
     void Start()
     {
@@ -118,6 +129,9 @@ public class GameMain : MonoBehaviour {
 
         Ber = GameObject.Find("Ber").GetComponent<berScript>();
         Timer = GameObject.Find("Timer").GetComponent<Timer>();
+        Score = GameObject.Find("PointManager").GetComponent<PointManager>();
+
+        Ber.GetComponent<Image>().fillAmount = Fill;
 
         for (int x = 0; x < gridWidth; x++)
         {
@@ -660,20 +674,26 @@ public class GameMain : MonoBehaviour {
 
             //ブロックが連なりを検出する処理
             case PHASE.SP_PUSH:
-
                 Ber.ResetAmount();
 
                 if (Action == false)
                 {
+                    Pos.g = Instantiate(SuperArm, new Vector3(0, TapPoint_Y, -1), Quaternion.identity) as GameObject;
+
+                    //Pos.StartPos = Pos.g.GetComponent<Transform>().localPosition;
+                    //Pos.EndPos = Pos.g.GetComponent<Transform>().localPosition - new Vector3(20,0,0);
                     for (x = 0; x < gridWidth; x++)
                     {
                         
                         Field[x, TapPoint_Y].Break = true;
+                        Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localScale = new Vector3(0.6f, 0.6f, 0.6f);
                         Field[x, TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[x, TapPoint_Y].Cube.GetComponent<Block>().CubeName) as Material;
 
                     }
                     Action = true;
                 }
+
+                //Pos.g.GetComponent<Transform>().localPosition = Vector3.Lerp(Pos.StartPos, Pos.EndPos, time * 5);
 
                 time += Time.deltaTime;
 
@@ -681,6 +701,7 @@ public class GameMain : MonoBehaviour {
                 {
                     time = 0;
 
+                    //DestroyObject(Pos.g);
 
                     Phase = PHASE.SERACH;
                     Action = false;
@@ -1314,8 +1335,9 @@ public class GameMain : MonoBehaviour {
                 Field[X, Y].Break = true;
                 Field[X ,Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[X,Y].Cube.GetComponent<Block>().CubeName) as Material;
                 Field[X, Y].Cube.GetComponent<Rigidbody2D>().simulated = false;
-                GameObject.Find("PointManager").GetComponent<PointManager>().AddPoint(100);
+
                 vanishCount++;
+                Score.AddPoint(100);
             }
         }
     }
