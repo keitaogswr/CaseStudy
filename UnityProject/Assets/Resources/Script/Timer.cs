@@ -35,7 +35,6 @@ public class Timer : MonoBehaviour {
                 if (Minutes < 0 && Seconds <= 0)
                 {
                     timeOut = true;
-                    Pause.pausing = true;
                 }
                 else
                 {
