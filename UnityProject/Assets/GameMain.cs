@@ -111,6 +111,7 @@ public class GameMain : MonoBehaviour {
     private berScript Ber;
     private Timer Timer;
     private PointManager Score;
+    private ComboUI comb;
 
     private int vanishCount;                // 1操作後のブロック消滅数
     public int addTimeVanishCount = 12;     // 何ブロック以上消えたらタイム加算か
@@ -132,6 +133,8 @@ public class GameMain : MonoBehaviour {
         Ber = GameObject.Find("Ber").GetComponent<berScript>();
         Timer = GameObject.Find("Timer").GetComponent<Timer>();
         Score = GameObject.Find("PointManager").GetComponent<PointManager>();
+        comb = GameObject.Find("Combo_UI").GetComponent<ComboUI>();
+
 
         Ber.GetComponent<Image>().fillAmount = Fill;
 
@@ -728,6 +731,10 @@ public class GameMain : MonoBehaviour {
 
                 if (Action == false)
                 {
+                    //-----------------------   // 位置を変更したほうがいいよ
+                    comb.addComb(1);            // コンボ加算呼び出し
+                    //-----------------------   //
+
                     for (x = 0; x < gridWidth; x++)
                     {
                         for (y = 0; y < gridHeight; y++)

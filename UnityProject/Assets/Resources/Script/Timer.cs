@@ -16,10 +16,16 @@ public class Timer : MonoBehaviour {
     private bool timeOut = false;
     private bool stop = false;
 
+
+    private GameObject finish;
+
     // Use this for initialization
     void Start () {
         Minutes = GameTime / FPS;       //  分取得。
         Seconds = GameTime % FPS;       //  秒取得。
+
+        finish = GameObject.Find("Start&Finish_Canvas").transform.Find("Finish").gameObject;
+        finish.SetActive(false);
     }
 
     // Update is called once per frame
@@ -35,6 +41,7 @@ public class Timer : MonoBehaviour {
                 if (Minutes < 0 && Seconds <= 0)
                 {
                     timeOut = true;
+                    finish.SetActive(true);
                 }
                 else
                 {
