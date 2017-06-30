@@ -10,6 +10,7 @@ public class buttonScript : MonoBehaviour
         TITLE = 0,
         GAME,
         RANKING,
+        TUTORIAL,
     }
 
     // シーンの名前
@@ -17,6 +18,7 @@ public class buttonScript : MonoBehaviour
             "title",
             "game",
             "ranking",
+            "tutorial",
         };
 
     private float range =30;
@@ -57,18 +59,18 @@ public class buttonScript : MonoBehaviour
 
 
     // ゲーム修了ボタン
-    public void ClickExit()
+    public void ClickTutorial()
     {
-        Vector3 inPos = GetComponentInParent<titleGearScript>().GetClickPos();
-        Vector3 outPos = Input.mousePosition;
-
-        if (inPos.x + range > outPos.x &&
-            inPos.x - range < outPos.x)
+        if (GetComponentInParent<titleGearScript>().GetRotFlag() == false)
         {
-            if (GetComponentInParent<titleGearScript>().GetRotFlag() == false)
+            Vector3 inPos = GetComponentInParent<titleGearScript>().GetClickPos();
+            Vector3 outPos = Input.mousePosition;
+
+            if (inPos.x + range > outPos.x &&
+                inPos.x - range < outPos.x)
             {
-                Debug.Log("ゲーム終了ボタンクリック");
-                Application.Quit();
+                Debug.Log("ランキングボタン");
+                GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(sceneName[(int)sceneNum.TUTORIAL]);
             }
         }
     }

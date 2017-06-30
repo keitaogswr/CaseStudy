@@ -152,7 +152,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114412659601742840}
-        m_MethodName: ClickGameStart
+        m_MethodName: ClickTutorial
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

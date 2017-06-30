@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 72af95e9e3d863d4d80ec83cf9d368ab
+timeCreated: 1498649055
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: GenEi LateGo
+  fontNames:
+  - GenEi LateGo
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
