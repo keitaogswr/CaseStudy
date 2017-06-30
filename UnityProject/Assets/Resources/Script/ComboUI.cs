@@ -8,14 +8,22 @@ public class ComboUI : MonoBehaviour {
     [SerializeField]
     private GameMain m_GameMain;
     private Image m_Image;
-	// Use this for initialization
-	void Start () {
+    private int comboNum;           // コンボの数値
+    public PointManager point;      // 数値を変更するためのスクリプト
+    public Image[] number;         // イメージナンバーのデータ
+    private float digit;              // 桁数
+
+    // Use this for initialization
+    void Start () {
+        comboNum = 0;
+        digit = Mathf.Pow(10, number.Length);
+
         m_Image = GetComponent<Image>();
         m_Image.color = new Color(1f, 1f, 1f, 0f);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         Color temp;
         float alfaSpeed;
         temp = m_Image.color;
@@ -26,11 +34,32 @@ public class ComboUI : MonoBehaviour {
         else
         {
             alfaSpeed = -0.1f;
+
+            // コンボの値をリセット
+            point.SubPoint(comboNum);
+            comboNum = 0;
         }
         temp.a += alfaSpeed;
         temp.a = temp.a > 1.0f ? 1.0f : temp.a;
         temp.a = temp.a < 0.0f ? 0.0f : temp.a;
 
         m_Image.color = temp;
+
+        for (int i = 0; i < number.Length; i++)
+        {
+            number[i].color = temp;
+        }
+    }
+
+
+    // コンボの加算の処理
+    public int addComb( int num )
+    {
+        if (num < digit)
+        {
+            comboNum += num;
+            point.AddPoint(num);
+        }
+        return comboNum;
     }
 }
