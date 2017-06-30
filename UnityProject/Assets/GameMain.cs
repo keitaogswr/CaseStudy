@@ -93,6 +93,7 @@ public class GameMain : MonoBehaviour {
 
     //連鎖を起こしたい
     bool VanishCaller = false;
+    public bool ReturnVC;
 
     //各処理を一回のみ処理させ、状態遷移まで待機にするフラグ
     bool Action = false;
@@ -120,6 +121,7 @@ public class GameMain : MonoBehaviour {
     public const float flickLength = 20;
     public const float flickAngle = 30;
 
+    private CameraMover CameraM;
     
     private SArm Pos = new SArm();
 
@@ -185,6 +187,8 @@ public class GameMain : MonoBehaviour {
         NextBlock.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[0]) as Material;
         NextBlock1.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[1]) as Material;
         NextBlock2.GetComponent<Renderer>().material = Resources.Load("Materials/" + NextBlocks[2]) as Material;
+
+        CameraM = GameObject.Find("MainCamera").GetComponent<CameraMover>();
     }
 
     // Update is called once per frame
@@ -446,7 +450,7 @@ public class GameMain : MonoBehaviour {
 
                 //タイムの加算
                 time += Time.deltaTime;
-                PushTime += MoveSpeed;
+                PushTime += MoveSpeed * 0.6f;
 
                 //ArmTime += 0.25f;
 
@@ -688,9 +692,19 @@ public class GameMain : MonoBehaviour {
                         Field[x, TapPoint_Y].Break = true;
                         Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localScale = new Vector3(0.6f, 0.6f, 0.6f);
                         Field[x, TapPoint_Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[x, TapPoint_Y].Cube.GetComponent<Block>().CubeName) as Material;
-
                     }
+
+                    ARM_L[TapPoint_Y].Arm.GetComponent<ArmScript>().OnArmAdd(4.5f, (int)(span * 100));
+                    ARM_R[TapPoint_Y].Arm.GetComponent<ArmScript>().OnArmAdd(4.5f, (int)(span * 100));
+
+                    CameraM.Queiq(span * 2);
+
                     Action = true;
+                }
+
+                for (x = 0; x < gridWidth; x++)
+                {
+                    Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition += (new Vector3(0, Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.y, Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition.z) - Field[x, TapPoint_Y].Cube.GetComponent<Transform>().localPosition) * 0.5f;
                 }
 
                 //Pos.g.GetComponent<Transform>().localPosition = Vector3.Lerp(Pos.StartPos, Pos.EndPos, time * 5);
@@ -770,7 +784,7 @@ public class GameMain : MonoBehaviour {
                         {
                             if (Field[x, y].Break == true)
                             {
-                                GameObject g = Instantiate(VanishEffect, new Vector3(x - 3, y, -1), Quaternion.identity) as GameObject;
+                                GameObject g = Instantiate(VanishEffect, Field[x,y].Cube.GetComponent<Transform>().localPosition + new Vector3(0,0,-5), Quaternion.identity) as GameObject;
 
                                 var Ps = g.GetComponent<ParticleSystem>();
                                 Ps.GetComponent<Renderer>().material = Field[x, y].Cube.GetComponent<Renderer>().material;
@@ -1338,7 +1352,15 @@ public class GameMain : MonoBehaviour {
 
                 vanishCount++;
                 Score.AddPoint(100);
+
+                VanishCaller = true;
             }
         }
+    }
+
+    public bool GetVC()
+    {
+        ReturnVC = VanishCaller;
+        return ReturnVC;
     }
 }
