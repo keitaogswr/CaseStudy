@@ -736,6 +736,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1186169043 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114641093933104094, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+    type: 2}
+  m_PrefabInternal: {fileID: 1442218494}
+  m_Script: {fileID: 11500000, guid: 6c9ee42ac53c0194aadf4e1724c7b298, type: 3}
 --- !u!1 &1263723699
 GameObject:
   m_ObjectHideFlags: 0
@@ -1163,10 +1169,20 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224334473629359280, guid: 0b5c543ec42587d448f421c624a2fa14,
+    - target: {fileID: 114048317411021448, guid: 0b5c543ec42587d448f421c624a2fa14,
         type: 2}
-      propertyPath: m_RootOrder
-      value: 8
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1186169043}
+    - target: {fileID: 114602631489023608, guid: 0b5c543ec42587d448f421c624a2fa14,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1186169043}
+    - target: {fileID: 114602631489023608, guid: 0b5c543ec42587d448f421c624a2fa14,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Resume
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0b5c543ec42587d448f421c624a2fa14, type: 2}
