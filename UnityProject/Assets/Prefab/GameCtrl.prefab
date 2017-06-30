@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4968676546362006}
-  - component: {fileID: 114738222137331722}
+  - component: {fileID: 114808994251791458}
   m_Layer: 0
   m_Name: GameCtrl
   m_TagString: GameController
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114738222137331722
+--- !u!114 &114808994251791458
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -71,3 +71,6 @@ MonoBehaviour:
   Fill: 0
   span: 0.16
   Phase: 0
+  ReturnVC: 0
+  addTimeVanishCount: 16
+  addTime: 0.5
