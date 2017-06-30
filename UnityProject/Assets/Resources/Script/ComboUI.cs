@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 public class ComboUI : MonoBehaviour {
 
-    [SerializeField]
-    private GameMain m_GameMain;
+    public GameMain m_GameMain;
     private Image m_Image;
     private int comboNum;           // コンボの数値
     public PointManager point;      // 数値を変更するためのスクリプト
-    public Image[] number;         // イメージナンバーのデータ
-    private float digit;              // 桁数
+    public Image[] number;          // イメージナンバーのデータ
+    private float digit;            // 桁数
 
     // Use this for initialization
     void Start () {
         comboNum = 0;
         digit = Mathf.Pow(10, number.Length);
+
 
         m_Image = GetComponent<Image>();
         m_Image.color = new Color(1f, 1f, 1f, 0f);

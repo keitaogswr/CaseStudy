@@ -438,7 +438,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114597199953660942}
-        m_MethodName: PushMenu
+        m_MethodName: ReturnTitle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -461,6 +461,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c9ee42ac53c0194aadf4e1724c7b298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SceneName:
+  - title
+  - game
   pauseCanvas: {fileID: 223412342694623024}
   Pause: {fileID: 0}
 --- !u!114 &114629957980662020

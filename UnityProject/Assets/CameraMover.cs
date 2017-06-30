@@ -23,7 +23,7 @@ public class CameraMover : MonoBehaviour {
         {
             float x, y;
             x = Random.Range(-0.2f, 0.2f);
-            y = Random.Range(-0.2f, 0.2f);
+            y = Random.Range(-0.01f, 0.01f);
 
             this.transform.position += new Vector3(x, y, 0);
 
