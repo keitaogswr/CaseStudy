@@ -9,8 +9,7 @@ public class PauseManager : MonoBehaviour {
         "game",
     };
 
-    [SerializeField]
-    private Canvas pauseCanvas;
+    public Canvas pauseCanvas;
     private bool pause;
     public Pauseable Pause;
 

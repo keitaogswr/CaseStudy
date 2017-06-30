@@ -811,6 +811,11 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!223 &1420971191 stripped
+Canvas:
+  m_PrefabParentObject: {fileID: 223629303230284228, guid: 0b5c543ec42587d448f421c624a2fa14,
+    type: 2}
+  m_PrefabInternal: {fileID: 2006882336}
 --- !u!1001 &1442218494
 Prefab:
   m_ObjectHideFlags: 0
@@ -908,11 +913,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114121365214567708, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
-        type: 2}
-      propertyPath: m_GameMain
-      value: 
-      objectReference: {fileID: 654049608}
     - target: {fileID: 114445985350475908, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
         type: 2}
       propertyPath: Pause
@@ -922,7 +922,7 @@ Prefab:
         type: 2}
       propertyPath: pauseCanvas
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1420971191}
     - target: {fileID: 114641093933104094, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
         type: 2}
       propertyPath: Pause
@@ -933,6 +933,11 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 329167465}
+    - target: {fileID: 114121365214567708, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+        type: 2}
+      propertyPath: m_GameMain
+      value: 
+      objectReference: {fileID: 654049608}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed598e1049f6ff44ba6a5d072f4d6c60, type: 2}
   m_IsPrefabParent: 0
