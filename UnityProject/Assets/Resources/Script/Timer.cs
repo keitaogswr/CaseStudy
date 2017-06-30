@@ -129,12 +129,10 @@ public class Timer : MonoBehaviour {
 
     public void AddTimeSecond(float time)
     {
-        if ( timeOut )
+        if (timeOut)
         {
-            return;
+            Seconds += time;
         }
-
-        Seconds += time;
 
         if (Seconds >= FPS)
         {
