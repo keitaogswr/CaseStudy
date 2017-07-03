@@ -17,6 +17,7 @@ public class PauseManager : MonoBehaviour {
     [SerializeField]
     private Canvas pauseCanvas;
     private bool pause;
+    private Start_UI Start_UI;
     public Pauseable Pause;
 
 	// Use this for initialization
@@ -27,6 +28,8 @@ public class PauseManager : MonoBehaviour {
 
         Debug.Log(SceneName[(int)Scene.Title]);
         Debug.Log(SceneName[(int)Scene.Game]);
+
+        Start_UI = GameObject.Find("Start").GetComponent<Start_UI>();
     }
 
     void Update()
@@ -36,8 +39,11 @@ public class PauseManager : MonoBehaviour {
 
     public void PushMenu()
     {
-        pause = true;
-        Pause.pausing = true;
+        if (Start_UI.GetFinish() == true)
+        {
+            pause = true;
+            Pause.pausing = true;
+        }
     }
 
     public void Resume()
