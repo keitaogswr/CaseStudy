@@ -51,7 +51,7 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
     }
 
     //  効果音再生。
-    public void PlaySE(string seName)
+    public void PlaySE(string seName, float PlayTime = 0)
     {
         //  無ければ、not found
         if (!this.seDict.ContainsKey(seName)) throw new ArgumentException(seName + " not found", "seName");
@@ -70,6 +70,7 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
         }
 
         source.clip = this.seDict[seName];
+        source.time = PlayTime;
         source.Play();
     }
 
@@ -80,14 +81,15 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
     }
 
     //  BGM再生。
-	public void PlayBGM(string bgmName, bool loop)
+	public void PlayBGM(string bgmName, bool loop, float PlayTime = 0)
 	{
 		if (!this.bgmDict.ContainsKey(bgmName)) throw new ArgumentException(bgmName + " not found", "bgmName");
 		if (this.bgmSource.clip == this.bgmDict[bgmName]) return;
 		this.bgmSource.Stop();
 		this.bgmSource.loop = loop;
 		this.bgmSource.clip = this.bgmDict[bgmName];
-		this.bgmSource.Play();
+        this.bgmSource.time = PlayTime;
+        this.bgmSource.Play();
 	}
 
     //  BGM再生停止。
