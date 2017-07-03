@@ -55,5 +55,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7f24ad499929dcb4e8ee2c3e489b6953, type: 3}
   - {fileID: 8300000, guid: 50802444a6c3a154bbc649d428e78916, type: 3}
   - {fileID: 8300000, guid: 8531d80cb1dd09a418169439fc5a8308, type: 3}
-  SEList: []
+  SEList:
+  - {fileID: 8300000, guid: e0c717c5c7fa19e41b9c1cac3aaab6fc, type: 3}
+  - {fileID: 8300000, guid: a6a5a12848fb92e4792dfc48339d9e40, type: 3}
+  - {fileID: 8300000, guid: 369e07b07f556d54586fc27b5c980921, type: 3}
+  - {fileID: 8300000, guid: d8c0abed3f158a14bbd364162e2604ef, type: 3}
+  - {fileID: 8300000, guid: 72a5984283ec897459630566f586decc, type: 3}
+  - {fileID: 8300000, guid: f330de54102973d40a5263256d95fb5a, type: 3}
   MaxSE: 10

@@ -49,7 +49,7 @@ public class titleGearScript : MonoBehaviour
 
             // ボタン生成
             buttonObj[i] = Instantiate(buttonPrefab[i]);
-            buttonObj[i].transform.parent = transform;
+            buttonObj[i].transform.parent = this.transform;
             buttonObj[i].transform.position = pos;
             buttonObj[i].transform.localScale = new Vector3(1,1,1);
             buttonObj[i].transform.Rotate(0, 0, 0);
@@ -127,6 +127,7 @@ public class titleGearScript : MonoBehaviour
                 time = rotTime;         // 回転時間
                 rotFlag = true;         // フラグ
             }
+            AudioManager.Instance.PlaySE("ギア");
         }
     }
 
@@ -160,7 +161,6 @@ public class titleGearScript : MonoBehaviour
         // クリック離した位置
         else if( Input.GetMouseButtonUp(0) )
         {
-
             if (GameObject.Find("Fade").GetComponent<fadeScript>().GetFadeMode() == fadeScript.FADE_MODE.FADE_NONE)
             {
                 // 離した位置更新
