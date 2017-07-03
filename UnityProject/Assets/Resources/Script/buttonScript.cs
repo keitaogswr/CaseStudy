@@ -36,6 +36,7 @@ public class buttonScript : MonoBehaviour
             {
                 Debug.Log("ゲームスタートボタンクリック");
                 GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(sceneName[(int)sceneNum.GAME]);
+                AudioManager.Instance.PlaySE("動作音_3");
             }
         }
     }
@@ -53,6 +54,7 @@ public class buttonScript : MonoBehaviour
             {
                 Debug.Log("ランキングボタン");
                 GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(sceneName[(int)sceneNum.RANKING]);
+                AudioManager.Instance.PlaySE("動作音_1");
             }
         }
     }
@@ -71,6 +73,7 @@ public class buttonScript : MonoBehaviour
             {
                 Debug.Log("ランキングボタン");
                 GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(sceneName[(int)sceneNum.TUTORIAL]);
+                AudioManager.Instance.PlaySE("動作音_1");
             }
         }
     }

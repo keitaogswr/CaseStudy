@@ -6,7 +6,7 @@ public class CreateScript : MonoBehaviour {
     public GameObject[] prefab;
 
 	// Use this for initialization
-	void Start () {
+	void Awake() {
         GameObject[] obj;
         obj = new GameObject[prefab.Length];
 
