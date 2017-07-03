@@ -44,7 +44,7 @@ public class Start_UI : MonoBehaviour {
         }
 	}
 
-    bool GetFinishFlag()
+    public bool GetFinish()
     {
         return scalEnd;
     }
