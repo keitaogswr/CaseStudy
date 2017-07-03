@@ -34,11 +34,6 @@ public class rankingScore : MonoBehaviour {
 
     private Transform m_myScoreObj;                         // マイスコアオブジェクト
     private Transform m_rankInRecordObj;                    // ランクインしたレコードのオブジェクト
-    private Color m_myScoreDefaultColor;                    // マイスコアのデフォルト色
-    private Color m_rankInDefaultColor;                     // ランクインしたランク画像のデフォルト色
-    private Color m_defaultColor;                           // スコアのデフォルト色
-    private float m_nextTime;                               // 点滅用カウンタ
-    private bool m_flashing = false;                        // 光っている
 
     static private int m_myScore = 0;                      // マイスコア
     static private bool m_isMyScoreChanged = false;        // マイスコアが変更されたか
@@ -113,29 +108,27 @@ public class rankingScore : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        m_nextTime = Time.time;
+
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if ( m_rankInRecordObj != null /*&& m_nextTime < Time.time*/ )
+        if (m_rankInRecordObj != null)
         {
-            /* 点滅処理 */
+            Transform t;
 
-            //m_flashing = !m_flashing;
-            m_flashing = true;
+            t = m_rankInRecordObj.FindChild("Rank");
+            t.GetComponent<Image>().color = t.GetComponent<GradientColor>().GetColor();
+            t = m_rankInRecordObj.FindChild("Digits");
+            t.GetComponent<DigitsScript>().color = t.GetComponent<GradientColor>().GetColor();
 
-            m_myScoreObj.FindChild("Rank").GetComponent<Image>().color = m_flashing ? m_FlashColor : m_myScoreDefaultColor;
-            SetRecordColor(m_myScoreObj.FindChild("Digits"), m_flashing ? m_FlashColor : m_defaultColor);
-
-            m_rankInRecordObj.FindChild("Rank").GetComponent<Image>().color = m_flashing ? m_FlashColor : m_rankInDefaultColor;
-            SetRecordColor(m_rankInRecordObj.FindChild("Digits"), m_flashing ? m_FlashColor : m_defaultColor);
-
-            // 次の周期へ
-            m_nextTime += m_interval;
+            t = m_myScoreObj.FindChild("Rank");
+            t.GetComponent<Image>().color = t.GetComponent<GradientColor>().GetColor();
+            t = m_myScoreObj.FindChild("Digits");
+            t.GetComponent<DigitsScript>().color = t.GetComponent<GradientColor>().GetColor();
         }
-	}
+    }
 
     // レコードオブジェクトの初期化
     void InitializeRecord( ref List<int> records )
@@ -159,8 +152,6 @@ public class rankingScore : MonoBehaviour {
             if (m_isMyScoreChanged && m_rankInRecordObj == null && m_myScore > records[i])
             {
                 m_rankInRecordObj = child;
-                m_rankInDefaultColor = m_rankInRecordObj.FindChild("Rank").GetComponent<Image>().color;
-                m_defaultColor = m_rankInRecordObj.FindChild("Digits/Number").GetComponent<Image>().color;
 
                 records.Insert(i, m_myScore);
                 records.RemoveAt(records.Count - 1);
@@ -175,19 +166,39 @@ public class rankingScore : MonoBehaviour {
         // マイスコア
 
         m_myScoreObj = transform.FindChild("myScore");
-        m_myScoreDefaultColor = m_myScoreObj.FindChild("Rank").GetComponent<Image>().color;
         pointManager = m_myScoreObj.FindChild("PointManager").GetComponent<PointManager>();
         pointManager.AddPoint(m_myScore);
+
+        if (m_rankInRecordObj != null)
+        {
+            SetRankInRecord(m_rankInRecordObj);
+            SetRankInRecord(m_myScoreObj);
+        }
     }
 
-    // レコードのスコアへ色をセット
-    void SetRecordColor( Transform digits, Color color )
+    // ランクインレコードへコンポーネントを付ける
+    void SetRankInRecord( Transform record )
     {
-        foreach (Transform obj in digits.transform)
-        {
-            Image image = obj.GetComponent<Image>();
-            image.color = color;
-        }
+        GradientColor gc;
+        GameObject obj;
+
+        /* ランクへGradientColorをAdd */
+
+        obj = record.FindChild("Rank").gameObject;
+        gc = obj.AddComponent<GradientColor>();
+        gc.gradientTime = m_interval;
+        gc.element.Add(new GradientColor.GradientElement(obj.GetComponent<Image>().color, 0.0f));
+        gc.element.Add(new GradientColor.GradientElement(m_FlashColor, 0.5f));
+        gc.element.Add(new GradientColor.GradientElement(obj.GetComponent<Image>().color, 1.0f));
+
+        /* ディジットへGradientColorをAdd */
+
+        obj = record.FindChild("Digits").gameObject;
+        gc = obj.AddComponent<GradientColor>();
+        gc.gradientTime = m_interval;
+        gc.element.Add(new GradientColor.GradientElement(obj.GetComponent<DigitsScript>().color, 0.0f));
+        gc.element.Add(new GradientColor.GradientElement(m_FlashColor, 0.5f));
+        gc.element.Add(new GradientColor.GradientElement(obj.GetComponent<DigitsScript>().color, 1.0f));
     }
 
     // マイレコードへセット
