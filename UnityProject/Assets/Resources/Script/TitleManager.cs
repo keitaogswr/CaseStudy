@@ -6,7 +6,7 @@ public class TitleManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        AudioManager.Instance.PlayBGM("BGM01", true);
+        AudioManager.Instance.PlayBGM("BGM01", true, 5);
         Application.targetFrameRate = 60;
    }
 
