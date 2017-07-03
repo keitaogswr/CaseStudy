@@ -90,6 +90,7 @@ public class GameMain : MonoBehaviour {
 
     //ブロックの連立数を計測するための変数
     int BlockCounter = 0;
+    private int BlockCntEnd = 0;
 
     //連鎖を起こしたい
     bool VanishCaller = false;
@@ -732,7 +733,7 @@ public class GameMain : MonoBehaviour {
                 if (Action == false)
                 {
                     //-----------------------   // 位置を変更したほうがいいよ
-                    comb.addComb(1);            // コンボ加算呼び出し
+                    //            // コンボ加算呼び出し
                     //-----------------------   //
 
                     for (x = 0; x < gridWidth; x++)
@@ -741,11 +742,11 @@ public class GameMain : MonoBehaviour {
                         {
                             //横方向に連続しているか
                             BlockCounter = 0;
-                            CountBlocks(x, y, CountType.X_Count);
+                            CountBlocks_X(x, y);
 
                             //縦方向に連続しているか
                             BlockCounter = 0;
-                            CountBlocks(x, y, CountType.Y_Count);
+                            CountBlocks_Y(x, y);
                         }
                     }
                     Action = true;
@@ -1325,36 +1326,124 @@ public class GameMain : MonoBehaviour {
     }
 
     //ブロックが連なっているかどうかの確認用関数、再帰処理でBlockCounterが3以上になればフラグを立てる
-    private void CountBlocks(int X, int Y, CountType Type)
+    //private void CountBlocks(int X, int Y, CountType Type)
+    //{
+    //    BlockCounter++;
+
+    //    //ブロックが存在しているなら
+    //    if (Field[X, Y].Cube != null)
+    //    {
+    //        switch (Type)
+    //        {
+    //            case CountType.X_Count:
+    //                if (X + 1 < gridWidth && Field[X + 1, Y].Cube != null && Field[X + 1, Y].Alive == true && Field[X + 1, Y].Cube.GetComponent<Block>().CubeName == Field[X, Y].Cube.GetComponent<Block>().CubeName)
+    //                {
+    //                    CountBlocks(X + 1, Y, CountType.X_Count);
+    //                }
+    //                break;
+    //            case CountType.Y_Count:
+    //                //次の配列が配列外になっていない。かつ配列内のオブジェクトデータが入っている。ヴァニッシュされていない。現在の検索位置と同じ色のブロックなら　正
+    //                if (Y + 1 < gridHeight && Field[X, Y + 1].Cube != null && Field[X, Y + 1].Alive == true && Field[X, Y + 1].Cube.GetComponent<Block>().CubeName == Field[X, Y].Cube.GetComponent<Block>().CubeName)
+    //                {
+    //                    CountBlocks(X, Y + 1, CountType.Y_Count);
+    //                }
+    //                break;
+    //            default:
+    //                break;
+    //        }
+
+    //        if (BlockCounter >= 3)
+    //        {
+    //            Field[X, Y].Break = true;
+    //            Field[X ,Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[X,Y].Cube.GetComponent<Block>().CubeName) as Material;
+    //            Field[X, Y].Cube.GetComponent<Rigidbody2D>().simulated = false;
+
+    //            vanishCount++;
+    //            Score.AddPoint(100);
+
+    //            VanishCaller = true;
+    //        }
+    //    }
+    //}
+
+    private void CountBlocks_X(int X,int Y)
     {
         BlockCounter++;
+
+        if (BlockCounter == 1)
+        {
+            BlockCntEnd = 0;
+        }
+
+        if (Field[X, Y].Break == true)
+        {
+            BlockCntEnd = 2;
+        }
 
         //ブロックが存在しているなら
         if (Field[X, Y].Cube != null)
         {
-            switch (Type)
+            
+            if (X + 1 < gridWidth && Field[X + 1, Y].Cube != null && Field[X + 1, Y].Alive == true && Field[X + 1, Y].Cube.GetComponent<Block>().CubeName == Field[X, Y].Cube.GetComponent<Block>().CubeName)
             {
-                case CountType.X_Count:
-                    if (X + 1 < gridWidth && Field[X + 1, Y].Cube != null && Field[X + 1, Y].Alive == true && Field[X + 1, Y].Cube.GetComponent<Block>().CubeName == Field[X, Y].Cube.GetComponent<Block>().CubeName)
-                    {
-                        CountBlocks(X + 1, Y, CountType.X_Count);
-                    }
-                    break;
-                case CountType.Y_Count:
-                    //次の配列が配列外になっていない。かつ配列内のオブジェクトデータが入っている。ヴァニッシュされていない。現在の検索位置と同じ色のブロックなら　正
-                    if (Y + 1 < gridHeight && Field[X, Y + 1].Cube != null && Field[X, Y + 1].Alive == true && Field[X, Y + 1].Cube.GetComponent<Block>().CubeName == Field[X, Y].Cube.GetComponent<Block>().CubeName)
-                    {
-                        CountBlocks(X, Y + 1, CountType.Y_Count);
-                    }
-                    break;
-                default:
-                    break;
+                CountBlocks_X(X + 1, Y);
+                
             }
+               
 
             if (BlockCounter >= 3)
             {
+                if(BlockCntEnd == 0)
+                {
+                    BlockCntEnd = BlockCounter;
+                    comb.addComb(1);
+                }
                 Field[X, Y].Break = true;
-                Field[X ,Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[X,Y].Cube.GetComponent<Block>().CubeName) as Material;
+                Field[X, Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[X, Y].Cube.GetComponent<Block>().CubeName) as Material;
+                Field[X, Y].Cube.GetComponent<Rigidbody2D>().simulated = false;
+
+                vanishCount++;
+                Score.AddPoint(100);
+
+                VanishCaller = true;
+            }
+        }
+    }
+
+    private void CountBlocks_Y(int X, int Y)
+    {
+        BlockCounter++;
+
+        if (BlockCounter == 1)
+        {
+            BlockCntEnd = 0;
+        }
+
+        if (Field[X, Y].Break == true)
+        {
+            BlockCntEnd = 2;
+        }
+
+        //ブロックが存在しているなら
+        if (Field[X, Y].Cube != null)
+        {
+           
+            //次の配列が配列外になっていない。かつ配列内のオブジェクトデータが入っている。ヴァニッシュされていない。現在の検索位置と同じ色のブロックなら　正
+            if (Y + 1 < gridHeight && Field[X, Y + 1].Cube != null && Field[X, Y + 1].Alive == true && Field[X, Y + 1].Cube.GetComponent<Block>().CubeName == Field[X, Y].Cube.GetComponent<Block>().CubeName)
+            {
+                CountBlocks_Y(X, Y + 1);
+            }
+               
+
+            if (BlockCounter >= 3)
+            {
+                if (BlockCntEnd == 0)
+                {
+                    BlockCntEnd = BlockCounter;
+                    comb.addComb(1);
+                }
+                Field[X, Y].Break = true;
+                Field[X, Y].Cube.GetComponent<Renderer>().material = Resources.Load("Materials/" + "Break" + Field[X, Y].Cube.GetComponent<Block>().CubeName) as Material;
                 Field[X, Y].Cube.GetComponent<Rigidbody2D>().simulated = false;
 
                 vanishCount++;
