@@ -72,5 +72,5 @@ MonoBehaviour:
   span: 0.16
   Phase: 0
   ReturnVC: 0
-  addTimeVanishCount: 12
-  addTime: 0
+  addTimeVanishCount: 15
+  addTime: 0.5
