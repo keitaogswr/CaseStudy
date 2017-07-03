@@ -80,27 +80,7 @@ public class Timer : MonoBehaviour {
 
         if (timeOut == false)
         {
-            int second = (int)Seconds;
-            int minutes = (int)Minutes;
-            int work;
-
-            for (int i = 0; i < numberPointList.Count; i++)
-            {
-                if (i < 2)
-                {    //  秒の計算
-                    work = second % 10;
-                    Point number = numberPointList[i].GetComponent<Point>();
-                    number.SetNumber(work);
-                    second = second / 10;
-                }
-                else
-                {      //  分の計算
-                    work = minutes % 10;
-                    Point number = numberPointList[i].GetComponent<Point>();
-                    number.SetNumber(work);
-                    minutes = minutes / 10;
-                }
-            }
+            ResetTime();
         }
     }
 
@@ -138,8 +118,10 @@ public class Timer : MonoBehaviour {
     {
         if (timeOut)
         {
-            Seconds += time;
+            return;
         }
+
+        Seconds += time;
 
         if (Seconds >= FPS)
         {
