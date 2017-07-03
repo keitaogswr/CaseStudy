@@ -10,5 +10,6 @@ public class moveSceneButton : MonoBehaviour {
     {
         Debug.Log("MoveTo:" + nextScene);
         GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(nextScene);
+        AudioManager.Instance.PlaySE("動作音_3");
     }
 }

@@ -799,6 +799,7 @@ public class GameMain : MonoBehaviour {
                                 Ps.GetComponent<Renderer>().material = Field[x, y].Cube.GetComponent<Renderer>().material;
 
                                 Destroy(Field[x, y].Cube, span);
+
                                 Field[x, y].Alive = false;
                                 Field[x, y].Break = false;
 
@@ -815,6 +816,7 @@ public class GameMain : MonoBehaviour {
                             }
                         }
                     }
+
                     Action = true;
                 }
 
@@ -826,6 +828,7 @@ public class GameMain : MonoBehaviour {
 
                     if (VanishCaller == true)
                     {
+                        AudioManager.Instance.PlaySE("連鎖して消える音");
                         Phase = PHASE.SLIDE;
                         Action = false;
                     }
