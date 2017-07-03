@@ -41,7 +41,6 @@ public class Timer : MonoBehaviour {
                 if (Minutes < 0 && Seconds <= 0)
                 {
                     timeOut = true;
-                    finish.SetActive(true);
                 }
                 else
                 {
@@ -76,6 +75,7 @@ public class Timer : MonoBehaviour {
         if (timeOut == true && gameMain.Phase == 0)
         {
             Pause.pausing = true;
+            finish.SetActive(true);
         }
 
         if (timeOut == false)

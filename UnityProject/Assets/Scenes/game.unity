@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -913,11 +913,16 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114445985350475908, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+    - target: {fileID: 114121365214567708, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
         type: 2}
-      propertyPath: Pause
+      propertyPath: m_GameMain
       value: 
-      objectReference: {fileID: 938289810}
+      objectReference: {fileID: 654049608}
+    - target: {fileID: 223048484967548612, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+        type: 2}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 329167465}
     - target: {fileID: 114641093933104094, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
         type: 2}
       propertyPath: pauseCanvas
@@ -928,14 +933,14 @@ Prefab:
       propertyPath: Pause
       value: 
       objectReference: {fileID: 938289810}
-    - target: {fileID: 223048484967548612, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+    - target: {fileID: 114445985350475908, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
         type: 2}
-      propertyPath: m_Camera
+      propertyPath: Pause
       value: 
-      objectReference: {fileID: 329167465}
-    - target: {fileID: 114121365214567708, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+      objectReference: {fileID: 938289810}
+    - target: {fileID: 114445985350475908, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
         type: 2}
-      propertyPath: m_GameMain
+      propertyPath: gameMain
       value: 
       objectReference: {fileID: 654049608}
     m_RemovedComponents: []
@@ -998,6 +1003,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2426e6b6ce6d2394d81a129510d7f7fb, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1907364165 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114641093933104094, guid: ed598e1049f6ff44ba6a5d072f4d6c60,
+    type: 2}
+  m_PrefabInternal: {fileID: 1442218494}
+  m_Script: {fileID: 11500000, guid: 6c9ee42ac53c0194aadf4e1724c7b298, type: 3}
 --- !u!1 &2000593115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1163,6 +1174,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114443280995698764, guid: 0b5c543ec42587d448f421c624a2fa14,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1907364165}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0b5c543ec42587d448f421c624a2fa14, type: 2}
   m_IsPrefabParent: 0

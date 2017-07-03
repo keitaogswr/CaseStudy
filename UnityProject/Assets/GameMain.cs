@@ -134,6 +134,7 @@ public class GameMain : MonoBehaviour {
         Timer = GameObject.Find("Timer").GetComponent<Timer>();
         Score = GameObject.Find("PointManager").GetComponent<PointManager>();
         comb = GameObject.Find("Combo_UI").GetComponent<ComboUI>();
+        AudioManager.Instance.PlayBGM("BGM02", true);
 
 
         Ber.GetComponent<Image>().fillAmount = Fill;

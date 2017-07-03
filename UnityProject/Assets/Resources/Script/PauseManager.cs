@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PauseManager : MonoBehaviour {
 
+    private enum Scene {
+        Title = 0,
+        Game,
+    };
+
     public string[] SceneName = {
         "title",
         "game",
@@ -18,9 +23,10 @@ public class PauseManager : MonoBehaviour {
 	void Start () {
         pause = false;
         pauseCanvas.enabled = false;
+        Pause.pausing = true;
 
-        Debug.Log(SceneName[0]);
-        Debug.Log(SceneName[1]);
+        Debug.Log(SceneName[(int)Scene.Title]);
+        Debug.Log(SceneName[(int)Scene.Game]);
     }
 
     void Update()
@@ -30,25 +36,25 @@ public class PauseManager : MonoBehaviour {
 
     public void PushMenu()
     {
-        pause = !pause;
-        Pause.pausing = !Pause.pausing;
+        pause = true;
+        Pause.pausing = true;
     }
 
     public void Resume()
     {
-        pause = !pause;
+        pause = false;
         Pause.pausing = false;
     }
 
     public void ReturnTitle()
     {
-        GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(SceneName[0]);
+        GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(SceneName[(int)Scene.Title]);
         pauseCanvas.enabled = false;
     }
 
     public void ReTry()
     {
-        GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(SceneName[1]);
+        GameObject.Find("Fade").GetComponent<fadeScript>().SetFade(SceneName[(int)Scene.Game]);
         pauseCanvas.enabled = false;
     }
 }

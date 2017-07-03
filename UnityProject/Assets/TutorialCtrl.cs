@@ -95,7 +95,10 @@ public class TutorialCtrl : MonoBehaviour {
         }
         else
         {
-            SelectCanvas.enabled = true;
+            if (Input.GetMouseButtonDown(0))
+            {
+                SelectCanvas.enabled = true;
+            }
         }
     }
 
