@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GradientColor : MonoBehaviour {
-
-    // グラデーションキー
-    [ System.Serializable ]
-    public class GradientElement
+// グラデーションキー
+[System.Serializable]
+public class GradientElement
+{
+    public GradientElement() { }
+    public GradientElement(Color color, float time)
     {
-        public GradientElement( Color color, float time )
-        {
-            this.color = color;
-            this.time = time;
-        }
+        this.color = color;
+        this.time = time;
+    }
 
-        public Color color;
-        public float time;
-    };
+    public Color color;
+    public float time;
+};
+
+public class GradientColor : MonoBehaviour {
 
     public float gradientTime;                                              // グラデーションが一周する時間
     public List<GradientElement> element = new List<GradientElement>();     // グラデーションキー
 
     private Gradient gradient;          // グラデーションマネージャ
-    private float count;                // カウンタ
 
 	// Use this for initialization
 	void Start () {
@@ -51,15 +51,12 @@ public class GradientColor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        count += Time.deltaTime;
-        if ( count >= gradientTime )
-        {
-            count -= gradientTime;
-        }
+
 	}
 
     public Color GetColor()
     {
-        return gradient.Evaluate(count / gradientTime);
+        float theta = 2 * Mathf.PI * Mathf.Repeat(Time.time, gradientTime) / gradientTime;
+        return gradient.Evaluate(Mathf.Abs(Mathf.Sin( theta )));
     }
 }

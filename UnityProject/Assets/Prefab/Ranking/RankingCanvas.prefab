@@ -2039,7 +2039,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 09a99b10658931c46a438c586a49ec65, type: 2}
   m_Color: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -3084,7 +3084,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 09a99b10658931c46a438c586a49ec65, type: 2}
   m_Color: {r: 1, g: 0.84313726, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -3545,13 +3545,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44008cf48c57f5348b1586db9dcb3256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_testMyScore: 5555
-  m_isUseTestMyScore: 0
+  m_testMyScore: 2555
+  m_isUseTestMyScore: 1
   m_isUseDefaultRecord: 0
-  m_isUseInitializePrefs: 0
+  m_isUseInitializePrefs: 1
   m_recordsDefault: 88130000a00f0000b80b0000d0070000e8030000
-  m_interval: 1
-  m_FlashColor: {r: 1, g: 0.65882355, b: 0, a: 1}
+  m_interval: 3
+  m_gradColors:
+  - color: {r: 1, g: 0.3764706, b: 0, a: 1}
+    time: 0
+  - color: {r: 1, g: 0.8784314, b: 0, a: 1}
+    time: 1
 --- !u!114 &114756087847768262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3689,7 +3693,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 09a99b10658931c46a438c586a49ec65, type: 2}
   m_Color: {r: 0.6745098, g: 0.41960785, b: 0.14509805, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
