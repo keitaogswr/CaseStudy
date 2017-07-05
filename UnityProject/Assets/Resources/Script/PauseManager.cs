@@ -20,8 +20,14 @@ public class PauseManager : MonoBehaviour {
     private Start_UI Start_UI;
     public Pauseable Pause;
 
-	// Use this for initialization
-	void Start () {
+    [SerializeField]
+    Gauss gauss;
+    float intencity;
+    float prevTime;
+    public float blurSpeed = 8.0f;
+
+    // Use this for initialization
+    void Start () {
         pause = false;
         pauseCanvas.enabled = false;
         Pause.pausing = true;
@@ -34,7 +40,23 @@ public class PauseManager : MonoBehaviour {
 
     void Update()
     {
+        float deltaTime = Time.realtimeSinceStartup - prevTime;
+
         pauseCanvas.enabled = pause;
+
+        if (Pause.pausing && Start_UI.GetFinish() == true)
+        {
+            intencity += deltaTime * blurSpeed;
+        }
+        else
+        {
+            intencity -= deltaTime * blurSpeed;
+        }
+
+        intencity = Mathf.Clamp01(intencity);
+        gauss.Resolution = (int)( intencity * 10 );
+
+        prevTime = Time.realtimeSinceStartup;
     }
 
     public void PushMenu()
