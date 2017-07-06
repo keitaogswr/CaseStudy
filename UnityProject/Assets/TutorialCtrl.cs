@@ -11,6 +11,7 @@ public class TutorialCtrl : MonoBehaviour {
 
     private DrawGuide m_DG1;
     private DrawGuide m_DG2;
+    private GameObject point;
 
     private enum Scene
     {
@@ -57,7 +58,9 @@ public class TutorialCtrl : MonoBehaviour {
     void Start () {
         m_DG1 = Charcter1.GetComponent<DrawGuide>();
         m_DG2 = Charcter2.GetComponent<DrawGuide>();
+        point = GameObject.Find("Tutorial_Point");
         SelectCanvas.enabled = false;
+        point.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -89,7 +92,7 @@ public class TutorialCtrl : MonoBehaviour {
                     m_DG1.SetScaleTermination(false);
                     m_DG2.SetScaleTermination(true);
                 }
-                
+                AudioManager.Instance.PlaySE("動作音_1");
                 ++page;
             }
         }
@@ -99,6 +102,12 @@ public class TutorialCtrl : MonoBehaviour {
             {
                 SelectCanvas.enabled = true;
             }
+        }
+
+        if (page > 2) {
+            point.SetActive(true);
+            Tutorial_Point tutorial_point = point.GetComponent<Tutorial_Point>();
+            tutorial_point.SetNum(page - 3);
         }
     }
 
