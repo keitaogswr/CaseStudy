@@ -133,10 +133,10 @@ public class GameMain : MonoBehaviour {
     {
         Phase = PHASE.STAY;
 
-        Ber = GameObject.Find("Ber").GetComponent<berScript>();
-        Timer = GameObject.Find("Timer").GetComponent<Timer>();
-        Score = GameObject.Find("PointManager").GetComponent<PointManager>();
-        comb = GameObject.Find("Combo_UI").GetComponent<ComboUI>();
+        Ber = GameObject.Find("Canvas/Ber").GetComponent<berScript>();
+        Timer = GameObject.Find("Canvas/Timer").GetComponent<Timer>();
+        Score = GameObject.Find("Canvas/Score/PointManager").GetComponent<PointManager>();
+        comb = GameObject.Find("Canvas/Combo_UI").GetComponent<ComboUI>();
         AudioManager.Instance.PlayBGM("BGM02", true);
 
 
