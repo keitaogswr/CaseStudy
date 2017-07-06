@@ -27,6 +27,8 @@ public class titleGearScript : MonoBehaviour
     private Vector3 inClickPos;     // 押したクリック位置
     private Vector3 outClickPos;    // 離したクリック位置
 
+    private GameObject OptionCanvas;
+
     void Start()
     {
         buttonObj = new GameObject[buttonPrefab.Length];
@@ -63,6 +65,7 @@ public class titleGearScript : MonoBehaviour
             buttonChild[i] = buttonObj[i].transform.FindChild("Image").gameObject;
         }
         fade = GameObject.Find("Fade");
+        OptionCanvas = GameObject.Find("OptionCanvas");
 
         rotFlag = false;    // フラグ
     }
@@ -104,14 +107,17 @@ public class titleGearScript : MonoBehaviour
         // フリック
         else
         {
-            Flick();
+            if (OptionCanvas.active == false)
+            {
+                Flick();
+            }
         }
     }
 
     // ギア回転
     public void GearRotation(int vec)
     {
-        if (rotFlag == false)
+        if (rotFlag == false && OptionCanvas.active == false)
         {
             // 左
             if (vec == 0)

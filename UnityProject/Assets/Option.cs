@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Option : MonoBehaviour {
 
-    private Canvas optionCanvas;
-
+    private GameObject optionCanvas;
+    public GameObject debug;
 	// Use this for initialization
 	void Start () {
-        optionCanvas = GameObject.Find("OptionCanvas").GetComponent<Canvas>();
-        optionCanvas.enabled = false;
+        optionCanvas = GameObject.Find("OptionCanvas");
+        debug = optionCanvas;
+        optionCanvas.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -19,11 +21,11 @@ public class Option : MonoBehaviour {
 
     public void ClickOption()
     {
-        optionCanvas.enabled = true;
+        optionCanvas.SetActive(true);
     }
 
     public void Return()
     {
-        optionCanvas.enabled = false;
+        optionCanvas.SetActive(false);
     }
 }
