@@ -1054,6 +1054,11 @@ Prefab:
       propertyPath: NextBlock2
       value: 
       objectReference: {fileID: 840696335}
+    - target: {fileID: 114441962820375030, guid: 2426e6b6ce6d2394d81a129510d7f7fb,
+        type: 2}
+      propertyPath: addTime
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2426e6b6ce6d2394d81a129510d7f7fb, type: 2}
   m_IsPrefabParent: 0
