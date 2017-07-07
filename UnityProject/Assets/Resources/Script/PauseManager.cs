@@ -18,6 +18,7 @@ public class PauseManager : MonoBehaviour {
     private Canvas pauseCanvas;
     private bool pause;
     private Start_UI Start_UI;
+    private Finish_UI Finish_UI;
     public Pauseable Pause;
 
     [SerializeField]
@@ -25,6 +26,12 @@ public class PauseManager : MonoBehaviour {
     float intencity;
     float prevTime;
     public float blurSpeed = 8.0f;
+
+    private void Awake()
+    {
+        Start_UI = GameObject.Find("Start").GetComponent<Start_UI>();
+        Finish_UI = GameObject.Find("Finish").GetComponent<Finish_UI>();
+    }
 
     // Use this for initialization
     void Start () {
@@ -34,17 +41,13 @@ public class PauseManager : MonoBehaviour {
 
         Debug.Log(SceneName[(int)Scene.Title]);
         Debug.Log(SceneName[(int)Scene.Game]);
-
-        Start_UI = GameObject.Find("Start").GetComponent<Start_UI>();
     }
 
     void Update()
     {
         float deltaTime = Time.realtimeSinceStartup - prevTime;
 
-        pauseCanvas.enabled = pause;
-
-        if (Pause.pausing && Start_UI.GetFinish() == true)
+        if (Pause.pausing && Start_UI.GetFinish() == true && Finish_UI.isActiveAndEnabled == false)
         {
             intencity += deltaTime * blurSpeed;
         }
@@ -54,17 +57,19 @@ public class PauseManager : MonoBehaviour {
         }
 
         intencity = Mathf.Clamp01(intencity);
-        gauss.Resolution = (int)( intencity * 10 );
+        gauss.Resolution = (int)(intencity * 10);
 
         prevTime = Time.realtimeSinceStartup;
+
+        pauseCanvas.enabled = pause;
     }
 
     public void PushMenu()
     {
-        if (Start_UI.GetFinish() == true)
+        if (Start_UI.GetFinish() == true && Finish_UI.isActiveAndEnabled == false)
         {
-            pause = true;
-            Pause.pausing = true;
+            pause = !pause;
+            Pause.pausing = !Pause.pausing;
         }
     }
 

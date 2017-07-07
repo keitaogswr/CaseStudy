@@ -15,6 +15,12 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
     private List<AudioSource> seSources = null;
     private Dictionary<string, AudioClip> bgmDict = null;
     private Dictionary<string, AudioClip> seDict = null;
+    private float bgmVolume = 1.0f;
+    private float seVolume = 1.0f;
+    private float saveBgmVolume = 1.0f;
+    private float saveSeVolume = 1.0f;
+    private bool noBGM = true;
+    private bool noSE = true;
 
     public void Awake()
     {
@@ -68,7 +74,7 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
             source = this.gameObject.AddComponent<AudioSource>();
             this.seSources.Add(source);
         }
-
+        source.volume = seVolume;
         source.clip = this.seDict[seName];
         source.time = PlayTime;
         source.Play();
@@ -97,5 +103,51 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
     {
         this.bgmSource.Stop();
         this.bgmSource.clip = null;
+    }
+
+    public void SetVolumeBGM(float val)
+    {
+        saveBgmVolume = val;
+        if (noBGM == true)
+        {
+            bgmVolume = saveBgmVolume;
+        }
+        this.bgmSource.volume = bgmVolume;
+    }
+
+    public void SetVolumSE(float val)
+    {
+        saveSeVolume = val;
+        if (noSE == true)
+        {
+            seVolume = saveSeVolume;
+        }
+    }
+
+    public void NoVolumeBGM(bool val)
+    {
+        if (val == false)
+        {
+            bgmVolume = 0.0f;
+        }
+        else
+        {
+            bgmVolume = saveBgmVolume;
+        }
+        this.bgmSource.volume = bgmVolume;
+        noBGM = val;
+    }
+
+    public void NoVolumeSE(bool val)
+    {
+        if (val == false)
+        {
+            seVolume = 0.0f;
+        }
+        else
+        {
+            seVolume = saveSeVolume;
+        }
+        noSE = val;
     }
 }
