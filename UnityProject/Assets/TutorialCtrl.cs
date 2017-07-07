@@ -109,6 +109,12 @@ public class TutorialCtrl : MonoBehaviour {
             Tutorial_Point tutorial_point = point.GetComponent<Tutorial_Point>();
             tutorial_point.SetNum(page - 3);
         }
+
+        if ( page >= 8 )
+        {
+            Charcter1.transform.localPosition += new Vector3(0, 80 - Charcter1.transform.localPosition.y, 0) * 0.3f;
+            Charcter2.transform.localPosition += new Vector3(0, 80 - Charcter2.transform.localPosition.y, 0) * 0.3f;
+        }
     }
 
     public void TransitionGame()
