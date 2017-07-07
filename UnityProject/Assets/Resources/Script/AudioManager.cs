@@ -19,8 +19,8 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
     private float seVolume = 1.0f;
     private float saveBgmVolume = 1.0f;
     private float saveSeVolume = 1.0f;
-    private bool noBGM = true;
-    private bool noSE = true;
+    static private bool noBGM = true;
+    static private bool noSE = true;
 
     public void Awake()
     {
@@ -137,6 +137,8 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
         }
         this.bgmSource.volume = bgmVolume;
         noBGM = val;
+
+        PlayerPrefs.SetInt("BGMPlay", noBGM ? 1 : 0);
     }
 
     public void NoVolumeSE(bool val)
@@ -150,5 +152,27 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
             seVolume = saveSeVolume;
         }
         noSE = val;
+
+        PlayerPrefs.SetInt("SEPlay", noSE ? 1 : 0);
+    }
+
+    public bool GetBGMFlag()
+    {
+        return noBGM;
+    }
+
+    public bool GetSEFlag ()
+    {
+        return noSE;
+    }
+
+    public void SetPlayBGMFlag (bool play)
+    {
+        noBGM = play;
+    }
+
+    public void SetPlaySEFlag (bool play)
+    {
+        noSE = play;
     }
 }

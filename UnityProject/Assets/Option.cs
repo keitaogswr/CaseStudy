@@ -6,11 +6,9 @@ using UnityEngine.UI;
 public class Option : MonoBehaviour {
 
     private GameObject optionCanvas;
-    public GameObject debug;
 	// Use this for initialization
 	void Start () {
         optionCanvas = GameObject.Find("OptionCanvas");
-        debug = optionCanvas;
         optionCanvas.SetActive(false);
     }
 	
