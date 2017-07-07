@@ -58,7 +58,14 @@ public class OptionManager : MonoBehaviour {
     {
         audioManager.SetVolumeBGM(val);
     }
-
+    public void SetVolumeSE(float val)
+    {
+        audioManager.SetVolumSE(val);
+    }
+    public void NoVolumeBGM(bool val)
+    {
+        audioManager.NoVolumeBGM(val);
+    }
     public void NoVolumeSE(bool val)
     {
         audioManager.NoVolumeSE(val);
