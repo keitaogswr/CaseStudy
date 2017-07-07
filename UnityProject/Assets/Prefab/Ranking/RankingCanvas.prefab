@@ -3545,10 +3545,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44008cf48c57f5348b1586db9dcb3256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_testMyScore: 2555
-  m_isUseTestMyScore: 1
+  m_testMyScore: 5555
+  m_isUseTestMyScore: 0
   m_isUseDefaultRecord: 0
-  m_isUseInitializePrefs: 1
+  m_isUseInitializePrefs: 0
   m_recordsDefault: 88130000a00f0000b80b0000d0070000e8030000
   m_interval: 3
   m_gradColors:

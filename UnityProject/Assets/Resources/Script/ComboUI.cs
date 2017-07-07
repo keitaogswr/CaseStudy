@@ -17,7 +17,6 @@ public class ComboUI : MonoBehaviour {
         comboNum = 0;
         digit = Mathf.Pow(10, number.Length);
 
-
         m_Image = GetComponent<Image>();
         m_Image.color = new Color(1f, 1f, 1f, 0f);
     }
@@ -27,18 +26,16 @@ public class ComboUI : MonoBehaviour {
         Color temp;
         float alfaSpeed;
         temp = m_Image.color;
-        if (m_GameMain.Phase != PHASE.STAY)
+
+        if (m_GameMain.GetVanishCount() != 0)
         {
             alfaSpeed = 0.1f;
         }
         else
         {
             alfaSpeed = -0.1f;
-
-            // コンボの値をリセット
-            point.SubPoint(comboNum);
-            comboNum = 0;
         }
+
         temp.a += alfaSpeed;
         temp.a = temp.a > 1.0f ? 1.0f : temp.a;
         temp.a = temp.a < 0.0f ? 0.0f : temp.a;
@@ -51,10 +48,16 @@ public class ComboUI : MonoBehaviour {
         }
     }
 
-
     // コンボの加算の処理
     public int addComb( int num )
     {
+        if ( m_GameMain.GetVanishCount() == 0 )
+        {
+            // コンボの値をリセット
+            point.SubPoint(comboNum);
+            comboNum = 0;
+        }
+
         if (num < digit)
         {
             comboNum += num;
