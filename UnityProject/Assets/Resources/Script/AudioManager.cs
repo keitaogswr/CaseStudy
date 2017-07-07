@@ -120,6 +120,7 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
         saveSeVolume = val;
         if (noSE == true)
         {
+            AudioManager.Instance.PlaySE("動作音_1");
             seVolume = saveSeVolume;
         }
     }
