@@ -474,8 +474,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetVolumSE
+      - m_Target: {fileID: 114667829814181802}
+        m_MethodName: SetVolumeSE
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -584,7 +584,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114667829814181802}
         m_MethodName: NoVolumeSE
         m_Mode: 0
         m_Arguments:
@@ -908,7 +908,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114667829814181802}
         m_MethodName: NoVolumeBGM
         m_Mode: 0
         m_Arguments:
@@ -1035,8 +1035,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114544578521158322, guid: 06c374b6563506f4d815a251697fad2a,
-          type: 2}
+      - m_Target: {fileID: 114667829814181802}
         m_MethodName: SetVolumeBGM
         m_Mode: 0
         m_Arguments:

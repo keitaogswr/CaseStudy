@@ -221,12 +221,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &465171671 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114667829814181802, guid: ebbb4afa9801a96449012697f9bfb451,
-    type: 2}
-  m_PrefabInternal: {fileID: 1716109914}
-  m_Script: {fileID: 11500000, guid: 26eeaeb2ba7b02e449c71f9111f286b0, type: 3}
 --- !u!224 &895700505 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224390846641967384, guid: f66eb2f4c8f3f3e45be440d249361ab3,
@@ -561,97 +555,52 @@ Prefab:
     - target: {fileID: 224252464991246272, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224252464991246272, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224564503403354286, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224564503403354286, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224564503403354286, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224077788535865572, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224077788535865572, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224675285143338566, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224675285143338566, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224675285143338566, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114604936145694392, guid: ebbb4afa9801a96449012697f9bfb451,
-        type: 2}
-      propertyPath: m_IsOn
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114147294345079570, guid: ebbb4afa9801a96449012697f9bfb451,
-        type: 2}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 465171671}
-    - target: {fileID: 114147294345079570, guid: ebbb4afa9801a96449012697f9bfb451,
-        type: 2}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetVolumeSE
-      objectReference: {fileID: 0}
-    - target: {fileID: 114771930784882698, guid: ebbb4afa9801a96449012697f9bfb451,
-        type: 2}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 465171671}
-    - target: {fileID: 114771930784882698, guid: ebbb4afa9801a96449012697f9bfb451,
-        type: 2}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetVolumeBGM
-      objectReference: {fileID: 0}
-    - target: {fileID: 114604936145694392, guid: ebbb4afa9801a96449012697f9bfb451,
-        type: 2}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 465171671}
-    - target: {fileID: 114604936145694392, guid: ebbb4afa9801a96449012697f9bfb451,
-        type: 2}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: NoVolumeBGM
-      objectReference: {fileID: 0}
-    - target: {fileID: 114306034380010828, guid: ebbb4afa9801a96449012697f9bfb451,
-        type: 2}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 465171671}
-    - target: {fileID: 114306034380010828, guid: ebbb4afa9801a96449012697f9bfb451,
-        type: 2}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: NoVolumeSE
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ebbb4afa9801a96449012697f9bfb451, type: 2}
