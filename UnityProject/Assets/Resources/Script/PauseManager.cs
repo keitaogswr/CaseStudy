@@ -21,6 +21,12 @@ public class PauseManager : MonoBehaviour {
     private Finish_UI Finish_UI;
     public Pauseable Pause;
 
+    [SerializeField]
+    Gauss gauss;
+    float intencity;
+    float prevTime;
+    public float blurSpeed = 8.0f;
+
     private void Awake()
     {
         Start_UI = GameObject.Find("Start").GetComponent<Start_UI>();
@@ -39,6 +45,22 @@ public class PauseManager : MonoBehaviour {
 
     void Update()
     {
+        float deltaTime = Time.realtimeSinceStartup - prevTime;
+
+        if (Pause.pausing && Start_UI.GetFinish() == true && Finish_UI.isActiveAndEnabled == false)
+        {
+            intencity += deltaTime * blurSpeed;
+        }
+        else
+        {
+            intencity -= deltaTime * blurSpeed;
+        }
+
+        intencity = Mathf.Clamp01(intencity);
+        gauss.Resolution = (int)(intencity * 10);
+
+        prevTime = Time.realtimeSinceStartup;
+
         pauseCanvas.enabled = pause;
     }
 
