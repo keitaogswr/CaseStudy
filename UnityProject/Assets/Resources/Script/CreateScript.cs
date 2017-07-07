@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class CreateScript : MonoBehaviour {
     public GameObject[] prefab;
-
+    static private GameObject[] obj;
 	// Use this for initialization
 	void Awake() {
-        GameObject[] obj;
         obj = new GameObject[prefab.Length];
 
         for (int i = 0; i < prefab.Length; i++)
@@ -28,4 +27,6 @@ public class CreateScript : MonoBehaviour {
 	void Update () {
 		
 	}
+
+
 }
