@@ -627,12 +627,12 @@ Prefab:
     - target: {fileID: 224252464991246272, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.8750001
       objectReference: {fileID: 0}
     - target: {fileID: 224252464991246272, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 10
+      value: 8.25
       objectReference: {fileID: 0}
     - target: {fileID: 224252464991246272, guid: ebbb4afa9801a96449012697f9bfb451,
         type: 2}
@@ -691,6 +691,76 @@ Prefab:
         type: 2}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114620441027540490, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 114620441027540490, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114620441027540490, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 0.7725491
+      objectReference: {fileID: 0}
+    - target: {fileID: 114620441027540490, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114620441027540490, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 0.10980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 224077788535865572, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 224077788535865572, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.80000305
+      objectReference: {fileID: 0}
+    - target: {fileID: 224077788535865572, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 8.400002
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340917790768348, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 114340917790768348, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340917790768348, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 0.7725491
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340917790768348, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340917790768348, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 0.10980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 224252464991246272, guid: ebbb4afa9801a96449012697f9bfb451,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ebbb4afa9801a96449012697f9bfb451, type: 2}
