@@ -113,6 +113,7 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
             bgmVolume = saveBgmVolume;
         }
         this.bgmSource.volume = bgmVolume;
+        PlayerPrefs.SetFloat("BGMValue", val);
     }
 
     public void SetVolumSE(float val)
@@ -120,9 +121,9 @@ public class AudioManager : SingletonMonoBehaviour <AudioManager>
         saveSeVolume = val;
         if (noSE == true)
         {
-            AudioManager.Instance.PlaySE("動作音_1");
             seVolume = saveSeVolume;
         }
+        PlayerPrefs.SetFloat("SEValue", val);
     }
 
     public void NoVolumeBGM(bool val)

@@ -8,6 +8,8 @@ public class OptionManager : MonoBehaviour {
     private AudioManager audioManager;
     public Toggle BGMToggle;
     public Toggle SEToggle;
+    public Slider BGMSlider;
+    public Slider SESlider;
 
     // Use this for initialization
     void Start () {
@@ -47,7 +49,28 @@ public class OptionManager : MonoBehaviour {
         {
             PlayerPrefs.SetInt("SEPlay", 1);
         }
+
+        exit = PlayerPrefs.HasKey("BGMValue");
+        if (exit == true)
+        {
+            BGMSlider.value = PlayerPrefs.GetFloat("BGMValue");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("BGMValue", 1.0f);
+        }
+
+        exit = PlayerPrefs.HasKey("SEValue");
+        if (exit == true)
+        {
+            SESlider.value = PlayerPrefs.GetFloat("SEValue");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("SEValue", 1.0f);
+        }
     }
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -69,5 +92,10 @@ public class OptionManager : MonoBehaviour {
     public void NoVolumeSE(bool val)
     {
         audioManager.NoVolumeSE(val);
+    }
+
+    public void OnClick()
+    {
+        AudioManager.Instance.PlaySE("動作音_1");
     }
 }
