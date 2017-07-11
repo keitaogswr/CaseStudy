@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Timer : MonoBehaviour {
 
@@ -16,8 +17,12 @@ public class Timer : MonoBehaviour {
     private bool timeOut = false;
     private bool stop = false;
 
-
     private GameObject finish;
+
+    private float addedTime;
+    public Color flashColor;
+    public float flashTime = 0;
+
 
     // Use this for initialization
     void Start () {
@@ -82,6 +87,16 @@ public class Timer : MonoBehaviour {
         {
             ResetTime();
         }
+
+        if (Time.time - addedTime > flashTime)
+        {
+            foreach (Transform t in gameObject.transform)
+            {
+                t.GetComponent<Image>().color = Color.white;
+            }
+
+            addedTime = Time.time;
+        }
     }
 
     void SetTimeStop(bool timeStop)
@@ -130,5 +145,12 @@ public class Timer : MonoBehaviour {
 
             ResetTime();
         }
+
+        foreach( Transform t in gameObject.transform )
+        {
+            t.GetComponent<Image>().color = flashColor;
+        }
+
+        addedTime = Time.time;
     }
 }
