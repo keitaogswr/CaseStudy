@@ -32,26 +32,30 @@ public class TutorialCtrl : MonoBehaviour {
 
     private string[] Tutorial_Text =
     {
-        "はさんでウィッチの世界へ\nようこそ！",
-        "これからこのゲームの世界に\nついて説明するね！",
-        "これはスコア。\n薬石を消すたびに増えていくよ",
-        "メニューを押すとゲームが一時停止して、メニュー画面が開くよ",
-        "薬石を3つ揃えて薬の素材にしよう",
-        "薬石を3つ揃えるときえるよ♪",
-        "フリックしたところに薬石が挟み込まれるよ",
-        "連鎖するとゲージがたまるよ♪",
-        "ここで次の薬石が確認できるよ"
+        "はさんでウィッチの\n世界へようこそ！",
+        "これからこのゲームの\n世界について\n説明するね！",
+        "これは薬石といって、\n薬を作るのに必要なんだ",
+        "薬石はタテ、ヨコ3つ\n揃えるときえるよ",
+        "フリックしたところに\n薬石が挟み込まれるよ",
+        "薬石を消していくと\nゲージがたまるよ♪",
+        "ゲージがたまると、\nタップした行を\nまとめて消せるよ！",
+        "ここで次の薬石が\n確認できるよ",
+        "これはスコア。\n薬石を消すたびに\n増えていくよ",
+        "メニューを押すと\nゲームが一時停止して、\nメニュー画面が開くよ",
+        "たくさん薬石を消して、\nハイスコアを目指そう！"
     };
 
     private CHARCTER[] Responsible = { CHARCTER.BOY,
-                                       CHARCTER.BOY,
+                                       CHARCTER.GIRL,
                                        CHARCTER.BOY,
                                        CHARCTER.BOY,
                                        CHARCTER.BOY,
                                        CHARCTER.GIRL,
                                        CHARCTER.GIRL,
                                        CHARCTER.GIRL,
-                                       CHARCTER.BOY };
+                                       CHARCTER.BOY,
+                                       CHARCTER.BOY,
+                                       CHARCTER.GIRL };
     private int page = 0;
 
     // Use this for initialization
@@ -107,13 +111,23 @@ public class TutorialCtrl : MonoBehaviour {
         if (page > 2) {
             point.SetActive(true);
             Tutorial_Point tutorial_point = point.GetComponent<Tutorial_Point>();
-            tutorial_point.SetNum(page - 3);
+            tutorial_point.SetNum(page-1);
         }
 
-        if ( page >= 8 )
+        if (page >= 11)
         {
-            Charcter1.transform.localPosition += new Vector3(0, 80 - Charcter1.transform.localPosition.y, 0) * 0.3f;
-            Charcter2.transform.localPosition += new Vector3(0, 80 - Charcter2.transform.localPosition.y, 0) * 0.3f;
+            Charcter1.transform.localPosition += new Vector3(0, 0 - Charcter1.transform.localPosition.y, 0) * 0.2f;
+            Charcter2.transform.localPosition += new Vector3(0, 0 - Charcter2.transform.localPosition.y, 0) * 0.2f;
+        }
+        else if (page >= 9)
+        {
+            Charcter1.transform.localPosition += new Vector3(0, - 350 - Charcter1.transform.localPosition.y, 0) * 0.2f;
+            Charcter2.transform.localPosition += new Vector3(0, - 350 - Charcter2.transform.localPosition.y, 0) * 0.2f;
+        }
+        else if (page >= 6)
+        {
+            Charcter1.transform.localPosition += new Vector3(0, 140 - Charcter1.transform.localPosition.y, 0) * 0.2f;
+            Charcter2.transform.localPosition += new Vector3(0, 140 - Charcter2.transform.localPosition.y, 0) * 0.2f;
         }
     }
 
